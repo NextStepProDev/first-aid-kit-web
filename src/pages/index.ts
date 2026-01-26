@@ -1,0 +1,11 @@
+export { LoginPage } from './LoginPage';
+export { RegisterPage } from './RegisterPage';
+export { ForgotPasswordPage } from './ForgotPasswordPage';
+export { DashboardPage } from './DashboardPage';
+export { DrugsPage } from './DrugsPage';
+export { DrugFormPage } from './DrugFormPage';
+export { ProfilePage } from './ProfilePage';
+export { NotFoundPage } from './NotFoundPage';
+export { AdminUsersPage } from './AdminUsersPage';
+export { ContactPage } from './ContactPage';
+export { ResetPasswordPage } from './ResetPasswordPage';
