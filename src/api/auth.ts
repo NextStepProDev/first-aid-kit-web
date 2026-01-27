@@ -29,6 +29,7 @@ export const authApi = {
 
   logout: (): void => {
     tokenStorage.clearTokens();
+    window.location.href = '/login';
   },
 
   getProfile: async (): Promise<User> => {
