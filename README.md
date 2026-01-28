@@ -1,46 +1,147 @@
-# Getting Started with Create React App
+# First Aid Kit - Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![React](https://img.shields.io/badge/React-19-61dafb)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-38bdf8)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+Modern React application for managing your home first aid kit. Track medications, get expiration alerts, and never run out of essential medicines.
+
+## Features
+
+- **Dashboard** - Overview with statistics (total, expired, expiring soon)
+- **Drug Management** - Full CRUD operations with filtering and sorting
+- **Authentication** - Login, registration, password reset
+- **Admin Panel** - User management for administrators
+- **PDF Export** - Download your medication list
+- **Dark Theme** - Modern UI with dark color scheme
+- **Responsive** - Works on desktop and mobile
+
+## Tech Stack
+
+- **React 19** with TypeScript
+- **Tailwind CSS 4.0** for styling
+- **TanStack React Query** for server state management
+- **React Hook Form + Zod** for form validation
+- **Axios** with JWT interceptors
+- **React Router DOM v7** for routing
+- **lucide-react** for icons
+
+## Prerequisites
+
+- Node.js 20+
+- npm or yarn
+- Backend API running (see [first-aid-kit-api](https://github.com/NextStepProDev/first-aid-kit-api))
+
+## Quick Start
+
+### Option 1: Docker (Recommended - Full Stack)
+
+The easiest way to run the complete application is using the deployment hub:
+
+```bash
+git clone https://github.com/NextStepProDev/first-aid-kit-manager-hub.git
+cd first-aid-kit-manager-hub
+cp .env.example .env
+# Edit .env with your credentials
+docker compose up -d
+```
+
+Access the app at http://localhost
+
+### Option 2: Development Mode
+
+For local development with hot reload:
+
+1. Clone the repository:
+```bash
+git clone https://github.com/NextStepProDev/first_aid_kit_frontend.git
+cd first_aid_kit_frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
+npm start
+```
+
+The app will be available at http://localhost:3000
+
+> **Note:** You need the backend API running at `http://localhost:8082` (or configure `REACT_APP_API_URL`).
+
+## Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `REACT_APP_API_URL` | `http://localhost:8082` | Backend API URL |
+
+Create a `.env.local` file for local overrides:
+
+```bash
+REACT_APP_API_URL=http://localhost:8080
+```
 
 ## Available Scripts
 
-In the project directory, you can run:
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start development server |
+| `npm test` | Run tests |
+| `npm run build` | Create production build |
+| `npm run eject` | Eject from CRA (irreversible) |
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```
+src/
+├── api/              # Axios client and API endpoint functions
+├── components/       # Reusable UI components
+│   ├── ui/          # Base components (Button, Input, Card, etc.)
+│   └── features/    # Feature-specific components
+├── contexts/        # React contexts (AuthContext)
+├── hooks/           # Custom React hooks
+├── pages/           # Route page components
+│   ├── Dashboard.tsx
+│   ├── DrugList.tsx
+│   ├── Login.tsx
+│   └── ...
+├── types/           # TypeScript interfaces and types
+├── utils/           # Helper functions
+├── App.tsx          # Main app component with routing
+└── index.tsx        # Entry point
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## API Integration
 
-### `npm test`
+The app communicates with the backend via REST API. Key features:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **JWT Authentication** - Automatic token refresh on 401 responses
+- **Request Interceptors** - Attach Authorization header to all requests
+- **Error Handling** - Global error handling with user-friendly messages
 
-### `npm run build`
+## Building for Production
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm run build
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Creates an optimized build in the `build/` folder, ready for deployment.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Related Repositories
 
-### `npm run eject`
+| Repository | Description |
+|------------|-------------|
+| [first-aid-kit-manager-hub](https://github.com/NextStepProDev/first-aid-kit-manager-hub) | Docker deployment hub |
+| [first-aid-kit-api](https://github.com/NextStepProDev/first-aid-kit-api) | Backend REST API |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## License
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Made with care by [Mateusz Nawratek](https://www.linkedin.com/in/mateusz-nawratek-909752356)
