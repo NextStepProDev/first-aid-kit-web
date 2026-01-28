@@ -157,8 +157,7 @@ export function DrugsPage() {
     document.body.removeChild(a);
     
     toast.success('PDF został wygenerowany');
-  } catch (error) {
-    console.error("Błąd exportu PDF:", error);
+  } catch {
     toast.error('Błąd generowania pliku');
   }
 };

@@ -6,6 +6,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
 import { Layout, AuthLayout } from './components/layout';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import {
   ResetPasswordPage,
   LoginPage,
@@ -32,9 +33,10 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AuthProvider>
           <Routes>
             {/* Public routes (auth) */}
             <Route
@@ -96,9 +98,10 @@ function App() {
               },
             }}
           />
-        </AuthProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

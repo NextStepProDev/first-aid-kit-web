@@ -1,7 +1,11 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import type { JwtResponse, ApiError } from '../types';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8082';
+const API_URL = process.env.REACT_APP_API_URL || '';
+
+if (!API_URL && process.env.NODE_ENV === 'production') {
+  console.warn('REACT_APP_API_URL not set - using same-origin for API calls');
+}
 
 export const apiClient = axios.create({
   baseURL: `${API_URL}/api`,

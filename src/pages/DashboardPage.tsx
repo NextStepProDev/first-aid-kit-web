@@ -48,10 +48,9 @@ export function DashboardPage() {
         // Jeśli count wynosi 0, pokazujemy komunikat informacyjny
         toast.error('Brak nowych leków do powiadomienia.');
       }
-    } catch (error) {
+    } catch {
       toast.dismiss(loadingToast);
       toast.error('Nie udało się wysłać powiadomień');
-      console.error(error);
     }
   };
 
