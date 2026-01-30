@@ -20,10 +20,22 @@ export const authApi = {
     return response.data;
   },
 
-  register: async (data: RegisterRequest): Promise<JwtResponse> => {
-    const response = await apiClient.post<JwtResponse>('/auth/register', data);
-    const { accessToken, refreshToken } = response.data;
-    tokenStorage.setTokens(accessToken, refreshToken);
+  register: async (data: RegisterRequest): Promise<MessageResponse> => {
+    const response = await apiClient.post<MessageResponse>('/auth/register', data);
+    return response.data;
+  },
+
+  verifyEmail: async (token: string): Promise<MessageResponse> => {
+    const response = await apiClient.get<MessageResponse>('/auth/verify-email', {
+      params: { token },
+    });
+    return response.data;
+  },
+
+  resendVerification: async (email: string): Promise<MessageResponse> => {
+    const response = await apiClient.post<MessageResponse>('/auth/resend-verification', {
+      email,
+    });
     return response.data;
   },
 

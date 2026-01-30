@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
-import { User, Mail, Lock, Check, X } from 'lucide-react';
+import { User, Mail, Lock, Check, X, ArrowLeft, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
@@ -39,7 +40,9 @@ type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function RegisterPage() {
   const { register: registerUser } = useAuth();
-  const navigate = useNavigate();
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState('');
+  const [isResending, setIsResending] = useState(false);
 
   const {
     register,
@@ -69,8 +72,8 @@ export function RegisterPage() {
         email: data.email,
         password: data.password,
       });
-      toast.success('Konto zostało utworzone!');
-      navigate('/');
+      setRegisteredEmail(data.email);
+      setIsSuccess(true);
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       const message =
@@ -78,6 +81,56 @@ export function RegisterPage() {
       toast.error(message);
     }
   };
+
+  const handleResendVerification = async () => {
+    setIsResending(true);
+    try {
+      await authApi.resendVerification(registeredEmail);
+      toast.success('Nowy link aktywacyjny został wysłany.');
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
+      const message =
+        axiosError.response?.data?.message || 'Nie udało się wysłać emaila';
+      toast.error(message);
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  if (isSuccess) {
+    return (
+      <div className="text-center">
+        <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-success-500/20 flex items-center justify-center">
+          <Mail className="w-8 h-8 text-success-400" />
+        </div>
+        <h2 className="text-2xl font-bold text-gray-100 mb-2">
+          Sprawdź swoją skrzynkę
+        </h2>
+        <p className="text-gray-400 mb-8">
+          Wysłaliśmy link aktywacyjny na adres{' '}
+          <span className="text-gray-200 font-medium">{registeredEmail}</span>.
+          Kliknij w link, aby aktywować konto.
+        </p>
+        <div className="space-y-3">
+          <Button
+            variant="secondary"
+            className="w-full"
+            onClick={handleResendVerification}
+            isLoading={isResending}
+          >
+            <RefreshCw className="w-4 h-4" />
+            Nie otrzymałeś maila? Wyślij ponownie
+          </Button>
+          <Link to="/login">
+            <Button variant="ghost" className="w-full">
+              <ArrowLeft className="w-4 h-4" />
+              Wróć do logowania
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

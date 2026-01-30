@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { authApi } from '../api/auth';
 import { tokenStorage } from '../api/client';
-import type { User, LoginRequest, RegisterRequest, JwtResponse } from '../types';
+import type { User, LoginRequest, RegisterRequest, JwtResponse, MessageResponse } from '../types';
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (data: LoginRequest) => Promise<JwtResponse>;
-  register: (data: RegisterRequest) => Promise<JwtResponse>;
+  register: (data: RegisterRequest) => Promise<MessageResponse>;
   logout: () => void;
   refreshUser: () => Promise<void>;
 }
@@ -47,10 +47,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return response;
   };
 
-  const register = async (data: RegisterRequest): Promise<JwtResponse> => {
+  const register = async (data: RegisterRequest): Promise<MessageResponse> => {
     const response = await authApi.register(data);
-    // Fetch full profile with roles
-    await refreshUser();
     return response;
   };
 

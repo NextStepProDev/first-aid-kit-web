@@ -12,6 +12,7 @@ import {
   LoginPage,
   RegisterPage,
   ForgotPasswordPage,
+  VerifyEmailPage,
   DashboardPage,
   DrugsPage,
   DrugFormPage,
@@ -51,6 +52,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/reset-password" element={<ResetPasswordPage />} />
+              <Route path="/verify-email" element={<VerifyEmailPage />} />
             </Route>
 
             {/* Protected routes */}

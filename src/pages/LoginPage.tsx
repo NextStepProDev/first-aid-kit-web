@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
@@ -20,6 +21,8 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [inactiveEmail, setInactiveEmail] = useState<string | null>(null);
+  const [isResending, setIsResending] = useState(false);
 
   const {
     register,
@@ -31,13 +34,36 @@ export function LoginPage() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
+      setInactiveEmail(null);
       await login(data);
       toast.success('Zalogowano pomyślnie!');
       navigate('/');
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
+      const status = axiosError.response?.status;
       const message = axiosError.response?.data?.message || 'Nieprawidłowy email lub hasło';
+
+      if (status === 403 && message.includes('nieaktywne')) {
+        setInactiveEmail(data.email);
+      }
+
       toast.error(message);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    if (!inactiveEmail) return;
+    setIsResending(true);
+    try {
+      await authApi.resendVerification(inactiveEmail);
+      toast.success('Nowy link aktywacyjny został wysłany.');
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
+      const message =
+        axiosError.response?.data?.message || 'Nie udało się wysłać emaila';
+      toast.error(message);
+    } finally {
+      setIsResending(false);
     }
   };
 
@@ -93,6 +119,24 @@ export function LoginPage() {
           Zaloguj się
         </Button>
       </form>
+
+      {inactiveEmail && (
+        <div className="mt-4 p-4 rounded-lg bg-dark-700 border border-dark-500">
+          <p className="text-sm text-gray-400 mb-3">
+            Twoje konto nie jest jeszcze aktywowane. Sprawdź skrzynkę email lub wyślij nowy link aktywacyjny.
+          </p>
+          <Button
+            variant="secondary"
+            className="w-full"
+            size="sm"
+            onClick={handleResendVerification}
+            isLoading={isResending}
+          >
+            <RefreshCw className="w-4 h-4" />
+            Wyślij ponownie link aktywacyjny
+          </Button>
+        </div>
+      )}
 
       <p className="mt-6 text-center text-gray-400">
         Nie masz konta?{' '}
