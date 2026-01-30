@@ -12,6 +12,7 @@ import {
   Pagination,
   EmptyState,
   ConfirmDialog,
+  Modal,
 } from '../components/ui';
 import {
   Search,
@@ -30,7 +31,7 @@ import { formatDate, getExpirationStatus } from '../utils/formatDate';
 import { ImportCsvModal } from '../components/ImportCsvModal';
 import { DeleteAllDrugsModal } from '../components/DeleteAllDrugsModal';
 import toast from 'react-hot-toast';
-import type { FormOption } from '../types';
+import type { Drug, FormOption } from '../types';
 
 export function DrugsPage() {
   const queryClient = useQueryClient();
@@ -50,6 +51,7 @@ export function DrugsPage() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [showImportModal, setShowImportModal] = useState(false);
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
+  const [detailDrug, setDetailDrug] = useState<Drug | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -359,12 +361,43 @@ export function DrugsPage() {
               </table>
             </div>
             
-            {/* WIDOK MOBILNY - bez zmian, bo sortowanie i tak działa globalnie przez stan */}
+            {/* WIDOK MOBILNY */}
             <div className="md:hidden space-y-3">
+              {/* Sortowanie mobilne */}
+              <div className="flex items-center gap-2 pb-1">
+                <span className="text-xs text-gray-500 shrink-0">Sortuj:</span>
+                {[
+                  { field: 'drugName', label: 'Nazwa' },
+                  { field: 'drugForm.name', label: 'Forma' },
+                  { field: 'expirationDate', label: 'Data' },
+                ].map(({ field, label }) => (
+                  <button
+                    key={field}
+                    onClick={() => handleSort(field)}
+                    className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                      searchParams.sortBy === field
+                        ? 'bg-primary-500/20 text-primary-400'
+                        : 'bg-dark-600 text-gray-400 hover:text-gray-300'
+                    }`}
+                  >
+                    {label}
+                    {searchParams.sortBy === field && (
+                      searchParams.sortDir === 'asc'
+                        ? <ChevronUp className="w-3 h-3" />
+                        : <ChevronDown className="w-3 h-3" />
+                    )}
+                  </button>
+                ))}
+              </div>
+
               {filteredDrugs.map((drug) => {
                 const status = getExpirationStatus(drug.expirationDate);
                 return (
-                  <div key={drug.drugId} className="p-4 rounded-lg bg-dark-700 space-y-3">
+                  <div
+                    key={drug.drugId}
+                    className="p-4 rounded-lg bg-dark-700 space-y-3 cursor-pointer active:bg-dark-600 transition-colors"
+                    onClick={() => setDetailDrug(drug)}
+                  >
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-primary-500/20 flex items-center justify-center"><Pill className="w-5 h-5 text-primary-400" /></div>
@@ -378,7 +411,7 @@ export function DrugsPage() {
                       </Badge>
                     </div>
                     <div className="flex items-center gap-2"><Badge>{drug.drugForm}</Badge></div>
-                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-dark-600">
+                    <div className="flex items-center justify-end gap-2 pt-2 border-t border-dark-600" onClick={(e) => e.stopPropagation()}>
                       <Link to={`/drugs/${drug.drugId}/edit`}><Button variant="secondary" size="sm"><Pencil className="w-4 h-4" /> Edytuj</Button></Link>
                       <Button variant="danger" size="sm" onClick={() => setDeleteId(drug.drugId)}><Trash2 className="w-4 h-4" /></Button>
                     </div>
@@ -421,6 +454,52 @@ export function DrugsPage() {
         onConfirm={(password) => deleteAllMutation.mutate(password)}
         isLoading={deleteAllMutation.isPending}
       />
+
+      <Modal
+        isOpen={detailDrug !== null}
+        onClose={() => setDetailDrug(null)}
+        title={detailDrug?.drugName}
+        size="md"
+      >
+        {detailDrug && (() => {
+          const status = getExpirationStatus(detailDrug.expirationDate);
+          return (
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Forma</p>
+                <Badge>{detailDrug.drugForm}</Badge>
+              </div>
+              {detailDrug.drugDescription && (
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Opis</p>
+                  <p className="text-sm text-gray-300">{detailDrug.drugDescription}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Data ważności</p>
+                <p className="text-sm text-gray-300">{formatDate(detailDrug.expirationDate)}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 mb-1">Status</p>
+                <Badge variant={status === 'expired' ? 'danger' : status === 'expiring-soon' ? 'warning' : 'success'}>
+                  {status === 'expired' ? 'Po terminie' : status === 'expiring-soon' ? 'Wygasa wkrótce' : 'Aktywny'}
+                </Badge>
+              </div>
+              <div className="flex gap-2 pt-3 border-t border-dark-600">
+                <Link to={`/drugs/${detailDrug.drugId}/edit`} className="flex-1">
+                  <Button variant="secondary" className="w-full"><Pencil className="w-4 h-4" /> Edytuj</Button>
+                </Link>
+                <Button
+                  variant="danger"
+                  onClick={() => { setDeleteId(detailDrug.drugId); setDetailDrug(null); }}
+                >
+                  <Trash2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          );
+        })()}
+      </Modal>
     </div>
   );
 }
