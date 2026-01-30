@@ -54,6 +54,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
           build-args: |
-            REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL || 'http://localhost:8080' }}
+            REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
