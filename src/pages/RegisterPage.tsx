@@ -20,7 +20,7 @@ const registerSchema = z
     username: z
       .string()
       .min(5, 'Nazwa użytkownika musi mieć min. 5 znaków')
-      .max(50, 'Nazwa użytkownika może mieć max. 50 znaków'),
+      .max(36, 'Nazwa użytkownika może mieć max. 36 znaków'),
     email: z.string().email('Nieprawidłowy adres email'),
     password: z
       .string()
