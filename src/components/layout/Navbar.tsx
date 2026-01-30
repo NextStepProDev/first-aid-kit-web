@@ -6,7 +6,6 @@ import {
   X,
   User,
   LogOut,
-  Pill,
   Shield,
 } from 'lucide-react';
 
@@ -40,9 +39,7 @@ export function Navbar({ isSidebarOpen, onToggleSidebar }: NavbarProps) {
           </button>
 
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary-500 flex items-center justify-center">
-              <Pill className="w-5 h-5 text-white" />
-            </div>
+            <img src="/logo.svg" alt="First Aid Kit" className="w-8 h-8 rounded-lg" />
             <span className="text-lg font-bold text-gray-100 hidden sm:block">
               First Aid Kit
             </span>

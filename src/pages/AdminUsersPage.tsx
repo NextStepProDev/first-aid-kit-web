@@ -156,7 +156,20 @@ export function AdminUsersPage() {
             Wyślij do wszystkich
           </Button>
         </div>
-      </div> 
+      </div>
+
+      {/* User Count */}
+      {data && (
+        <Card className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-primary-500/20 text-primary-400">
+            <Users className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-sm text-gray-400">Łączna liczba użytkowników</p>
+            <p className="text-2xl font-bold text-gray-100">{data.totalElements}</p>
+          </div>
+        </Card>
+      )}
 
       {/* Users Table */}
       <Card>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Pill } from 'lucide-react';
 
 export function AuthLayout() {
   return (
@@ -8,9 +7,7 @@ export function AuthLayout() {
       {/* Left side - branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-600 to-primary-700 p-12 flex-col justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center">
-            <Pill className="w-6 h-6 text-white" />
-          </div>
+          <img src="/logo.svg" alt="First Aid Kit" className="w-10 h-10 rounded-lg" />
           <span className="text-2xl font-bold text-white">First Aid Kit</span>
         </div>
 
@@ -37,9 +34,7 @@ export function AuthLayout() {
         <div className="w-full max-w-md">
           {/* Mobile logo */}
           <div className="lg:hidden flex items-center justify-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-lg bg-primary-500 flex items-center justify-center">
-              <Pill className="w-6 h-6 text-white" />
-            </div>
+            <img src="/logo.svg" alt="First Aid Kit" className="w-10 h-10 rounded-lg" />
             <span className="text-2xl font-bold text-gray-100">First Aid Kit</span>
           </div>
 
