@@ -73,8 +73,31 @@ export const drugsApi = {
     });
     return response.data;
   },
+
+  exportCsv: async (params: DrugSearchParams = {}): Promise<Blob> => {
+    const searchParams = new URLSearchParams();
+
+    if (params.name) searchParams.append('name', params.name);
+    if (params.form) searchParams.append('form', params.form);
+    if (params.expired !== undefined) searchParams.append('expired', String(params.expired));
+    if (params.page !== undefined) searchParams.append('page', String(params.page));
+    if (params.size) searchParams.append('size', String(params.size));
+    if (params.sort) searchParams.append('sort', params.sort);
+
+    const response = await apiClient.get(`/drugs/export/csv?${searchParams.toString()}`, {
+      responseType: 'blob',
+    });
+    return response.data;
+  },
   sendAlerts: async (): Promise<number> => {
-  const response = await apiClient.post<number>('/email/alert'); 
-  return response.data;
-},
+    const response = await apiClient.post<number>('/email/alert');
+    return response.data;
+  },
+
+  deleteAll: async (password: string): Promise<{ deletedCount: number }> => {
+    const response = await apiClient.post<{ deletedCount: number }>('/drugs/delete-all', {
+      password,
+    });
+    return response.data;
+  },
 };

@@ -10,6 +10,7 @@ import {
   Users,
   Shield,
   Mail,
+  Info,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -27,6 +28,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     { to: '/drugs/new', icon: PlusCircle, label: 'Dodaj lek', end: true },
     { to: '/profile', icon: Settings, label: 'Ustawienia', end: true },
     { to: '/contact', icon: Mail, label: 'Kontakt', end: true },
+    { to: '/o-nas', icon: Info, label: 'O nas', end: true },
   ];
 
   const adminItems = [

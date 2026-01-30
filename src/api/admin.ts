@@ -29,8 +29,6 @@ export const adminApi = {
     return response.data;
   },
 
-  // NAPRAWIONE: Używamy BroadcastEmailRequest (temat + wiadomość), 
-  // bo to ta sama struktura co przy wysyłce masowej.
   sendSingleEmail: async (userId: number, data: BroadcastEmailRequest): Promise<MessageResponse> => {
     const response = await apiClient.post<MessageResponse>(`/admin/users/${userId}/email`, data);
     return response.data;

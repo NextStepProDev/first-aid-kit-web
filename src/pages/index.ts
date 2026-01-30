@@ -8,4 +8,5 @@ export { ProfilePage } from './ProfilePage';
 export { NotFoundPage } from './NotFoundPage';
 export { AdminUsersPage } from './AdminUsersPage';
 export { ContactPage } from './ContactPage';
+export { AboutUsPage } from './AboutUsPage';
 export { ResetPasswordPage } from './ResetPasswordPage';

@@ -19,6 +19,7 @@ import {
   NotFoundPage,
   AdminUsersPage,
   ContactPage,
+  AboutUsPage,
 } from './pages';
 
 const queryClient = new QueryClient({
@@ -66,6 +67,7 @@ function App() {
               <Route path="/drugs/:id/edit" element={<DrugFormPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/contact" element={<ContactPage />} />
+              <Route path="/o-nas" element={<AboutUsPage />} />
               {/* Admin routes */}
               <Route path="/admin/users" element={<AdminUsersPage />} />
             </Route>

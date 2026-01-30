@@ -68,7 +68,7 @@ export function DrugFormPage() {
       const expDate = new Date(drug.expirationDate);
       reset({
         name: drug.drugName,
-        form: drug.drugForm,
+        form: drug.drugForm.toLowerCase(),
         expirationYear: String(expDate.getFullYear()),
         expirationMonth: String(expDate.getMonth() + 1),
         description: drug.drugDescription,

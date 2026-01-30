@@ -25,6 +25,7 @@ import {
   AlertTriangle,
   Send,
   Download,
+  Upload,
 } from 'lucide-react';
 import { formatDate } from '../utils/formatDate';
 import toast from 'react-hot-toast';
@@ -147,7 +148,7 @@ export function AdminUsersPage() {
         </div>
         <div className="flex gap-3">
           <Button variant="secondary" onClick={handleExportCsv}>
-            <Download className="w-4 h-4" />
+            <Upload className="w-4 h-4" />
             Eksport CSV
           </Button>
           <Button onClick={() => setShowBroadcastModal(true)}>
@@ -155,7 +156,7 @@ export function AdminUsersPage() {
             Wyślij do wszystkich
           </Button>
         </div>
-      </div>
+      </div> 
 
       {/* Users Table */}
       <Card>

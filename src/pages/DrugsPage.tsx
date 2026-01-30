@@ -20,11 +20,15 @@ import {
   Pencil,
   Trash2,
   Download,
+  Upload,
+  FileText,
   Filter,
   ChevronUp,
   ChevronDown,
 } from 'lucide-react';
 import { formatDate, getExpirationStatus } from '../utils/formatDate';
+import { ImportCsvModal } from '../components/ImportCsvModal';
+import { DeleteAllDrugsModal } from '../components/DeleteAllDrugsModal';
 import toast from 'react-hot-toast';
 import type { FormOption } from '../types';
 
@@ -44,6 +48,8 @@ export function DrugsPage() {
 
   const [searchInput, setSearchInput] = useState('');
   const [deleteId, setDeleteId] = useState<number | null>(null);
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -122,6 +128,20 @@ export function DrugsPage() {
     onError: () => toast.error('Nie udało się usunąć leku'),
   });
 
+  const deleteAllMutation = useMutation({
+    mutationFn: drugsApi.deleteAll,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['drugs'] });
+      queryClient.invalidateQueries({ queryKey: ['drugStatistics'] });
+      toast.success(`Usunięto ${data.deletedCount} leków`);
+      setShowDeleteAllModal(false);
+    },
+    onError: (error: any) => {
+      const message = error?.response?.data?.message || 'Nie udało się usunąć leków';
+      toast.error(message === 'Invalid password' ? 'Nieprawidłowe hasło' : message);
+    },
+  });
+
   const handleExportPdf = async () => {
   try {
     const params = new URLSearchParams();
@@ -162,6 +182,41 @@ export function DrugsPage() {
   }
 };
 
+  const handleExportCsv = async () => {
+    try {
+      const params = new URLSearchParams();
+
+      // Filtry (identyczne jak dla PDF)
+      if (searchParams.name) params.append('name', searchParams.name);
+      if (searchParams.form) params.append('form', searchParams.form);
+
+      if (searchParams.expired === 'expiring-soon') {
+        params.append('expired', 'false');
+      } else if (searchParams.expired) {
+        params.append('expired', searchParams.expired);
+      }
+
+      params.append('sort', `${searchParams.sortBy},${searchParams.sortDir}`);
+      params.append('size', '1000');
+      params.append('page', '0');
+
+      const blob = await drugsApi.exportCsv(Object.fromEntries(params));
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `lista_lekow_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      toast.success('CSV został wygenerowany');
+    } catch {
+      toast.error('Błąd generowania pliku');
+    }
+  };
+
   const statusOptions = [
     { value: '', label: 'Wszystkie' },
     { value: 'false', label: 'Aktywne' },
@@ -187,9 +242,12 @@ export function DrugsPage() {
           <h1 className="text-2xl font-bold text-gray-100">Leki</h1>
           <p className="text-gray-400 mt-1">Zarządzaj lekami w swojej apteczce</p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="secondary" onClick={handleExportPdf}><Download className="w-4 h-4" /> Eksport PDF</Button>
+        <div className="flex gap-3 flex-wrap">
+          <Button variant="secondary" onClick={handleExportCsv}><Upload className="w-4 h-4" /> Eksport CSV</Button>
+          <Button variant="secondary" onClick={handleExportPdf}><FileText className="w-4 h-4" /> Eksport PDF</Button>
+          <Button variant="secondary" onClick={() => setShowImportModal(true)}><Download className="w-4 h-4" /> Import CSV</Button>
           <Link to="/drugs/new"><Button><PlusCircle className="w-4 h-4" /> Dodaj lek</Button></Link>
+          <Button variant="danger" onClick={() => setShowDeleteAllModal(true)}><Trash2 className="w-4 h-4" /> Usuń wszystko</Button>
         </div>
       </div>
 
@@ -350,6 +408,18 @@ export function DrugsPage() {
         message="Czy na pewno chcesz usunąć ten lek? Tej operacji nie można cofnąć."
         confirmText="Usuń"
         isLoading={deleteMutation.isPending}
+      />
+
+      <ImportCsvModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+      />
+
+      <DeleteAllDrugsModal
+        isOpen={showDeleteAllModal}
+        onClose={() => setShowDeleteAllModal(false)}
+        onConfirm={(password) => deleteAllMutation.mutate(password)}
+        isLoading={deleteAllMutation.isPending}
       />
     </div>
   );
