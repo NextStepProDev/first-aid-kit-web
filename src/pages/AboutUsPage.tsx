@@ -13,7 +13,7 @@ interface Testimonial {
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    name: 'Elon z X',
+    name: 'Elon from X',
     title: 'CEO wszystkiego',
     rating: 5,
     text: 'This app is mass efficient. I replaced the entire SpaceX medical bay with one phone running First Aid Kit. Mars colonists will use this.',
@@ -73,7 +73,7 @@ const TESTIMONIALS: Testimonial[] = [
     name: 'Zbigniew z Łodzi',
     title: 'Rencista',
     rating: 5,
-    text: 'Gdy pokazałem w banku ile zaoszczędziłem po miesiącu użytkowania tej aplikacji dostałem kredyt hipoteczny od ręki mimo że moje jedyne źródło utrzymania to renta inwalidzka!',
+    text: 'Gdy pokazałem w banku ile zaoszczędziłem po miesiącu użytkowania tej aplikacji dostałem kredyt hipoteczny od ręki, mimo że mam 84 lata i moje jedyne źródło utrzymania to renta inwalidzka!',
     lang: 'PL',
   },
 ];
@@ -185,7 +185,7 @@ export function AboutUsPage() {
       <Card title="Kim jesteśmy?">
         <div className="space-y-4">
           <p className="text-gray-300 leading-relaxed">
-            Jesteśmy startupem, który wierzy, że każda domowa apteczka zasługuje
+            Jesteśmy startupem, który wierzy, że Twoja domowa apteczka zasługuje
             na system zarządzania klasy enterprise. Pomagamy kontrolować zapasy
             leków, pilnować terminów ważności i podejmować lepsze decyzje
             zdrowotne — prosto, wygodnie i bez marnowania pieniędzy.
