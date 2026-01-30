@@ -28,14 +28,14 @@ const TESTIMONIALS: Testimonial[] = [
     lang: 'PL',
   },
   {
-    name: 'Mark od fejsa',
+    name: 'Mark from Meta',
     title: 'Meta Lord',
     rating: 5,
     text: 'I tried to buy this app for $10 billion but they said no. Respect. While we build entertainment in the Metaverse, they built something that can actually helps people.',
     lang: 'EN',
   },
   {
-    name: 'Albert Bourla',
+    name: 'Albreht Burla',
     title: 'CEO Pfizer',
     rating: 1,
     text: 'This app tells people their meds expire. That\'s very bad for our business model. One star. Would give zero if I could.',
