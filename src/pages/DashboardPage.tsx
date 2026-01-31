@@ -87,7 +87,7 @@ export function DashboardPage() {
           color="danger"
         />
         <StatCard
-          title={`Alerty (${new Date().toLocaleString('pl-PL', { month: 'long' })})`}
+          title={`Wysłane alerty (${new Date().toLocaleString('pl-PL', { month: 'long' })})`}
           value={stats?.alertSentCount || 0}
           icon={<Bell className="w-5 h-5" />}
           color="warning"
