@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams as useRouterSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { drugsApi } from '../api/drugs';
 import {
@@ -35,16 +35,20 @@ import type { Drug, FormOption } from '../types';
 
 export function DrugsPage() {
   const queryClient = useQueryClient();
-  
+  const [urlSearchParams, setUrlSearchParams] = useRouterSearchParams();
+
   // 1. ROZSZERZONY STAN O SORTOWANIE
-  const [searchParams, setSearchParams] = useState({
-    page: 0,
-    size: 15,
-    name: '',
-    form: '',
-    expired: '',
-    sortBy: 'drugName', 
-    sortDir: 'asc'      
+  const [searchParams, setSearchParams] = useState(() => {
+    const formFromUrl = urlSearchParams.get('form') || '';
+    return {
+      page: 0,
+      size: 15,
+      name: '',
+      form: formFromUrl,
+      expired: '',
+      sortBy: 'drugName',
+      sortDir: 'asc'
+    };
   });
 
   const [searchInput, setSearchInput] = useState('');
@@ -52,6 +56,13 @@ export function DrugsPage() {
   const [showImportModal, setShowImportModal] = useState(false);
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [detailDrug, setDetailDrug] = useState<Drug | null>(null);
+
+  // Clear URL query params after reading them on mount
+  useEffect(() => {
+    if (urlSearchParams.has('form')) {
+      setUrlSearchParams({}, { replace: true });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -317,7 +328,7 @@ export function DrugsPage() {
                              <div className="w-8 h-8 rounded-lg bg-primary-500/20 flex items-center justify-center"><Pill className="w-4 h-4 text-primary-400" /></div>
                              <div>
                                <p className="font-medium text-gray-200">{drug.drugName}</p>
-                               <p className="text-sm text-gray-500 truncate max-w-xs">{drug.drugDescription}</p>
+                               {drug.drugDescription && <p className="text-sm text-gray-500 truncate max-w-xs">{drug.drugDescription}</p>}
                              </div>
                            </div>
                         </td>

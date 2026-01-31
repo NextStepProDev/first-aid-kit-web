@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { drugsApi } from '../api/drugs';
 import { Card, Button, Badge, Spinner } from '../components/ui';
@@ -13,9 +13,10 @@ import {
   TrendingUp,
 } from 'lucide-react';
 import { formatDate, getExpirationStatus } from '../utils/formatDate';
-import toast from 'react-hot-toast';
 
 export function DashboardPage() {
+  const navigate = useNavigate();
+
   const { data: stats, isLoading: isLoadingStats } = useQuery({
     queryKey: ['drugStatistics'],
     queryFn: drugsApi.getStatistics,
@@ -26,33 +27,18 @@ export function DashboardPage() {
     queryFn: () => drugsApi.search({ size: 5, sort: 'drugId,desc' }),
   });
 
-  // const handleSendAlerts = async () => {
-  //   try {
-  //     await drugsApi.sendAlerts();
-  //     toast.success('Powiadomienia zostały wysłane!');
-  //   } catch (error) {
-  //     toast.error('Nie udało się wysłać powiadomień');
-  //   }
-  // };
-  const handleSendAlerts = async () => {
-    const loadingToast = toast.loading('Wysyłanie powiadomień...');
-    try {
-      // count to liczba, którą teraz zwraca Twój backend (0, 1, 2 itd.)
-      const count = await drugsApi.sendAlerts();
-      
-      toast.dismiss(loadingToast);
+  const { data: forms } = useQuery({
+    queryKey: ['drugForms'],
+    queryFn: drugsApi.getForms,
+  });
 
-      if (count > 0) {
-        toast.success(`Wysłano powiadomienia o ${count} leku/ach!`);
-      } else {
-        // Jeśli count wynosi 0, pokazujemy komunikat informacyjny
-        toast.error('Brak nowych leków do powiadomienia.');
-      }
-    } catch {
-      toast.dismiss(loadingToast);
-      toast.error('Nie udało się wysłać powiadomień');
-    }
-  };
+  const formLabels = React.useMemo(() => {
+    if (!forms) return {} as Record<string, string>;
+    return forms.reduce<Record<string, string>>((acc, f) => {
+      acc[f.value.toUpperCase()] = f.label;
+      return acc;
+    }, {});
+  }, [forms]);
 
   if (isLoadingStats) {
     return (
@@ -72,18 +58,12 @@ export function DashboardPage() {
             Przegląd Twojej apteczki domowej
           </p>
         </div>
-        <div className="flex gap-3">
-          <Button variant="secondary" onClick={handleSendAlerts}>
-            <Bell className="w-4 h-4" />
-            Wyślij alerty
+        <Link to="/drugs/new">
+          <Button>
+            <PlusCircle className="w-4 h-4" />
+            Dodaj lek
           </Button>
-          <Link to="/drugs/new">
-            <Button>
-              <PlusCircle className="w-4 h-4" />
-              Dodaj lek
-            </Button>
-          </Link>
-        </div>
+        </Link>
       </div>
 
       {/* Stats Grid */}
@@ -188,14 +168,17 @@ export function DashboardPage() {
             <div className="space-y-3">
               {Object.entries(stats.drugsByForm)
                 .sort(([, a], [, b]) => b - a)
-                .slice(0, 6)
                 .map(([form, count]) => {
                   const total = stats.totalDrugs || 1;
                   const percentage = Math.round((count / total) * 100);
                   return (
-                    <div key={form}>
+                    <div
+                      key={form}
+                      className="cursor-pointer hover:bg-dark-600/50 rounded-lg p-2 -mx-2 transition-colors"
+                      onClick={() => navigate(`/drugs?form=${encodeURIComponent(form)}`)}
+                    >
                       <div className="flex items-center justify-between text-sm mb-1">
-                        <span className="text-gray-300">{form}</span>
+                        <span className="text-gray-300">{formLabels[form] || form}</span>
                         <span className="text-gray-400">
                           {count} ({percentage}%)
                         </span>

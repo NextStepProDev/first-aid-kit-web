@@ -89,11 +89,6 @@ export const drugsApi = {
     });
     return response.data;
   },
-  sendAlerts: async (): Promise<number> => {
-    const response = await apiClient.post<number>('/email/alert');
-    return response.data;
-  },
-
   deleteAll: async (password: string): Promise<{ deletedCount: number }> => {
     const response = await apiClient.post<{ deletedCount: number }>('/drugs/delete-all', {
       password,

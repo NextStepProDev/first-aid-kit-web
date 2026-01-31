@@ -71,7 +71,7 @@ export function LoginPage() {
     <div>
       <h2 className="text-2xl font-bold text-gray-100 mb-2">Zaloguj się</h2>
       <p className="text-gray-400 mb-8">
-        Witaj ponownie! Wprowadź swoje dane logowania.
+        Witaj! Wprowadź dane logowania z łaski swojej.
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

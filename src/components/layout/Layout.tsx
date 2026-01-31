@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { Sidebar } from './Sidebar';
+import { Footer } from './Footer';
 import { cn } from '../../utils/cn';
 
 export function Layout() {
@@ -17,13 +18,14 @@ export function Layout() {
 
       <main
         className={cn(
-          'pt-16 min-h-screen transition-all duration-200',
+          'pt-16 min-h-screen flex flex-col transition-all duration-200',
           'lg:pl-64'
         )}
       >
-        <div className="p-4 lg:p-8 max-w-7xl mx-auto">
+        <div className="flex-1 w-full p-4 lg:p-8 max-w-7xl mx-auto">
           <Outlet />
         </div>
+        <Footer />
       </main>
     </div>
   );

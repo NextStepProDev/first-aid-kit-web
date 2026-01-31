@@ -94,7 +94,7 @@ export interface Drug {
   drugName: string;
   drugForm: DrugForm;
   expirationDate: string;
-  drugDescription: string;
+  drugDescription: string | null;
 }
 
 export interface DrugRequest {
@@ -102,7 +102,7 @@ export interface DrugRequest {
   form: string;
   expirationYear: number;
   expirationMonth: number;
-  description: string;
+  description?: string | null;
 }
 
 export interface DrugStatistics {

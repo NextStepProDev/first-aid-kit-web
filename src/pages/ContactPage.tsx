@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from '../components/ui';
 import { Mail, MessageCircle, HelpCircle } from 'lucide-react';
+import { APP_VERSION_LABEL } from '../config/version';
 
 export function ContactPage() {
   const contactEmail = 'firstaidkit.team@gmail.com';
@@ -115,7 +116,7 @@ export function ContactPage() {
         </p>
         <div className="mt-4 pt-4 border-t border-dark-600">
           <p className="text-sm text-gray-500">
-            Wersja 1.0.0 | Stworzone z myślą o Twoim zdrowiu
+            {APP_VERSION_LABEL}
           </p>
         </div>
       </Card>

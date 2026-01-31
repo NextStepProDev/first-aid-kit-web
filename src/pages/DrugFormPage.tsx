@@ -24,7 +24,6 @@ const drugSchema = z.object({
   description: z
     .string()
     .trim()
-    .min(1, 'Opis jest wymagany')
     .max(2000, 'Opis może mieć max. 2000 znaków'),
 }).refine((data) => {
   const year = Number(data.expirationYear);
@@ -82,7 +81,7 @@ export function DrugFormPage() {
         form: drug.drugForm.toLowerCase(),
         expirationYear: String(expDate.getFullYear()),
         expirationMonth: String(expDate.getMonth() + 1),
-        description: drug.drugDescription,
+        description: drug.drugDescription ?? '',
       });
     }
   }, [drug, reset]);
