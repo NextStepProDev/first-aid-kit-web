@@ -7,6 +7,7 @@ export interface User {
   roles?: string[];
   createdAt?: string;
   lastLogin?: string;
+  alertsEnabled?: boolean;
 }
 
 // Auth types

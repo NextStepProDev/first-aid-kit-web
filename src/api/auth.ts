@@ -73,4 +73,9 @@ export const authApi = {
     const response = await apiClient.put<User>('/auth/profile', data);
     return response.data;
   },
+
+  updateAlerts: async (data: { alertsEnabled: boolean }): Promise<User> => {
+    const response = await apiClient.put<User>('/auth/alerts', data);
+    return response.data;
+  },
 };

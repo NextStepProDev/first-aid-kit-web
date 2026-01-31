@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authApi } from '../api/auth';
 import { Card, Button, Input } from '../components/ui';
-import { User, Lock, Trash2, LogOut, Check, X, Pencil } from 'lucide-react';
+import { User, Lock, Trash2, LogOut, Check, X, Pencil, Bell, BellOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
@@ -55,6 +55,8 @@ export function ProfilePage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [alertsEnabled, setAlertsEnabled] = useState(user?.alertsEnabled ?? true);
+  const [isTogglingAlerts, setIsTogglingAlerts] = useState(false);
 
   const {
     register: registerPassword,
@@ -163,6 +165,28 @@ export function ProfilePage() {
     setIsEditingProfile(false);
   };
 
+  const handleToggleAlerts = async () => {
+    const newValue = !alertsEnabled;
+    setIsTogglingAlerts(true);
+    try {
+      await authApi.updateAlerts({ alertsEnabled: newValue });
+      setAlertsEnabled(newValue);
+      refreshUser();
+      toast.success(
+        newValue
+          ? 'Powiadomienia email zostały włączone'
+          : 'Powiadomienia email zostały wyłączone'
+      );
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
+      const message =
+        axiosError.response?.data?.message || 'Nie udało się zmienić ustawień powiadomień';
+      toast.error(message);
+    } finally {
+      setIsTogglingAlerts(false);
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
@@ -232,6 +256,41 @@ export function ProfilePage() {
             </div>
           </form>
         )}
+      </Card>
+
+      {/* Notifications */}
+      <Card title="Powiadomienia">
+        <div className="flex items-center justify-between p-4 bg-dark-700 rounded-lg">
+          <div className="flex items-center gap-3">
+            {alertsEnabled ? (
+              <Bell className="w-5 h-5 text-primary-400" />
+            ) : (
+              <BellOff className="w-5 h-5 text-gray-500" />
+            )}
+            <div>
+              <p className="font-medium text-gray-200">Alerty email</p>
+              <p className="text-sm text-gray-400">
+                Otrzymuj powiadomienia email o lekach, których termin ważności wkrótce minie
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={alertsEnabled}
+            disabled={isTogglingAlerts}
+            onClick={handleToggleAlerts}
+            className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-dark-800 disabled:opacity-50 ${
+              alertsEnabled ? 'bg-primary-500' : 'bg-dark-500'
+            }`}
+          >
+            <span
+              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                alertsEnabled ? 'translate-x-5' : 'translate-x-0'
+              }`}
+            />
+          </button>
+        </div>
       </Card>
 
       {/* Change Password */}
