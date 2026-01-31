@@ -97,8 +97,10 @@ export function ContactPage() {
               Jak działają powiadomienia o wygasających lekach?
             </h4>
             <p className="text-gray-400 text-sm">
-              System automatycznie sprawdza daty ważności leków i może wysyłać
-              powiadomienia email gdy zbliża się termin przydatności.
+              Termin ważności leków kończy się z ostatnim dniem miesiąca
+              podanego na opakowaniu. Codziennie o 9:00 system sprawdza, które
+              leki wygasają w bieżącym miesiącu i wysyła zbiorczego emaila
+              z ich listą. Powiadomienie o danym leku wysyłane jest tylko raz.
             </p>
           </div>
         </div>
