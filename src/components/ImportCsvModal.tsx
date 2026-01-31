@@ -104,8 +104,8 @@ export function ImportCsvModal({ isOpen, onClose }: ImportCsvModalProps) {
         let errorMessage = 'Nieznany błąd';
         if (error?.response?.data?.message) {
           errorMessage = error.response.data.message;
-        } else if (error?.response?.data?.fieldErrors?.length > 0) {
-          errorMessage = error.response.data.fieldErrors.map((e: any) => e.message).join(', ');
+        } else if (error?.response?.data?.errors?.length > 0) {
+          errorMessage = error.response.data.errors.map((e: any) => e.message).join(', ');
         } else if (error?.message) {
           errorMessage = error.message;
         }

@@ -1,46 +1,11 @@
-import type { Drug, DrugRequest, DrugForm } from '../types';
+import type { DrugRequest, DrugForm } from '../types';
 
-// Dozwolone formy leków
-const VALID_FORMS: DrugForm[] = [
+// Dozwolone formy leków - typ DrugForm zapewnia synchronizację z types/index.ts
+const VALID_FORMS = [
   'PILLS', 'GEL', 'SYRUP', 'DROPS', 'SUPPOSITORIES', 'SACHETS',
   'CREAM', 'SPRAY', 'OINTMENT', 'LIQUID', 'POWDER', 'INJECTION',
   'BANDAGE', 'INHALER', 'PATCH', 'SOLUTION', 'OTHER'
-];
-
-// Nagłówki CSV
-const CSV_HEADERS = ['Nazwa', 'Forma', 'Data ważności', 'Opis'];
-
-/**
- * Generuje tekst CSV z tablicy leków (separator: średnik dla polskiego Excela)
- */
-export function generateCsv(drugs: Drug[]): string {
-  const SEPARATOR = ';';
-  const rows = [CSV_HEADERS.join(SEPARATOR)];
-
-  for (const drug of drugs) {
-    // Wyciągamy tylko datę (YYYY-MM-DD) z formatu ISO
-    const dateOnly = drug.expirationDate.split('T')[0];
-
-    const row = [
-      quoteCsvField(drug.drugName.trim()),
-      drug.drugForm,
-      dateOnly,
-      quoteCsvField((drug.drugDescription || '').trim()),
-    ];
-    rows.push(row.join(SEPARATOR));
-  }
-
-  return rows.join('\n');
-}
-
-/**
- * Zawsze cytuje pole CSV - bezpieczniejsze dla pól tekstowych
- */
-function quoteCsvField(field: string): string {
-  // Escape'ujemy cudzysłowy wewnątrz pola (podwajamy je)
-  const escaped = field.replace(/"/g, '""');
-  return `"${escaped}"`;
-}
+] as const satisfies readonly DrugForm[];
 
 /**
  * Parsuje datę w różnych formatach
@@ -99,8 +64,6 @@ export async function parseCsvFile(file: File): Promise<CsvParseResult> {
   const errors: { row: number; message: string }[] = [];
 
   const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth() + 1;
 
   // Pomijamy nagłówek (pierwsza linia)
   for (let i = 1; i < lines.length; i++) {
@@ -151,8 +114,9 @@ export async function parseCsvFile(file: File): Promise<CsvParseResult> {
       description: description?.trim() || '',
     };
 
-    // Sprawdzenie czy lek jest przeterminowany
-    const isExpired = year < currentYear || (year === currentYear && month < currentMonth);
+    // Sprawdzenie czy lek jest przeterminowany (porównanie dat dziennych)
+    const expDate = new Date(year, month - 1, day);
+    const isExpired = expDate < now;
 
     if (isExpired) {
       expired.push({ row: rowNumber, drug });
@@ -205,17 +169,3 @@ function parseCsvLine(line: string): string[] {
   return result;
 }
 
-/**
- * Pobiera plik CSV
- */
-export function downloadCsv(content: string, filename: string): void {
-  const blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8' }); // BOM dla Excela
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(a);
-}

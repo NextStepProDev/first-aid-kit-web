@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { drugsApi } from '../api/drugs';
@@ -81,17 +81,15 @@ export function DrugsPage() {
     queryKey: ['drugs', searchParams],
     queryFn: () => {
       const params = new URLSearchParams();
-      
+
       params.append('page', searchParams.page.toString());
       params.append('size', searchParams.size.toString());
-      
+
       if (searchParams.name) params.append('name', searchParams.name);
       if (searchParams.form) params.append('form', searchParams.form);
 
       if (searchParams.expired === 'expiring-soon') {
-        params.set('expired', 'false'); 
-        params.set('size', '100'); 
-        params.set('page', '0');   
+        params.append('expiringSoon', 'true');
       } else if (searchParams.expired === 'true' || searchParams.expired === 'false') {
         params.append('expired', searchParams.expired);
       }
@@ -104,20 +102,7 @@ export function DrugsPage() {
     retry: false,
   });
 
-  const filteredDrugs = useMemo(() => {
-    if (!data?.content) return [];
-    
-    if (searchParams.expired === 'expiring-soon') {
-      const filtered = data.content.filter((drug) => {
-        const status = getExpirationStatus(drug.expirationDate);
-        return status === 'expiring-soon';
-      });
-      // Przy expiring-soon zostawiamy sortowanie po dacie (najpilniejsze na górze)
-      return filtered.sort((a, b) => new Date(a.expirationDate).getTime() - new Date(b.expirationDate).getTime());
-    }
-    
-    return data.content;
-  }, [data, searchParams.expired]);
+  const drugs = data?.content ?? [];
 
   const deleteMutation = useMutation({
     mutationFn: drugsApi.delete,
@@ -153,20 +138,15 @@ export function DrugsPage() {
     if (searchParams.form) params.append('form', searchParams.form);
     
     if (searchParams.expired === 'expiring-soon') {
-      params.append('expired', 'false');
+      params.append('expiringSoon', 'true');
     } else if (searchParams.expired) {
       params.append('expired', searchParams.expired);
     }
 
-    // KLUCZ: To musi być jeden parametr o nazwie 'sort'
     params.append('sort', `${searchParams.sortBy},${searchParams.sortDir}`);
-    
-    // Zwiększamy limit dla PDF
-    params.append('size', '1000'); 
+    params.append('size', '1000');
     params.append('page', '0');
 
-    // Wywołujemy api - zamieniamy params na obiekt
-    // WAŻNE: Sprawdź czy drugsApi.exportPdf przyjmuje obiekt i zamienia go na ?sort=...
     const blob = await drugsApi.exportPdf(Object.fromEntries(params));
     
     const url = window.URL.createObjectURL(blob);
@@ -193,7 +173,7 @@ export function DrugsPage() {
       if (searchParams.form) params.append('form', searchParams.form);
 
       if (searchParams.expired === 'expiring-soon') {
-        params.append('expired', 'false');
+        params.append('expiringSoon', 'true');
       } else if (searchParams.expired) {
         params.append('expired', searchParams.expired);
       }
@@ -291,7 +271,7 @@ export function DrugsPage() {
       <Card>
         {isLoading ? (
           <div className="flex justify-center py-12"><Spinner size="lg" /></div>
-        ) : filteredDrugs.length === 0 ? (
+        ) : drugs.length === 0 ? (
           <EmptyState
             icon={<Pill className="w-12 h-12" />}
             title="Brak leków"
@@ -328,7 +308,7 @@ export function DrugsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredDrugs.map((drug) => {
+                  {drugs.map((drug) => {
                     const status = getExpirationStatus(drug.expirationDate);
                     return (
                       <tr key={drug.drugId} className="border-b border-dark-700 hover:bg-dark-700/50 transition-colors">
@@ -390,7 +370,7 @@ export function DrugsPage() {
                 ))}
               </div>
 
-              {filteredDrugs.map((drug) => {
+              {drugs.map((drug) => {
                 const status = getExpirationStatus(drug.expirationDate);
                 return (
                   <div
@@ -420,7 +400,7 @@ export function DrugsPage() {
               })}
             </div>
 
-            {searchParams.expired !== 'expiring-soon' && data && data.totalPages > 1 && (
+            {data && data.totalPages > 1 && (
               <div className="mt-6">
                 <Pagination
                   currentPage={data.number}

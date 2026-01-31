@@ -23,8 +23,19 @@ const drugSchema = z.object({
   expirationMonth: z.string().min(1, 'Wybierz miesiąc'),
   description: z
     .string()
+    .trim()
     .min(1, 'Opis jest wymagany')
     .max(2000, 'Opis może mieć max. 2000 znaków'),
+}).refine((data) => {
+  const year = Number(data.expirationYear);
+  const month = Number(data.expirationMonth);
+  const now = new Date();
+  if (year > now.getFullYear()) return true;
+  if (year === now.getFullYear()) return month >= (now.getMonth() + 1);
+  return false;
+}, {
+  message: 'Data ważności nie może być w przeszłości',
+  path: ['expirationMonth'],
 });
 
 type DrugFormData = z.infer<typeof drugSchema>;

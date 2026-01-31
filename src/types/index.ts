@@ -135,6 +135,7 @@ export interface DrugSearchParams {
   name?: string;
   form?: string;
   expired?: boolean;
+  expiringSoon?: boolean;
   expirationUntilYear?: number;
   expirationUntilMonth?: number;
   page?: number;
@@ -147,7 +148,7 @@ export interface ApiError {
   status: number;
   error: string;
   message: string;
-  fieldErrors?: FieldError[];
+  errors?: FieldError[];
 }
 
 export interface FieldError {
