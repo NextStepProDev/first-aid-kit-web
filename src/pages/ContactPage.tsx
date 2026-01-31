@@ -24,9 +24,10 @@ export function ContactPage() {
               <Mail className="w-6 h-6 text-primary-400" />
             </div>
             <div>
-              <h3 className="text-lg font-medium text-gray-200 mb-1">Email</h3>
+              <h3 className="text-lg font-medium text-gray-200 mb-1">Napisz do nas</h3>
               <p className="text-gray-400 mb-3">
-                Napisz do nas - odpowiadamy zazwyczaj w ciągu 24 godzin.
+                We wszystkich sprawach kontaktuj się z nami mailowo.
+                Odpowiadamy zazwyczaj w ciągu 24 godzin.
               </p>
               <a
                 href={`mailto:${contactEmail}`}
@@ -39,32 +40,32 @@ export function ContactPage() {
           </div>
 
           <div className="border-t border-dark-600 pt-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-success-500/20 flex items-center justify-center flex-shrink-0">
-                <MessageCircle className="w-6 h-6 text-success-400" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-200 mb-1">Feedback</h3>
-                <p className="text-gray-400">
-                  Masz pomysł na ulepszenie aplikacji? Chętnie wysłuchamy Twojej opinii!
-                  Napisz do nas co moglibyśmy poprawić lub dodać.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-dark-600 pt-6">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-warning-500/20 flex items-center justify-center flex-shrink-0">
-                <HelpCircle className="w-6 h-6 text-warning-400" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-200 mb-1">Pomoc techniczna</h3>
-                <p className="text-gray-400">
-                  Napotkałeś problem z aplikacją? Opisz nam szczegółowo co się stało,
-                  a postaramy się pomóc jak najszybciej.
-                </p>
-              </div>
+            <p className="text-sm text-gray-400 mb-3">W jakich sprawach możesz do nas napisać?</p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <a
+                href={`mailto:${contactEmail}?subject=Pomoc techniczna`}
+                className="flex items-center gap-3 p-3 bg-dark-700 rounded-lg hover:bg-dark-600 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-warning-500/20 flex items-center justify-center flex-shrink-0">
+                  <HelpCircle className="w-5 h-5 text-warning-400" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors">Pomoc techniczna</p>
+                  <p className="text-xs text-gray-500">Problem z aplikacją</p>
+                </div>
+              </a>
+              <a
+                href={`mailto:${contactEmail}?subject=Opinia / pomysł`}
+                className="flex items-center gap-3 p-3 bg-dark-700 rounded-lg hover:bg-dark-600 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-lg bg-success-500/20 flex items-center justify-center flex-shrink-0">
+                  <MessageCircle className="w-5 h-5 text-success-400" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-200 group-hover:text-white transition-colors">Feedback</p>
+                  <p className="text-xs text-gray-500">Pomysł lub opinia</p>
+                </div>
+              </a>
             </div>
           </div>
         </div>
