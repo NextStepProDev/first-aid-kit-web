@@ -14,10 +14,10 @@ interface Testimonial {
 const TESTIMONIALS: Testimonial[] = [
   {
     name: 'Elon from X',
-    title: 'CEO wszystkiego',
+    title: 'Tesla Founder',
     rating: 5,
     text: 'This app is mass efficient. I replaced the entire SpaceX medical bay with one phone running First Aid Kit. Mars colonists will use this.',
-    footnote: 'Tu Donald, Elon mówi prawdę.',
+    footnote: 'Donald here, Elon\'s telling the truth.',
     lang: 'EN',
   },
   {
@@ -39,6 +39,7 @@ const TESTIMONIALS: Testimonial[] = [
     title: 'CEO Pfizer',
     rating: 1,
     text: 'This app tells people their meds expire. That\'s very bad for our business model. One star. Would give zero if I could.',
+    footnote: 'Emma Walmsley likes this post.',
     lang: 'EN',
   },
   {
