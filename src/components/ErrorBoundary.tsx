@@ -50,16 +50,16 @@ export class ErrorBoundary extends Component<Props, State> {
               </svg>
             </div>
             <h1 className="text-xl font-bold text-gray-100 mb-2">
-              Wystapil nieoczekiwany blad
+              Wystąpił nieoczekiwany błąd
             </h1>
             <p className="text-gray-400 mb-6">
-              Przepraszamy, cos poszlo nie tak. Sprobuj odswiezyc strone.
+              Przepraszamy, coś poszło nie tak. Spróbuj odświeżyć stronę.
             </p>
             <button
               onClick={this.handleReload}
               className="px-6 py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors"
             >
-              Wroc do strony glownej
+              Wróć do strony głównej
             </button>
           </div>
         </div>

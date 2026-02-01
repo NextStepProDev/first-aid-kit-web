@@ -6,14 +6,6 @@ export function formatDate(dateString: string): string {
   });
 }
 
-export function formatDateShort(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('pl-PL', {
-    year: 'numeric',
-    month: '2-digit',
-  });
-}
-
 function stripTime(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
