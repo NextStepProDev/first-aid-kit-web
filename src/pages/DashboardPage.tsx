@@ -73,24 +73,28 @@ export function DashboardPage() {
           value={stats?.totalDrugs || 0}
           icon={<Pill className="w-5 h-5" />}
           color="primary"
+          onClick={() => navigate('/drugs')}
         />
         <StatCard
           title="Aktywne"
           value={stats?.activeDrugs || 0}
           icon={<CheckCircle className="w-5 h-5" />}
           color="success"
+          onClick={() => navigate('/drugs', { state: { expired: 'false' } })}
         />
         <StatCard
           title="Po terminie"
           value={stats?.expiredDrugs || 0}
           icon={<AlertTriangle className="w-5 h-5" />}
           color="danger"
+          onClick={() => navigate('/drugs', { state: { expired: 'true' } })}
         />
         <StatCard
           title={`Wysłane alerty (${new Date().toLocaleString('pl-PL', { month: 'long' })})`}
           value={stats?.alertSentCount || 0}
           icon={<Bell className="w-5 h-5" />}
           color="warning"
+          onClick={() => navigate('/drugs', { state: { alertSentThisMonth: 'true' } })}
         />
       </div>
 
@@ -175,7 +179,7 @@ export function DashboardPage() {
                     <div
                       key={form}
                       className="cursor-pointer hover:bg-dark-600/50 rounded-lg p-2 -mx-2 transition-colors"
-                      onClick={() => navigate(`/drugs?form=${encodeURIComponent(form)}`)}
+                      onClick={() => navigate('/drugs', { state: { form: form.toLowerCase() } })}
                     >
                       <div className="flex items-center justify-between text-sm mb-1">
                         <span className="text-gray-300">{formLabels[form] || form}</span>
@@ -210,9 +214,10 @@ interface StatCardProps {
   value: number;
   icon: React.ReactNode;
   color: 'primary' | 'success' | 'warning' | 'danger';
+  onClick?: () => void;
 }
 
-function StatCard({ title, value, icon, color }: StatCardProps) {
+function StatCard({ title, value, icon, color, onClick }: StatCardProps) {
   const colorClasses = {
     primary: 'bg-primary-500/20 text-primary-400',
     success: 'bg-success-500/20 text-success-400',
@@ -220,7 +225,7 @@ function StatCard({ title, value, icon, color }: StatCardProps) {
     danger: 'bg-danger-500/20 text-danger-400',
   };
 
-  return (
+  const content = (
     <Card className="flex items-center gap-4">
       <div
         className={`w-12 h-12 rounded-xl flex items-center justify-center ${colorClasses[color]}`}
@@ -233,4 +238,20 @@ function StatCard({ title, value, icon, color }: StatCardProps) {
       </div>
     </Card>
   );
+
+  if (onClick) {
+    return (
+      <div
+        onClick={onClick}
+        className="cursor-pointer hover:opacity-80 transition-opacity"
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); }}
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return content;
 }

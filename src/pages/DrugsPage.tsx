@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams as useRouterSearchParams } from 'react-router-dom';
+import { Link, useSearchParams as useRouterSearchParams, useLocation } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { drugsApi } from '../api/drugs';
 import {
@@ -35,17 +35,23 @@ import type { Drug, FormOption } from '../types';
 
 export function DrugsPage() {
   const queryClient = useQueryClient();
-  const [urlSearchParams, setUrlSearchParams] = useRouterSearchParams();
+  const [urlSearchParams] = useRouterSearchParams();
+  const location = useLocation();
+  const navState = location.state as { form?: string; expired?: string; alertSentThisMonth?: string } | null;
 
   // 1. ROZSZERZONY STAN O SORTOWANIE
   const [searchParams, setSearchParams] = useState(() => {
-    const formFromUrl = urlSearchParams.get('form') || '';
+    // Navigation state (from Dashboard) takes priority, fall back to URL params
+    const formValue = navState?.form || urlSearchParams.get('form') || '';
+    const expiredValue = navState?.expired || urlSearchParams.get('expired') || '';
+    const alertValue = navState?.alertSentThisMonth || urlSearchParams.get('alertSentThisMonth') || '';
     return {
       page: 0,
       size: 15,
       name: '',
-      form: formFromUrl,
-      expired: '',
+      form: formValue,
+      expired: expiredValue,
+      alertSentThisMonth: alertValue,
       sortBy: 'drugName',
       sortDir: 'asc'
     };
@@ -57,12 +63,26 @@ export function DrugsPage() {
   const [showDeleteAllModal, setShowDeleteAllModal] = useState(false);
   const [detailDrug, setDetailDrug] = useState<Drug | null>(null);
 
-  // Clear URL query params after reading them on mount
+  // Apply navigation state from Dashboard on every navigation (not just mount).
+  // useState initializer only runs on mount — this effect covers re-navigation
+  // to the same route when the component is already mounted via <Outlet />.
   useEffect(() => {
-    if (urlSearchParams.has('form')) {
-      setUrlSearchParams({}, { replace: true });
+    const state = location.state as { form?: string; expired?: string; alertSentThisMonth?: string } | null;
+    if (state && (state.form || state.expired || state.alertSentThisMonth)) {
+      setSearchParams({
+        page: 0,
+        size: 15,
+        name: '',
+        form: state.form || '',
+        expired: state.expired || '',
+        alertSentThisMonth: state.alertSentThisMonth || '',
+        sortBy: 'drugName',
+        sortDir: 'asc',
+      });
+      setSearchInput('');
+      window.history.replaceState({}, document.title);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [location.key]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -103,6 +123,10 @@ export function DrugsPage() {
         params.append('expiringSoon', 'true');
       } else if (searchParams.expired === 'true' || searchParams.expired === 'false') {
         params.append('expired', searchParams.expired);
+      }
+
+      if (searchParams.alertSentThisMonth === 'true') {
+        params.append('alertSentThisMonth', 'true');
       }
 
       // 3. PRZEKAZANIE SORTOWANIA DO BACKENDU
@@ -260,7 +284,7 @@ export function DrugsPage() {
               label="Forma leku"
               options={formOptions}
               value={searchParams.form}
-              onChange={(e) => setSearchParams(prev => ({ ...prev, form: e.target.value, page: 0 }))}
+              onChange={(e) => setSearchParams(prev => ({ ...prev, form: e.target.value, alertSentThisMonth: '', page: 0 }))}
             />
           </div>
           <div className="md:col-span-3">
@@ -268,11 +292,11 @@ export function DrugsPage() {
               label="Status ważności"
               options={statusOptions}
               value={searchParams.expired}
-              onChange={(e) => setSearchParams(prev => ({ ...prev, expired: e.target.value, page: 0 }))}
+              onChange={(e) => setSearchParams(prev => ({ ...prev, expired: e.target.value, alertSentThisMonth: '', page: 0 }))}
             />
           </div>
           <div className="md:col-span-1 flex items-end pb-0.5">
-            <Button variant="ghost" size="sm" onClick={() => { setSearchParams({ page: 0, size: 15, name: '', form: '', expired: '', sortBy: 'drugName', sortDir: 'asc' }); setSearchInput(''); }} title="Wyczyść filtry">
+            <Button variant="ghost" size="sm" onClick={() => { setSearchParams({ page: 0, size: 15, name: '', form: '', expired: '', alertSentThisMonth: '', sortBy: 'drugName', sortDir: 'asc' }); setSearchInput(''); }} title="Wyczyść filtry">
               <Filter className="w-4 h-4" />
             </Button>
           </div>

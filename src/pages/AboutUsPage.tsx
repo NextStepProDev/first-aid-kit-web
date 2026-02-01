@@ -53,14 +53,14 @@ const TESTIMONIALS: Testimonial[] = [
     name: 'Jarosław z Żoliborza',
     title: 'Prezes',
     rating: 5,
-    text: 'Aplikacja działa sprawnie jak moja partia. Wszystko pod kontrolą. Przyznaję, że na początku miałem problem żeby się odnaleźć w tym ekosystemie, ale po przeczytaniu FAQ w zakładce „Kontakt" pod koniec dnia wszystko stało się może nie banalnie proste ale do ogarnięcia.',
+    text: 'Aplikacja działa sprawnie jak moja partia. Wszystko pod kontrolą. Przyznaję, że na początku miałem problem żeby się odnaleźć w tym ekosystemie, ale po przeczytaniu FAQ w zakładce „Kontakt" wszystko stało się może nie banalnie proste ale do ogarnięcia.',
     lang: 'PL',
   },
   {
     name: 'Pierwsza dama',
-    title: 'Prawniczka',
+    title: 'Funkcjonariuszka publiczna',
     rating: 5,
-    text: 'Elegancka aplikacja. Interfejs czysty jak moje sumienie. Polecam każdemu, kto chce mieć porządek w apteczce i w życiu.',
+    text: 'Elegancka aplikacja. Interfejs czysty jak sumienie mojego męża. Polecam każdemu, kto chce mieć porządek w apteczce i w życiu.',
     lang: 'PL',
   },
   {
@@ -201,7 +201,7 @@ export function AboutUsPage() {
       {/* Testimonials */}
       <div>
         <h2 className="text-xl font-semibold text-gray-100 mb-4">
-          Co mówią o nas ludzie
+          Co mówią o nas na mieście...
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {TESTIMONIALS.map((t) => (
