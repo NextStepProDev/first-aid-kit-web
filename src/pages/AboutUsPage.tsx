@@ -53,14 +53,14 @@ const TESTIMONIALS: Testimonial[] = [
     name: 'Jarosław z Żoliborza',
     title: 'Prezes',
     rating: 5,
-    text: 'Aplikacja działa sprawnie jak moja partia. Wszystko pod kontrolą. Przyznaję, że na początku miałem problem żeby się odnaleźć w tym ekosystemie, ale po przeczytaniu FAQ w zakładce „Kontakt" pod koniec dnia wszystko stało się może nie banalnie proste ale do ogarnięcia.',
+    text: 'Aplikacja działa sprawnie jak moja partia. Wszystko pod kontrolą. Przyznaję, że na początku miałem problem żeby się odnaleźć w tym ekosystemie, ale po przeczytaniu FAQ w zakładce „Kontakt" wszystko stało się może nie banalnie proste ale do ogarnięcia.',
     lang: 'PL',
   },
   {
     name: 'Pierwsza dama',
-    title: 'Prawniczka',
+    title: 'Funkcjonariuszka publiczna',
     rating: 5,
-    text: 'Elegancka aplikacja. Interfejs czysty jak moje sumienie. Polecam każdemu, kto chce mieć porządek w apteczce i w życiu.',
+    text: 'Elegancka aplikacja. Interfejs czysty jak sumienie mojego męża. Polecam każdemu, kto chce mieć porządek w apteczce i w życiu.',
     lang: 'PL',
   },
   {

@@ -105,6 +105,17 @@ export function ContactPage() {
               z ich listą. Powiadomienie o danym leku wysyłane jest tylko raz.
             </p>
           </div>
+
+          <div className="p-4 bg-dark-700 rounded-lg">
+            <h4 className="font-medium text-gray-200 mb-2">
+              Czy mogę polecić tę aplikację znajomym?
+            </h4>
+            <p className="text-gray-400 text-sm">
+              Oczywiście! Będziemy wdzięczni za każdą rekomendację. Możesz
+              również podzielić się swoimi opiniami na mediach społecznościowych
+              lub zostawić recenzję!.
+            </p>
+          </div>
         </div>
       </Card>
 
