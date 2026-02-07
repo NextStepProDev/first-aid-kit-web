@@ -4,7 +4,7 @@ import { Mail, MessageCircle, HelpCircle } from 'lucide-react';
 import { APP_VERSION_LABEL } from '../config/version';
 
 export function ContactPage() {
-  const contactEmail = 'firstaidkit.team@gmail.com';
+  const contactEmail = 'firstaidkit.manager@gmail.com';
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
