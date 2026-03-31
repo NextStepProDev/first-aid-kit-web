@@ -11,8 +11,8 @@ ENV REACT_APP_API_URL=$REACT_APP_API_URL
 # Kopiujemy pliki zależności
 COPY package*.json ./
 
-# Instalujemy zależności
-RUN npm install
+# Instalujemy zależności (--legacy-peer-deps for i18next TypeScript compatibility)
+RUN npm install --legacy-peer-deps
 
 # Kopiujemy resztę kodu źródłowego
 COPY . .
