@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
 import { Lock, Check, X, ArrowLeft } from 'lucide-react';
@@ -10,25 +11,29 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
 
-const resetPasswordSchema = z
+const resetPasswordSchema = (t: (key: string) => string) => z
   .object({
     newPassword: z
       .string()
-      .min(8, 'Hasło musi mieć min. 8 znaków')
-      .regex(/[A-Z]/, 'Hasło musi zawierać wielką literę')
-      .regex(/[a-z]/, 'Hasło musi zawierać małą literę')
-      .regex(/[0-9]/, 'Hasło musi zawierać cyfrę')
-      .regex(/[^A-Za-z0-9]/, 'Hasło musi zawierać znak specjalny'),
+      .min(8, t('auth:register.validation.passwordMinLength'))
+      .regex(/[A-Z]/, t('auth:register.validation.passwordUppercase'))
+      .regex(/[a-z]/, t('auth:register.validation.passwordLowercase'))
+      .regex(/[0-9]/, t('auth:register.validation.passwordDigit'))
+      .regex(/[^A-Za-z0-9]/, t('auth:register.validation.passwordSpecial')),
     confirmPassword: z.string(),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
-    message: 'Hasła nie są identyczne',
+    message: t('auth:register.validation.passwordsDoNotMatch'),
     path: ['confirmPassword'],
   });
 
-type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+type ResetPasswordFormData = {
+  newPassword: string;
+  confirmPassword: string;
+};
 
 export const ResetPasswordPage = () => {
+  const { t } = useTranslation(['auth', 'common']);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const token = searchParams.get('token');
@@ -39,24 +44,24 @@ export const ResetPasswordPage = () => {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<ResetPasswordFormData>({
-    resolver: zodResolver(resetPasswordSchema),
+    resolver: zodResolver(resetPasswordSchema(t)),
     mode: 'onChange',
   });
 
   const password = watch('newPassword', '');
 
   const passwordRequirements = [
-    { label: 'Min. 8 znaków', met: password.length >= 8 },
-    { label: 'Wielka litera', met: /[A-Z]/.test(password) },
-    { label: 'Mała litera', met: /[a-z]/.test(password) },
-    { label: 'Cyfra', met: /[0-9]/.test(password) },
-    { label: 'Znak specjalny', met: /[^A-Za-z0-9]/.test(password) },
+    { label: t('auth:register.passwordRequirements.minLength'), met: password.length >= 8 },
+    { label: t('auth:register.passwordRequirements.uppercase'), met: /[A-Z]/.test(password) },
+    { label: t('auth:register.passwordRequirements.lowercase'), met: /[a-z]/.test(password) },
+    { label: t('auth:register.passwordRequirements.digit'), met: /[0-9]/.test(password) },
+    { label: t('auth:register.passwordRequirements.special'), met: /[^A-Za-z0-9]/.test(password) },
   ];
 
   const onSubmit = async (data: ResetPasswordFormData) => {
     try {
       if (!token) {
-        toast.error('Brak poprawnego tokenu w linku.');
+        toast.error(t('auth:resetPassword.invalidToken'));
         return;
       }
       await authApi.resetPassword({
@@ -64,27 +69,27 @@ export const ResetPasswordPage = () => {
         newPassword: data.newPassword,
         confirmPassword: data.confirmPassword,
       });
-      toast.success('Hasło zostało zmienione!');
+      toast.success(t('auth:resetPassword.successMessage'));
       navigate('/login');
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       const message =
-        axiosError.response?.data?.message || 'Błąd podczas resetowania hasła';
+        axiosError.response?.data?.message || t('auth:errors.networkError');
       toast.error(message);
     }
   };
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-100 mb-2">Ustaw nowe hasło</h2>
+      <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('auth:resetPassword.title')}</h2>
       <p className="text-gray-400 mb-8">
-        Wprowadź nowe hasło dla swojego konta.
+        {t('auth:resetPassword.subtitle')}
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div>
           <Input
-            label="Nowe hasło"
+            label={t('auth:resetPassword.password')}
             type="password"
             placeholder="••••••••"
             leftIcon={<Lock className="w-4 h-4" />}
@@ -114,7 +119,7 @@ export const ResetPasswordPage = () => {
         </div>
 
         <Input
-          label="Potwierdź hasło"
+          label={t('auth:resetPassword.confirmPassword')}
           type="password"
           placeholder="••••••••"
           leftIcon={<Lock className="w-4 h-4" />}
@@ -128,19 +133,16 @@ export const ResetPasswordPage = () => {
           size="lg"
           isLoading={isSubmitting}
         >
-          Zmień hasło
+          {t('auth:resetPassword.submitButton')}
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-gray-400">
-        <Link
-          to="/login"
-          className="text-primary-400 hover:text-primary-300 font-medium transition-colors inline-flex items-center gap-1"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Wróć do logowania
-        </Link>
-      </p>
+      <Link to="/login">
+        <p className="mt-6 text-center text-sm text-primary-400 hover:text-primary-300 transition-colors">
+          <ArrowLeft className="w-4 h-4 inline mr-1" />
+          {t('auth:forgotPassword.backToLogin')}
+        </p>
+      </Link>
     </div>
   );
 };

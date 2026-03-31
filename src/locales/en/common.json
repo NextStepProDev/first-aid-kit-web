@@ -1,0 +1,76 @@
+{
+  "app": {
+    "name": "First Aid Kit Manager",
+    "title": "First Aid Kit Manager"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "drugs": "Medications",
+    "addDrug": "Add Medication",
+    "profile": "Settings",
+    "about": "About Us",
+    "contact": "Contact",
+    "admin": "Admin",
+    "users": "Users",
+    "logout": "Log Out"
+  },
+  "sidebar": {
+    "tip": "Tip",
+    "tipMessage": "Add medications to your first aid kit to receive expiration notifications."
+  },
+  "buttons": {
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "refresh": "Refresh",
+    "download": "Download",
+    "upload": "Upload"
+  },
+  "labels": {
+    "name": "Name",
+    "description": "Description",
+    "date": "Date",
+    "status": "Status",
+    "actions": "Actions",
+    "loading": "Loading...",
+    "noData": "No data",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "messages": {
+    "saveSuccess": "Saved successfully",
+    "saveError": "Error while saving",
+    "deleteSuccess": "Deleted successfully",
+    "deleteError": "Error while deleting",
+    "loadError": "Error loading data",
+    "confirmDelete": "Are you sure you want to delete?"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "passwordTooShort": "Password is too short",
+    "passwordsDoNotMatch": "Passwords do not match"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of",
+    "showing": "Showing",
+    "to": "to",
+    "results": "results"
+  }
+}

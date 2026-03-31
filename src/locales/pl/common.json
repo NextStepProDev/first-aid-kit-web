@@ -1,0 +1,76 @@
+{
+  "app": {
+    "name": "First Aid Kit Manager",
+    "title": "Menedżer Apteczki"
+  },
+  "nav": {
+    "home": "Strona główna",
+    "dashboard": "Dashboard",
+    "drugs": "Leki",
+    "addDrug": "Dodaj lek",
+    "profile": "Ustawienia",
+    "about": "O nas",
+    "contact": "Kontakt",
+    "admin": "Admin",
+    "users": "Użytkownicy",
+    "logout": "Wyloguj się"
+  },
+  "sidebar": {
+    "tip": "Tip",
+    "tipMessage": "Dodaj leki do swojej apteczki, aby otrzymywać powiadomienia o ich wygasaniu."
+  },
+  "buttons": {
+    "add": "Dodaj",
+    "edit": "Edytuj",
+    "delete": "Usuń",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "close": "Zamknij",
+    "confirm": "Potwierdź",
+    "back": "Wróć",
+    "next": "Dalej",
+    "submit": "Wyślij",
+    "search": "Szukaj",
+    "filter": "Filtruj",
+    "clear": "Wyczyść",
+    "refresh": "Odśwież",
+    "download": "Pobierz",
+    "upload": "Prześlij"
+  },
+  "labels": {
+    "name": "Nazwa",
+    "description": "Opis",
+    "date": "Data",
+    "status": "Status",
+    "actions": "Akcje",
+    "loading": "Ładowanie...",
+    "noData": "Brak danych",
+    "error": "Błąd",
+    "success": "Sukces",
+    "warning": "Ostrzeżenie",
+    "info": "Informacja"
+  },
+  "messages": {
+    "saveSuccess": "Zapisano pomyślnie",
+    "saveError": "Błąd podczas zapisywania",
+    "deleteSuccess": "Usunięto pomyślnie",
+    "deleteError": "Błąd podczas usuwania",
+    "loadError": "Błąd podczas ładowania danych",
+    "confirmDelete": "Czy na pewno chcesz usunąć?"
+  },
+  "validation": {
+    "required": "To pole jest wymagane",
+    "invalidEmail": "Nieprawidłowy adres email",
+    "passwordTooShort": "Hasło jest za krótkie",
+    "passwordsDoNotMatch": "Hasła nie są identyczne"
+  },
+  "pagination": {
+    "previous": "Poprzednia",
+    "next": "Następna",
+    "page": "Strona",
+    "of": "z",
+    "showing": "Pokazano",
+    "to": "do",
+    "results": "wyników"
+  }
+}

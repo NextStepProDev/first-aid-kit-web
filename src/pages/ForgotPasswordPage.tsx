@@ -3,17 +3,21 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email('Nieprawidłowy adres email'),
+const forgotPasswordSchema = (t: (key: string) => string) => z.object({
+  email: z.string().email(t('common:validation.invalidEmail')),
 });
 
-type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
+type ForgotPasswordFormData = {
+  email: string;
+};
 
 export function ForgotPasswordPage() {
+  const { t } = useTranslation(['auth', 'common']);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const {
@@ -21,7 +25,7 @@ export function ForgotPasswordPage() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<ForgotPasswordFormData>({
-    resolver: zodResolver(forgotPasswordSchema),
+    resolver: zodResolver(forgotPasswordSchema(t)),
   });
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
@@ -41,16 +45,15 @@ export function ForgotPasswordPage() {
           <CheckCircle className="w-8 h-8 text-success-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-100 mb-2">
-          Sprawdź swoją skrzynkę
+          {t('auth:forgotPassword.title')}
         </h2>
         <p className="text-gray-400 mb-8">
-          Jeśli konto z podanym adresem email istnieje, wysłaliśmy link do
-          resetowania hasła.
+          {t('auth:forgotPassword.successMessage')}
         </p>
         <Link to="/login">
           <Button variant="secondary" className="w-full">
             <ArrowLeft className="w-4 h-4" />
-            Wróć do logowania
+            {t('auth:forgotPassword.backToLogin')}
           </Button>
         </Link>
       </div>
@@ -60,15 +63,15 @@ export function ForgotPasswordPage() {
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-100 mb-2">
-        Zapomniałeś hasła?
+        {t('auth:forgotPassword.title')}
       </h2>
       <p className="text-gray-400 mb-8">
-        Podaj swój adres email, a wyślemy Ci link do resetowania hasła.
+        {t('auth:forgotPassword.subtitle')}
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <Input
-          label="Email"
+          label={t('auth:forgotPassword.email')}
           type="email"
           placeholder="twoj@email.pl"
           leftIcon={<Mail className="w-4 h-4" />}
@@ -82,19 +85,16 @@ export function ForgotPasswordPage() {
           size="lg"
           isLoading={isSubmitting}
         >
-          Wyślij link resetujący
+          {t('auth:forgotPassword.submitButton')}
         </Button>
       </form>
 
-      <p className="mt-6 text-center">
-        <Link
-          to="/login"
-          className="text-gray-400 hover:text-gray-300 inline-flex items-center gap-2 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Wróć do logowania
-        </Link>
-      </p>
+      <Link to="/login">
+        <p className="mt-6 text-center text-sm text-primary-400 hover:text-primary-300 transition-colors">
+          <ArrowLeft className="w-4 h-4 inline mr-1" />
+          {t('auth:forgotPassword.backToLogin')}
+        </p>
+      </Link>
     </div>
   );
 }

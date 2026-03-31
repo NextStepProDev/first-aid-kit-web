@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal } from './ui/Modal';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
@@ -17,13 +18,14 @@ export function DeleteAllDrugsModal({
   onConfirm,
   isLoading = false,
 }: DeleteAllDrugsModalProps) {
+  const { t } = useTranslation('drugs');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!password.trim()) {
-      setError('Wprowadź hasło');
+      setError(t('deleteAllModal.passwordRequired'));
       return;
     }
     setError('');
@@ -45,22 +47,22 @@ export function DeleteAllDrugsModal({
           </div>
 
           <h3 className="text-lg font-semibold text-gray-100 mb-2">
-            Usuń wszystkie leki
+            {t('deleteAllModal.title')}
           </h3>
           <p className="text-gray-400 mb-4">
-            Ta operacja jest nieodwracalna. Wszystkie Twoje leki zostaną trwale usunięte.
+            {t('deleteAllModal.description')}
           </p>
 
           <div className="bg-danger-500/10 border border-danger-500/30 rounded-lg p-3 mb-4">
             <p className="text-danger-300 text-sm font-medium">
-              Aby potwierdzić, wprowadź swoje hasło:
+              {t('deleteAllModal.confirmation')}
             </p>
           </div>
 
           <div className="mb-6">
             <Input
               type="password"
-              placeholder="Wprowadź hasło..."
+              placeholder={t('deleteAllModal.passwordPlaceholder')}
               leftIcon={<Lock className="w-4 h-4" />}
               value={password}
               onChange={(e) => {
@@ -80,7 +82,7 @@ export function DeleteAllDrugsModal({
               onClick={handleClose}
               disabled={isLoading}
             >
-              Anuluj
+              {t('deleteAllModal.buttons.cancel')}
             </Button>
             <Button
               type="submit"
@@ -89,7 +91,7 @@ export function DeleteAllDrugsModal({
               isLoading={isLoading}
               disabled={!password.trim()}
             >
-              Usuń wszystko
+              {t('deleteAllModal.buttons.confirm')}
             </Button>
           </div>
         </div>

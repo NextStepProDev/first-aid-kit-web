@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
 import { CheckCircle, XCircle, ArrowLeft, RefreshCw, Mail, Loader2 } from 'lucide-react';
@@ -8,6 +9,7 @@ import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
 
 export function VerifyEmailPage() {
+  const { t } = useTranslation(['auth', 'common']);
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
 
@@ -20,7 +22,7 @@ export function VerifyEmailPage() {
     const verify = async () => {
       if (!token) {
         setStatus('error');
-        setErrorMessage('Brak tokenu weryfikacyjnego w linku.');
+        setErrorMessage(t('auth:verifyEmail.error'));
         return;
       }
 
@@ -31,27 +33,27 @@ export function VerifyEmailPage() {
         const axiosError = error as AxiosError<ApiError>;
         setStatus('error');
         setErrorMessage(
-          axiosError.response?.data?.message || 'Weryfikacja nie powiodła się.'
+          axiosError.response?.data?.message || t('auth:verifyEmail.error')
         );
       }
     };
 
     verify();
-  }, [token]);
+  }, [token, t]);
 
   const handleResendVerification = async () => {
     if (!resendEmail) {
-      toast.error('Podaj adres email.');
+      toast.error(t('auth:errors.emailRequired'));
       return;
     }
     setIsResending(true);
     try {
       await authApi.resendVerification(resendEmail);
-      toast.success('Nowy link aktywacyjny został wysłany.');
+      toast.success(t('auth:login.verificationSent'));
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       const message =
-        axiosError.response?.data?.message || 'Nie udało się wysłać emaila';
+        axiosError.response?.data?.message || t('auth:errors.networkError');
       toast.error(message);
     } finally {
       setIsResending(false);
@@ -65,9 +67,9 @@ export function VerifyEmailPage() {
           <Loader2 className="w-8 h-8 text-primary-400 animate-spin" />
         </div>
         <h2 className="text-2xl font-bold text-gray-100 mb-2">
-          Weryfikacja konta...
+          {t('auth:verifyEmail.title')}
         </h2>
-        <p className="text-gray-400">Proszę czekać, trwa aktywacja konta.</p>
+        <p className="text-gray-400">{t('auth:verifyEmail.verifying')}</p>
       </div>
     );
   }
@@ -79,14 +81,14 @@ export function VerifyEmailPage() {
           <CheckCircle className="w-8 h-8 text-success-400" />
         </div>
         <h2 className="text-2xl font-bold text-gray-100 mb-2">
-          Konto aktywowane!
+          {t('auth:verifyEmail.success')}
         </h2>
         <p className="text-gray-400 mb-8">
-          Twój adres email został potwierdzony. Możesz się teraz zalogować.
+          {t('auth:verifyEmail.goToLogin')}
         </p>
         <Link to="/login">
           <Button className="w-full" size="lg">
-            Przejdź do logowania
+            {t('auth:verifyEmail.goToLogin')}
           </Button>
         </Link>
       </div>
@@ -99,7 +101,7 @@ export function VerifyEmailPage() {
         <XCircle className="w-8 h-8 text-red-400" />
       </div>
       <h2 className="text-2xl font-bold text-gray-100 mb-2">
-        Weryfikacja nie powiodła się
+        {t('auth:verifyEmail.error')}
       </h2>
       <p className="text-gray-400 mb-8">{errorMessage}</p>
 
@@ -120,12 +122,12 @@ export function VerifyEmailPage() {
           isLoading={isResending}
         >
           <RefreshCw className="w-4 h-4" />
-          Wyślij nowy link aktywacyjny
+          {t('auth:login.resendVerification')}
         </Button>
         <Link to="/login">
           <Button variant="ghost" className="w-full">
             <ArrowLeft className="w-4 h-4" />
-            Wróć do logowania
+            {t('auth:forgotPassword.backToLogin')}
           </Button>
         </Link>
       </div>

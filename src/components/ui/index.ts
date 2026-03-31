@@ -9,3 +9,4 @@ export { Modal } from './Modal';
 export { ConfirmDialog } from './ConfirmDialog';
 export { EmptyState } from './EmptyState';
 export { Pagination } from './Pagination';
+export { LanguageSwitcher } from './LanguageSwitcher';

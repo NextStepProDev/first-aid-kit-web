@@ -1,0 +1,137 @@
+{
+  "title": "Leki",
+  "subtitle": "Zarządzaj lekami w swojej apteczce",
+  "buttons": {
+    "addDrug": "Dodaj lek",
+    "addFirstDrug": "Dodaj pierwszy lek",
+    "exportCsv": "Eksport CSV",
+    "exportPdf": "Eksport PDF",
+    "importCsv": "Import CSV",
+    "deleteAll": "Usuń wszystko",
+    "edit": "Edytuj",
+    "clearFilters": "Wyczyść filtry",
+    "sort": "Sortuj:"
+  },
+  "search": {
+    "label": "Szukaj",
+    "placeholder": "Wpisz nazwę leku lub zastosowanie..."
+  },
+  "filters": {
+    "form": {
+      "label": "Forma leku",
+      "allForms": "Wszystkie formy"
+    },
+    "status": {
+      "label": "Status ważności",
+      "all": "Wszystkie",
+      "active": "Aktywne",
+      "expired": "Po terminie",
+      "expiringSoon": "Wygasające wkrótce"
+    }
+  },
+  "table": {
+    "headers": {
+      "name": "Nazwa",
+      "form": "Forma",
+      "expirationDate": "Data ważności",
+      "status": "Status",
+      "actions": "Akcje"
+    }
+  },
+  "status": {
+    "expired": "Po terminie",
+    "expiringSoon": "Wygasa wkrótce",
+    "expiring": "Wygasa",
+    "active": "Aktywny"
+  },
+  "emptyState": {
+    "title": "Brak leków",
+    "description": "Nie znaleziono leków spełniających te kryteria."
+  },
+  "form": {
+    "addTitle": "Dodaj nowy lek",
+    "editTitle": "Edytuj lek",
+    "addSubtitle": "Wprowadź informacje o nowym leku",
+    "editSubtitle": "Zaktualizuj informacje o leku",
+    "fields": {
+      "name": {
+        "label": "Nazwa leku",
+        "placeholder": "np. Ibuprofen, Paracetamol"
+      },
+      "form": {
+        "label": "Forma leku",
+        "placeholder": "Wybierz formę"
+      },
+      "expirationYear": "Rok ważności",
+      "expirationMonth": "Miesiąc ważności",
+      "description": {
+        "label": "Opis",
+        "placeholder": "Opisz zastosowanie leku, dawkowanie, uwagi..."
+      }
+    },
+    "months": {
+      "1": "Styczeń",
+      "2": "Luty",
+      "3": "Marzec",
+      "4": "Kwiecień",
+      "5": "Maj",
+      "6": "Czerwiec",
+      "7": "Lipiec",
+      "8": "Sierpień",
+      "9": "Wrzesień",
+      "10": "Październik",
+      "11": "Listopad",
+      "12": "Grudzień"
+    },
+    "validation": {
+      "nameMinLength": "Nazwa musi mieć min. 2 znaki",
+      "nameMaxLength": "Nazwa może mieć max. 100 znaków",
+      "formRequired": "Wybierz formę leku",
+      "yearRequired": "Wybierz rok",
+      "monthRequired": "Wybierz miesiąc",
+      "descriptionMaxLength": "Opis może mieć max. 2000 znaków",
+      "dateInPast": "Data ważności nie może być w przeszłości"
+    },
+    "buttons": {
+      "cancel": "Anuluj",
+      "save": "Zapisz zmiany",
+      "add": "Dodaj lek"
+    }
+  },
+  "deleteDialog": {
+    "title": "Usuń lek",
+    "message": "Czy na pewno chcesz usunąć ten lek? Tej operacji nie można cofnąć.",
+    "confirm": "Usuń"
+  },
+  "deleteAllModal": {
+    "title": "Usuń wszystkie leki",
+    "description": "Ta operacja jest nieodwracalna. Wszystkie Twoje leki zostaną trwale usunięte.",
+    "confirmation": "Aby potwierdzić, wprowadź swoje hasło:",
+    "passwordPlaceholder": "Wprowadź hasło...",
+    "passwordRequired": "Wprowadź hasło",
+    "buttons": {
+      "cancel": "Anuluj",
+      "confirm": "Usuń wszystko"
+    }
+  },
+  "detailModal": {
+    "form": "Forma",
+    "description": "Opis",
+    "expirationDate": "Data ważności",
+    "status": "Status"
+  },
+  "messages": {
+    "deleteSuccess": "Lek został usunięty",
+    "deleteError": "Nie udało się usunąć leku",
+    "deleteAllSuccess": "Usunięto {{count}} leków",
+    "deleteAllError": "Nie udało się usunąć leków",
+    "invalidPassword": "Nieprawidłowe hasło",
+    "pdfGenerated": "PDF został wygenerowany",
+    "csvGenerated": "CSV został wygenerowany",
+    "exportError": "Błąd generowania pliku",
+    "addSuccess": "Lek został dodany",
+    "addError": "Nie udało się dodać leku",
+    "updateSuccess": "Lek został zaktualizowany",
+    "updateError": "Nie udało się zaktualizować leku"
+  }
+}

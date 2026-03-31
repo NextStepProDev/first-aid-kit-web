@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { drugsApi } from '../api/drugs';
 import { Card, Button, Input, Select, Textarea, Spinner } from '../components/ui';
@@ -13,18 +14,18 @@ import type { ApiError } from '../types';
 
 const currentYear = new Date().getFullYear();
 
-const drugSchema = z.object({
+const drugSchema = (t: (key: string) => string) => z.object({
   name: z
     .string()
-    .min(2, 'Nazwa musi mieć min. 2 znaki')
-    .max(100, 'Nazwa może mieć max. 100 znaków'),
-  form: z.string().min(1, 'Wybierz formę leku'),
-  expirationYear: z.string().min(1, 'Wybierz rok'),
-  expirationMonth: z.string().min(1, 'Wybierz miesiąc'),
+    .min(2, t('drugs:form.validation.nameMinLength'))
+    .max(100, t('drugs:form.validation.nameMaxLength')),
+  form: z.string().min(1, t('drugs:form.validation.formRequired')),
+  expirationYear: z.string().min(1, t('drugs:form.validation.yearRequired')),
+  expirationMonth: z.string().min(1, t('drugs:form.validation.monthRequired')),
   description: z
     .string()
     .trim()
-    .max(2000, 'Opis może mieć max. 2000 znaków'),
+    .max(2000, t('drugs:form.validation.descriptionMaxLength')),
 }).refine((data) => {
   const year = Number(data.expirationYear);
   const month = Number(data.expirationMonth);
@@ -33,13 +34,20 @@ const drugSchema = z.object({
   if (year === now.getFullYear()) return month >= (now.getMonth() + 1);
   return false;
 }, {
-  message: 'Data ważności nie może być w przeszłości',
+  message: t('drugs:form.validation.dateInPast'),
   path: ['expirationMonth'],
 });
 
-type DrugFormData = z.infer<typeof drugSchema>;
+type DrugFormData = {
+  name: string;
+  form: string;
+  expirationYear: string;
+  expirationMonth: string;
+  description: string;
+};
 
 export function DrugFormPage() {
+  const { t } = useTranslation(['drugs', 'common']);
   const { id } = useParams<{ id: string }>();
   const isEdit = !!id;
   const navigate = useNavigate();
@@ -62,7 +70,7 @@ export function DrugFormPage() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<DrugFormData>({
-    resolver: zodResolver(drugSchema),
+    resolver: zodResolver(drugSchema(t)),
     defaultValues: {
       name: '',
       form: '',
@@ -91,11 +99,11 @@ export function DrugFormPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['drugs'] });
       queryClient.invalidateQueries({ queryKey: ['drugStatistics'] });
-      toast.success('Lek został dodany');
+      toast.success(t('drugs:messages.addSuccess'));
       navigate('/drugs');
     },
     onError: (error: AxiosError<ApiError>) => {
-      const message = error.response?.data?.message || 'Nie udało się dodać leku';
+      const message = error.response?.data?.message || t('drugs:messages.addError');
       toast.error(message);
     },
   });
@@ -107,12 +115,12 @@ export function DrugFormPage() {
       queryClient.invalidateQueries({ queryKey: ['drugs'] });
       queryClient.invalidateQueries({ queryKey: ['drug', id] });
       queryClient.invalidateQueries({ queryKey: ['drugStatistics'] });
-      toast.success('Lek został zaktualizowany');
+      toast.success(t('drugs:messages.updateSuccess'));
       navigate('/drugs');
     },
     onError: (error: AxiosError<ApiError>) => {
       const message =
-        error.response?.data?.message || 'Nie udało się zaktualizować leku';
+        error.response?.data?.message || t('drugs:messages.updateError');
       toast.error(message);
     },
   });
@@ -139,18 +147,18 @@ export function DrugFormPage() {
   }));
 
   const monthOptions = [
-    { value: '1', label: 'Styczeń' },
-    { value: '2', label: 'Luty' },
-    { value: '3', label: 'Marzec' },
-    { value: '4', label: 'Kwiecień' },
-    { value: '5', label: 'Maj' },
-    { value: '6', label: 'Czerwiec' },
-    { value: '7', label: 'Lipiec' },
-    { value: '8', label: 'Sierpień' },
-    { value: '9', label: 'Wrzesień' },
-    { value: '10', label: 'Październik' },
-    { value: '11', label: 'Listopad' },
-    { value: '12', label: 'Grudzień' },
+    { value: '1', label: t('drugs:form.months.1') },
+    { value: '2', label: t('drugs:form.months.2') },
+    { value: '3', label: t('drugs:form.months.3') },
+    { value: '4', label: t('drugs:form.months.4') },
+    { value: '5', label: t('drugs:form.months.5') },
+    { value: '6', label: t('drugs:form.months.6') },
+    { value: '7', label: t('drugs:form.months.7') },
+    { value: '8', label: t('drugs:form.months.8') },
+    { value: '9', label: t('drugs:form.months.9') },
+    { value: '10', label: t('drugs:form.months.10') },
+    { value: '11', label: t('drugs:form.months.11') },
+    { value: '12', label: t('drugs:form.months.12') },
   ];
 
   if (isEdit && isLoadingDrug) {
@@ -170,12 +178,12 @@ export function DrugFormPage() {
         </Button>
         <div>
           <h1 className="text-2xl font-bold text-gray-100">
-            {isEdit ? 'Edytuj lek' : 'Dodaj nowy lek'}
+            {isEdit ? t('drugs:form.editTitle') : t('drugs:form.addTitle')}
           </h1>
           <p className="text-gray-400 mt-1">
             {isEdit
-              ? 'Zaktualizuj informacje o leku'
-              : 'Wprowadź informacje o nowym leku'}
+              ? t('drugs:form.editSubtitle')
+              : t('drugs:form.addSubtitle')}
           </p>
         </div>
       </div>
@@ -184,15 +192,15 @@ export function DrugFormPage() {
       <Card>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <Input
-            label="Nazwa leku"
-            placeholder="np. Ibuprofen, Paracetamol"
+            label={t('drugs:form.fields.name.label')}
+            placeholder={t('drugs:form.fields.name.placeholder')}
             error={errors.name?.message}
             {...register('name')}
           />
 
           <Select
-            label="Forma leku"
-            placeholder="Wybierz formę"
+            label={t('drugs:form.fields.form.label')}
+            placeholder={t('drugs:form.fields.form.placeholder')}
             options={forms || []}
             error={errors.form?.message}
             disabled={isLoadingForms}
@@ -201,13 +209,13 @@ export function DrugFormPage() {
 
           <div className="grid grid-cols-2 gap-4">
             <Select
-              label="Rok ważności"
+              label={t('drugs:form.fields.expirationYear')}
               options={yearOptions}
               error={errors.expirationYear?.message}
               {...register('expirationYear')}
             />
             <Select
-              label="Miesiąc ważności"
+              label={t('drugs:form.fields.expirationMonth')}
               options={monthOptions}
               error={errors.expirationMonth?.message}
               {...register('expirationMonth')}
@@ -215,8 +223,8 @@ export function DrugFormPage() {
           </div>
 
           <Textarea
-            label="Opis"
-            placeholder="Opisz zastosowanie leku, dawkowanie, uwagi..."
+            label={t('drugs:form.fields.description.label')}
+            placeholder={t('drugs:form.fields.description.placeholder')}
             rows={4}
             error={errors.description?.message}
             {...register('description')}
@@ -229,7 +237,7 @@ export function DrugFormPage() {
               className="flex-1"
               onClick={() => navigate(-1)}
             >
-              Anuluj
+              {t('drugs:form.buttons.cancel')}
             </Button>
             <Button
               type="submit"
@@ -241,7 +249,7 @@ export function DrugFormPage() {
               }
             >
               <Save className="w-4 h-4" />
-              {isEdit ? 'Zapisz zmiany' : 'Dodaj lek'}
+              {isEdit ? t('drugs:form.buttons.save') : t('drugs:form.buttons.add')}
             </Button>
           </div>
         </form>

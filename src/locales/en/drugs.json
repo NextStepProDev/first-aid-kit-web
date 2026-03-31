@@ -1,0 +1,137 @@
+{
+  "title": "Medications",
+  "subtitle": "Manage medications in your first aid kit",
+  "buttons": {
+    "addDrug": "Add Medication",
+    "addFirstDrug": "Add First Medication",
+    "exportCsv": "Export CSV",
+    "exportPdf": "Export PDF",
+    "importCsv": "Import CSV",
+    "deleteAll": "Delete All",
+    "edit": "Edit",
+    "clearFilters": "Clear Filters",
+    "sort": "Sort:"
+  },
+  "search": {
+    "label": "Search",
+    "placeholder": "Enter medication name or usage..."
+  },
+  "filters": {
+    "form": {
+      "label": "Medication Form",
+      "allForms": "All Forms"
+    },
+    "status": {
+      "label": "Expiration Status",
+      "all": "All",
+      "active": "Active",
+      "expired": "Expired",
+      "expiringSoon": "Expiring Soon"
+    }
+  },
+  "table": {
+    "headers": {
+      "name": "Name",
+      "form": "Form",
+      "expirationDate": "Expiration Date",
+      "status": "Status",
+      "actions": "Actions"
+    }
+  },
+  "status": {
+    "expired": "Expired",
+    "expiringSoon": "Expiring Soon",
+    "expiring": "Expiring",
+    "active": "Active"
+  },
+  "emptyState": {
+    "title": "No Medications",
+    "description": "No medications found matching these criteria."
+  },
+  "form": {
+    "addTitle": "Add New Medication",
+    "editTitle": "Edit Medication",
+    "addSubtitle": "Enter information about the new medication",
+    "editSubtitle": "Update medication information",
+    "fields": {
+      "name": {
+        "label": "Medication Name",
+        "placeholder": "e.g. Ibuprofen, Paracetamol"
+      },
+      "form": {
+        "label": "Medication Form",
+        "placeholder": "Select form"
+      },
+      "expirationYear": "Expiration Year",
+      "expirationMonth": "Expiration Month",
+      "description": {
+        "label": "Description",
+        "placeholder": "Describe usage, dosage, notes..."
+      }
+    },
+    "months": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
+    "validation": {
+      "nameMinLength": "Name must be at least 2 characters",
+      "nameMaxLength": "Name can be at most 100 characters",
+      "formRequired": "Select medication form",
+      "yearRequired": "Select year",
+      "monthRequired": "Select month",
+      "descriptionMaxLength": "Description can be at most 2000 characters",
+      "dateInPast": "Expiration date cannot be in the past"
+    },
+    "buttons": {
+      "cancel": "Cancel",
+      "save": "Save Changes",
+      "add": "Add Medication"
+    }
+  },
+  "deleteDialog": {
+    "title": "Delete Medication",
+    "message": "Are you sure you want to delete this medication? This action cannot be undone.",
+    "confirm": "Delete"
+  },
+  "deleteAllModal": {
+    "title": "Delete All Medications",
+    "description": "This operation is irreversible. All your medications will be permanently deleted.",
+    "confirmation": "To confirm, enter your password:",
+    "passwordPlaceholder": "Enter password...",
+    "passwordRequired": "Enter password",
+    "buttons": {
+      "cancel": "Cancel",
+      "confirm": "Delete All"
+    }
+  },
+  "detailModal": {
+    "form": "Form",
+    "description": "Description",
+    "expirationDate": "Expiration Date",
+    "status": "Status"
+  },
+  "messages": {
+    "deleteSuccess": "Medication deleted successfully",
+    "deleteError": "Failed to delete medication",
+    "deleteAllSuccess": "Deleted {{count}} medications",
+    "deleteAllError": "Failed to delete medications",
+    "invalidPassword": "Invalid password",
+    "pdfGenerated": "PDF generated successfully",
+    "csvGenerated": "CSV generated successfully",
+    "exportError": "Error generating file",
+    "addSuccess": "Medication added successfully",
+    "addError": "Failed to add medication",
+    "updateSuccess": "Medication updated successfully",
+    "updateError": "Failed to update medication"
+  }
+}

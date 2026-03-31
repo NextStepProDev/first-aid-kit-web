@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import { LanguageSwitcher } from '../ui';
 import {
   Menu,
   X,
@@ -15,6 +17,7 @@ interface NavbarProps {
 }
 
 export function Navbar({ isSidebarOpen, onToggleSidebar }: NavbarProps) {
+  const { t } = useTranslation('common');
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = React.useState(false);
@@ -52,9 +55,12 @@ export function Navbar({ isSidebarOpen, onToggleSidebar }: NavbarProps) {
           {isAdmin && (
             <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-warning-500/20 border border-warning-500/30">
               <Shield className="w-3.5 h-3.5 text-warning-400" />
-              <span className="text-xs font-medium text-warning-400">Admin</span>
+              <span className="text-xs font-medium text-warning-400">{t('nav.admin')}</span>
             </div>
           )}
+
+          {/* Language switcher */}
+          <LanguageSwitcher />
 
           <div className="relative">
             <button
@@ -82,7 +88,7 @@ export function Navbar({ isSidebarOpen, onToggleSidebar }: NavbarProps) {
                     {isAdmin && (
                       <div className="flex items-center gap-1.5 mt-2">
                         <Shield className="w-3.5 h-3.5 text-warning-400" />
-                        <span className="text-xs font-medium text-warning-400">Administrator</span>
+                        <span className="text-xs font-medium text-warning-400">{t('nav.admin')}</span>
                       </div>
                     )}
                   </div>
@@ -92,14 +98,14 @@ export function Navbar({ isSidebarOpen, onToggleSidebar }: NavbarProps) {
                     onClick={() => setIsUserMenuOpen(false)}
                   >
                     <User className="w-4 h-4" />
-                    Profil
+                    {t('nav.profile')}
                   </Link>
                   <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-2 px-4 py-2 text-sm text-danger-400 hover:bg-dark-600 transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
-                    Wyloguj
+                    {t('nav.logout')}
                   </button>
                 </div>
               </>

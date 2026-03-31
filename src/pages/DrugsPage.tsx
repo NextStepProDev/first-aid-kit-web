@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams as useRouterSearchParams, useLocation } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { drugsApi } from '../api/drugs';
 import {
   Card,
@@ -34,6 +35,7 @@ import toast from 'react-hot-toast';
 import type { Drug, FormOption } from '../types';
 
 export function DrugsPage() {
+  const { t } = useTranslation(['drugs', 'common']);
   const queryClient = useQueryClient();
   const [urlSearchParams] = useRouterSearchParams();
   const location = useLocation();
@@ -144,10 +146,10 @@ export function DrugsPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['drugs'] });
       queryClient.invalidateQueries({ queryKey: ['drugStatistics'] });
-      toast.success('Lek został usunięty');
+      toast.success(t('drugs:messages.deleteSuccess'));
       setDeleteId(null);
     },
-    onError: () => toast.error('Nie udało się usunąć leku'),
+    onError: () => toast.error(t('drugs:messages.deleteError')),
   });
 
   const deleteAllMutation = useMutation({
@@ -155,12 +157,12 @@ export function DrugsPage() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['drugs'] });
       queryClient.invalidateQueries({ queryKey: ['drugStatistics'] });
-      toast.success(`Usunięto ${data.deletedCount} leków`);
+      toast.success(t('drugs:messages.deleteAllSuccess', { count: data.deletedCount }));
       setShowDeleteAllModal(false);
     },
     onError: (error: any) => {
-      const message = error?.response?.data?.message || 'Nie udało się usunąć leków';
-      toast.error(message === 'Invalid password' ? 'Nieprawidłowe hasło' : message);
+      const message = error?.response?.data?.message || t('drugs:messages.deleteAllError');
+      toast.error(message === 'Invalid password' ? t('drugs:messages.invalidPassword') : message);
     },
   });
 
@@ -193,9 +195,9 @@ export function DrugsPage() {
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
     
-    toast.success('PDF został wygenerowany');
+    toast.success(t('drugs:messages.pdfGenerated'));
   } catch {
-    toast.error('Błąd generowania pliku');
+    toast.error(t('drugs:messages.exportError'));
   }
 };
 
@@ -228,21 +230,21 @@ export function DrugsPage() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
 
-      toast.success('CSV został wygenerowany');
+      toast.success(t('drugs:messages.csvGenerated'));
     } catch {
-      toast.error('Błąd generowania pliku');
+      toast.error(t('drugs:messages.exportError'));
     }
   };
 
   const statusOptions = [
-    { value: '', label: 'Wszystkie' },
-    { value: 'false', label: 'Aktywne' },
-    { value: 'true', label: 'Po terminie' },
-    { value: 'expiring-soon', label: 'Wygasające wkrótce' },
+    { value: '', label: t('drugs:filters.status.all') },
+    { value: 'false', label: t('drugs:filters.status.active') },
+    { value: 'true', label: t('drugs:filters.status.expired') },
+    { value: 'expiring-soon', label: t('drugs:filters.status.expiringSoon') },
   ];
 
   const formOptions: FormOption[] = [
-    { value: '', label: 'Wszystkie formy' },
+    { value: '', label: t('drugs:filters.form.allForms') },
     ...(forms || []),
   ];
 
@@ -256,15 +258,15 @@ export function DrugsPage() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-100">Leki</h1>
-          <p className="text-gray-400 mt-1">Zarządzaj lekami w swojej apteczce</p>
+          <h1 className="text-2xl font-bold text-gray-100">{t('drugs:title')}</h1>
+          <p className="text-gray-400 mt-1">{t('drugs:subtitle')}</p>
         </div>
         <div className="flex gap-3 flex-wrap">
-          <Button variant="secondary" onClick={handleExportCsv}><Upload className="w-4 h-4" /> Eksport CSV</Button>
-          <Button variant="secondary" onClick={handleExportPdf}><FileText className="w-4 h-4" /> Eksport PDF</Button>
-          <Button variant="secondary" onClick={() => setShowImportModal(true)}><Download className="w-4 h-4" /> Import CSV</Button>
-          <Link to="/drugs/new"><Button><PlusCircle className="w-4 h-4" /> Dodaj lek</Button></Link>
-          <Button variant="danger" onClick={() => setShowDeleteAllModal(true)}><Trash2 className="w-4 h-4" /> Usuń wszystko</Button>
+          <Button variant="secondary" onClick={handleExportCsv}><Upload className="w-4 h-4" /> {t('drugs:buttons.exportCsv')}</Button>
+          <Button variant="secondary" onClick={handleExportPdf}><FileText className="w-4 h-4" /> {t('drugs:buttons.exportPdf')}</Button>
+          <Button variant="secondary" onClick={() => setShowImportModal(true)}><Download className="w-4 h-4" /> {t('drugs:buttons.importCsv')}</Button>
+          <Link to="/drugs/new"><Button><PlusCircle className="w-4 h-4" /> {t('drugs:buttons.addDrug')}</Button></Link>
+          <Button variant="danger" onClick={() => setShowDeleteAllModal(true)}><Trash2 className="w-4 h-4" /> {t('drugs:buttons.deleteAll')}</Button>
         </div>
       </div>
 
@@ -272,8 +274,8 @@ export function DrugsPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
           <div className="md:col-span-5">
             <Input
-              label="Szukaj"
-              placeholder="Wpisz nazwę leku lub zastosowanie..."
+              label={t('drugs:search.label')}
+              placeholder={t('drugs:search.placeholder')}
               leftIcon={<Search className="w-4 h-4" />}
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
@@ -281,7 +283,7 @@ export function DrugsPage() {
           </div>
           <div className="md:col-span-3">
             <Select
-              label="Forma leku"
+              label={t('drugs:filters.form.label')}
               options={formOptions}
               value={searchParams.form}
               onChange={(e) => setSearchParams(prev => ({ ...prev, form: e.target.value, alertSentThisMonth: '', page: 0 }))}
@@ -289,14 +291,14 @@ export function DrugsPage() {
           </div>
           <div className="md:col-span-3">
             <Select
-              label="Status ważności"
+              label={t('drugs:filters.status.label')}
               options={statusOptions}
               value={searchParams.expired}
               onChange={(e) => setSearchParams(prev => ({ ...prev, expired: e.target.value, alertSentThisMonth: '', page: 0 }))}
             />
           </div>
           <div className="md:col-span-1 flex items-end pb-0.5">
-            <Button variant="ghost" size="sm" onClick={() => { setSearchParams({ page: 0, size: 15, name: '', form: '', expired: '', alertSentThisMonth: '', sortBy: 'drugName', sortDir: 'asc' }); setSearchInput(''); }} title="Wyczyść filtry">
+            <Button variant="ghost" size="sm" onClick={() => { setSearchParams({ page: 0, size: 15, name: '', form: '', expired: '', alertSentThisMonth: '', sortBy: 'drugName', sortDir: 'asc' }); setSearchInput(''); }} title={t('drugs:buttons.clearFilters')}>
               <Filter className="w-4 h-4" />
             </Button>
           </div>
@@ -309,9 +311,9 @@ export function DrugsPage() {
         ) : drugs.length === 0 ? (
           <EmptyState
             icon={<Pill className="w-12 h-12" />}
-            title="Brak leków"
-            description="Nie znaleziono leków spełniających te kryteria."
-            action={<Link to="/drugs/new"><Button><PlusCircle className="w-4 h-4" /> Dodaj pierwszy lek</Button></Link>}
+            title={t('drugs:emptyState.title')}
+            description={t('drugs:emptyState.description')}
+            action={<Link to="/drugs/new"><Button><PlusCircle className="w-4 h-4" /> {t('drugs:buttons.addFirstDrug')}</Button></Link>}
           />
         ) : (
           <>
@@ -320,26 +322,26 @@ export function DrugsPage() {
                 <thead>
                   <tr className="border-b border-dark-600">
                     {/* 4. KLIKALNE NAGŁÓWKI Z IKONAMI */}
-                    <th 
+                    <th
                       className="text-left py-3 px-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-primary-400 transition-colors"
                       onClick={() => handleSort('drugName')}
                     >
-                      <div className="flex items-center gap-1">Nazwa <SortIcon field="drugName" /></div>
+                      <div className="flex items-center gap-1">{t('drugs:table.headers.name')} <SortIcon field="drugName" /></div>
                     </th>
-                    <th 
+                    <th
                       className="text-left py-3 px-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-primary-400 transition-colors"
                       onClick={() => handleSort('drugForm.name')}
                     >
-                      <div className="flex items-center gap-1">Forma <SortIcon field="drugForm.name" /></div>
+                      <div className="flex items-center gap-1">{t('drugs:table.headers.form')} <SortIcon field="drugForm.name" /></div>
                     </th>
-                    <th 
+                    <th
                       className="text-left py-3 px-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-primary-400 transition-colors"
                       onClick={() => handleSort('expirationDate')}
                     >
-                      <div className="flex items-center gap-1">Data ważności <SortIcon field="expirationDate" /></div>
+                      <div className="flex items-center gap-1">{t('drugs:table.headers.expirationDate')} <SortIcon field="expirationDate" /></div>
                     </th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Status</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-400">Akcje</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">{t('drugs:table.headers.status')}</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-400">{t('drugs:table.headers.actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -360,7 +362,7 @@ export function DrugsPage() {
                         <td className="py-4 px-4 text-gray-300">{formatDate(drug.expirationDate)}</td>
                         <td className="py-4 px-4">
                           <Badge variant={status === 'expired' ? 'danger' : status === 'expiring-soon' ? 'warning' : 'success'}>
-                            {status === 'expired' ? 'Po terminie' : status === 'expiring-soon' ? 'Wygasa wkrótce' : 'Aktywny'}
+                            {status === 'expired' ? t('drugs:status.expired') : status === 'expiring-soon' ? t('drugs:status.expiringSoon') : t('drugs:status.active')}
                           </Badge>
                         </td>
                         <td className="py-4 px-4 text-right">
@@ -380,11 +382,11 @@ export function DrugsPage() {
             <div className="md:hidden space-y-3">
               {/* Sortowanie mobilne */}
               <div className="flex items-center gap-2 pb-1">
-                <span className="text-xs text-gray-500 shrink-0">Sortuj:</span>
+                <span className="text-xs text-gray-500 shrink-0">{t('drugs:buttons.sort')}</span>
                 {[
-                  { field: 'drugName', label: 'Nazwa' },
-                  { field: 'drugForm.name', label: 'Forma' },
-                  { field: 'expirationDate', label: 'Data' },
+                  { field: 'drugName', label: t('drugs:table.headers.name') },
+                  { field: 'drugForm.name', label: t('drugs:table.headers.form') },
+                  { field: 'expirationDate', label: t('drugs:table.headers.expirationDate').split(' ')[0] },
                 ].map(({ field, label }) => (
                   <button
                     key={field}
@@ -422,12 +424,12 @@ export function DrugsPage() {
                         </div>
                       </div>
                       <Badge variant={status === 'expired' ? 'danger' : status === 'expiring-soon' ? 'warning' : 'success'}>
-                        {status === 'expired' ? 'Po terminie' : status === 'expiring-soon' ? 'Wygasa' : 'Aktywny'}
+                        {status === 'expired' ? t('drugs:status.expired') : status === 'expiring-soon' ? t('drugs:status.expiring') : t('drugs:status.active')}
                       </Badge>
                     </div>
                     <div className="flex items-center gap-2"><Badge>{drug.drugForm}</Badge></div>
                     <div className="flex items-center justify-end gap-2 pt-2 border-t border-dark-600" onClick={(e) => e.stopPropagation()}>
-                      <Link to={`/drugs/${drug.drugId}/edit`}><Button variant="secondary" size="sm"><Pencil className="w-4 h-4" /> Edytuj</Button></Link>
+                      <Link to={`/drugs/${drug.drugId}/edit`}><Button variant="secondary" size="sm"><Pencil className="w-4 h-4" /> {t('drugs:buttons.edit')}</Button></Link>
                       <Button variant="danger" size="sm" onClick={() => setDeleteId(drug.drugId)}><Trash2 className="w-4 h-4" /></Button>
                     </div>
                   </div>
@@ -452,9 +454,9 @@ export function DrugsPage() {
         isOpen={deleteId !== null}
         onClose={() => setDeleteId(null)}
         onConfirm={() => deleteId && deleteMutation.mutate(deleteId)}
-        title="Usuń lek"
-        message="Czy na pewno chcesz usunąć ten lek? Tej operacji nie można cofnąć."
-        confirmText="Usuń"
+        title={t('drugs:deleteDialog.title')}
+        message={t('drugs:deleteDialog.message')}
+        confirmText={t('drugs:deleteDialog.confirm')}
         isLoading={deleteMutation.isPending}
       />
 
@@ -481,28 +483,28 @@ export function DrugsPage() {
           return (
             <div className="space-y-4">
               <div>
-                <p className="text-xs text-gray-500 mb-1">Forma</p>
+                <p className="text-xs text-gray-500 mb-1">{t('drugs:detailModal.form')}</p>
                 <Badge>{detailDrug.drugForm}</Badge>
               </div>
               {detailDrug.drugDescription && (
                 <div>
-                  <p className="text-xs text-gray-500 mb-1">Opis</p>
+                  <p className="text-xs text-gray-500 mb-1">{t('drugs:detailModal.description')}</p>
                   <p className="text-sm text-gray-300">{detailDrug.drugDescription}</p>
                 </div>
               )}
               <div>
-                <p className="text-xs text-gray-500 mb-1">Data ważności</p>
+                <p className="text-xs text-gray-500 mb-1">{t('drugs:detailModal.expirationDate')}</p>
                 <p className="text-sm text-gray-300">{formatDate(detailDrug.expirationDate)}</p>
               </div>
               <div>
-                <p className="text-xs text-gray-500 mb-1">Status</p>
+                <p className="text-xs text-gray-500 mb-1">{t('drugs:detailModal.status')}</p>
                 <Badge variant={status === 'expired' ? 'danger' : status === 'expiring-soon' ? 'warning' : 'success'}>
-                  {status === 'expired' ? 'Po terminie' : status === 'expiring-soon' ? 'Wygasa wkrótce' : 'Aktywny'}
+                  {status === 'expired' ? t('drugs:status.expired') : status === 'expiring-soon' ? t('drugs:status.expiringSoon') : t('drugs:status.active')}
                 </Badge>
               </div>
               <div className="flex gap-2 pt-3 border-t border-dark-600">
                 <Link to={`/drugs/${detailDrug.drugId}/edit`} className="flex-1">
-                  <Button variant="secondary" className="w-full"><Pencil className="w-4 h-4" /> Edytuj</Button>
+                  <Button variant="secondary" className="w-full"><Pencil className="w-4 h-4" /> {t('drugs:buttons.edit')}</Button>
                 </Link>
                 <Button
                   variant="danger"

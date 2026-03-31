@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
@@ -11,14 +12,18 @@ import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
 
-const loginSchema = z.object({
-  email: z.string().email('Nieprawidłowy adres email'),
-  password: z.string().min(1, 'Hasło jest wymagane'),
+const loginSchema = (t: (key: string) => string) => z.object({
+  email: z.string().email(t('common:validation.invalidEmail')),
+  password: z.string().min(1, t('common:validation.required')),
 });
 
-type LoginFormData = z.infer<typeof loginSchema>;
+type LoginFormData = {
+  email: string;
+  password: string;
+};
 
 export function LoginPage() {
+  const { t } = useTranslation(['auth', 'common']);
   const { login } = useAuth();
   const navigate = useNavigate();
   const [inactiveEmail, setInactiveEmail] = useState<string | null>(null);
@@ -29,19 +34,19 @@ export function LoginPage() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema(t)),
   });
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       setInactiveEmail(null);
       await login(data);
-      toast.success('Zalogowano pomyślnie!');
+      toast.success(t('common:messages.saveSuccess'));
       navigate('/');
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       const status = axiosError.response?.status;
-      const message = axiosError.response?.data?.message || 'Nieprawidłowy email lub hasło';
+      const message = axiosError.response?.data?.message || t('auth:errors.invalidCredentials');
 
       if (status === 403 && message.includes('nieaktywne')) {
         setInactiveEmail(data.email);
@@ -56,11 +61,11 @@ export function LoginPage() {
     setIsResending(true);
     try {
       await authApi.resendVerification(inactiveEmail);
-      toast.success('Nowy link aktywacyjny został wysłany.');
+      toast.success(t('auth:login.verificationSent'));
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       const message =
-        axiosError.response?.data?.message || 'Nie udało się wysłać emaila';
+        axiosError.response?.data?.message || t('auth:errors.networkError');
       toast.error(message);
     } finally {
       setIsResending(false);
@@ -69,14 +74,14 @@ export function LoginPage() {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-gray-100 mb-2">Zaloguj się</h2>
+      <h2 className="text-2xl font-bold text-gray-100 mb-2">{t('auth:login.title')}</h2>
       <p className="text-gray-400 mb-8">
-        Witaj! Wprowadź dane logowania z łaski swojej.
+        {t('auth:login.subtitle')}
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <Input
-          label="Email"
+          label={t('auth:login.email')}
           type="email"
           placeholder="twoj@email.pl"
           leftIcon={<Mail className="w-4 h-4" />}
@@ -85,7 +90,7 @@ export function LoginPage() {
         />
 
         <Input
-          label="Hasło"
+          label={t('auth:login.password')}
           type="password"
           placeholder="••••••••"
           leftIcon={<Lock className="w-4 h-4" />}
@@ -93,20 +98,12 @@ export function LoginPage() {
           {...register('password')}
         />
 
-        <div className="flex items-center justify-between">
-          <label className="flex items-center gap-2 text-sm text-gray-400">
-            <input
-              type="checkbox"
-              className="w-4 h-4 rounded border-dark-500 bg-dark-700 text-primary-500 focus:ring-primary-500 focus:ring-offset-dark-900"
-            />
-            Zapamiętaj mnie
-          </label>
-
+        <div className="flex items-center justify-end">
           <Link
             to="/forgot-password"
             className="text-sm text-primary-400 hover:text-primary-300 transition-colors"
           >
-            Zapomniałeś hasła?
+            {t('auth:login.forgotPassword')}
           </Link>
         </div>
 
@@ -116,14 +113,14 @@ export function LoginPage() {
           size="lg"
           isLoading={isSubmitting}
         >
-          Zaloguj się
+          {t('auth:login.loginButton')}
         </Button>
       </form>
 
       {inactiveEmail && (
         <div className="mt-4 p-4 rounded-lg bg-dark-700 border border-dark-500">
           <p className="text-sm text-gray-400 mb-3">
-            Twoje konto nie jest jeszcze aktywowane. Sprawdź skrzynkę email lub wyślij nowy link aktywacyjny.
+            {t('auth:login.accountInactive')}
           </p>
           <Button
             variant="secondary"
@@ -133,18 +130,18 @@ export function LoginPage() {
             isLoading={isResending}
           >
             <RefreshCw className="w-4 h-4" />
-            Wyślij ponownie link aktywacyjny
+            {t('auth:login.resendVerification')}
           </Button>
         </div>
       )}
 
       <p className="mt-6 text-center text-gray-400">
-        Nie masz konta?{' '}
+        {t('auth:login.noAccount')}{' '}
         <Link
           to="/register"
           className="text-primary-400 hover:text-primary-300 font-medium transition-colors"
         >
-          Zarejestruj się
+          {t('auth:login.registerLink')}
         </Link>
       </p>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { cn } from '../../utils/cn';
 import { useAuth } from '../../contexts/AuthContext';
 import {
@@ -19,20 +20,21 @@ interface SidebarProps {
 }
 
 export function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { t } = useTranslation('common');
   const { user } = useAuth();
   const isAdmin = user?.roles?.includes('ADMIN');
 
   const navItems = [
-    { to: '/', icon: Home, label: 'Dashboard', end: true },
-    { to: '/drugs', icon: Pill, label: 'Leki', end: true },
-    { to: '/drugs/new', icon: PlusCircle, label: 'Dodaj lek', end: true },
-    { to: '/profile', icon: Settings, label: 'Ustawienia', end: true },
-    { to: '/contact', icon: Mail, label: 'Kontakt', end: true },
-    { to: '/o-nas', icon: Info, label: 'O nas', end: true },
+    { to: '/', icon: Home, label: t('nav.dashboard'), end: true },
+    { to: '/drugs', icon: Pill, label: t('nav.drugs'), end: true },
+    { to: '/drugs/new', icon: PlusCircle, label: t('nav.addDrug'), end: true },
+    { to: '/profile', icon: Settings, label: t('nav.profile'), end: true },
+    { to: '/contact', icon: Mail, label: t('nav.contact'), end: true },
+    { to: '/o-nas', icon: Info, label: t('nav.about'), end: true },
   ];
 
   const adminItems = [
-    { to: '/admin/users', icon: Users, label: 'Użytkownicy', end: true },
+    { to: '/admin/users', icon: Users, label: t('nav.users'), end: true },
   ];
 
   return (
@@ -81,7 +83,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               <div className="pt-4 pb-2">
                 <div className="flex items-center gap-2 px-4 text-xs font-semibold text-warning-400 uppercase tracking-wider">
                   <Shield className="w-3.5 h-3.5" />
-                  Admin
+                  {t('nav.admin')}
                 </div>
               </div>
               {adminItems.map((item) => (
@@ -110,9 +112,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* Tip */}
         <div className="absolute bottom-4 left-4 right-4">
           <div className="p-4 bg-dark-700 rounded-lg border border-dark-600">
-            <p className="text-xs text-gray-500 mb-1">Tip</p>
+            <p className="text-xs text-gray-500 mb-1">{t('sidebar.tip')}</p>
             <p className="text-sm text-gray-300">
-              Dodaj leki do swojej apteczki, aby otrzymywać powiadomienia o ich wygasaniu.
+              {t('sidebar.tipMessage')}
             </p>
           </div>
         </div>
