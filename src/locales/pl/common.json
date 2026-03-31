@@ -19,6 +19,15 @@
     "tip": "Tip",
     "tipMessage": "Dodaj leki do swojej apteczki, aby otrzymywać powiadomienia o ich wygasaniu."
   },
+  "authLayout": {
+    "title": "Zarządzaj swoją apteczką domową",
+    "subtitle": "Monitoruj daty ważności leków, otrzymuj przypomnienia i miej pełną kontrolę nad swoją domową apteczką.",
+    "features": {
+      "security": "Bezpieczeństwo",
+      "reminders": "Przypomnienia",
+      "statistics": "Statystyki"
+    }
+  },
   "buttons": {
     "add": "Dodaj",
     "edit": "Edytuj",

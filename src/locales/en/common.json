@@ -19,6 +19,15 @@
     "tip": "Tip",
     "tipMessage": "Add medications to your first aid kit to receive expiration notifications."
   },
+  "authLayout": {
+    "title": "Manage Your Home First Aid Kit",
+    "subtitle": "Monitor medication expiration dates, receive reminders, and have full control over your home first aid kit.",
+    "features": {
+      "security": "Security",
+      "reminders": "Reminders",
+      "statistics": "Statistics"
+    }
+  },
   "buttons": {
     "add": "Add",
     "edit": "Edit",

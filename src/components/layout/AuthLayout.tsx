@@ -1,9 +1,13 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from '../ui';
 
 export function AuthLayout() {
+  const { t } = useTranslation('common');
+
   return (
-    <div className="min-h-screen bg-dark-900 flex">
+    <div className="min-h-screen bg-dark-900 flex relative">
       {/* Left side - branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-600 to-primary-700 p-12 flex-col justify-between">
         <div className="flex items-center gap-3">
@@ -13,20 +17,25 @@ export function AuthLayout() {
 
         <div>
           <h1 className="text-4xl font-bold text-white mb-4">
-            Zarządzaj swoją apteczką domową
+            {t('authLayout.title')}
           </h1>
           <p className="text-lg text-white/80">
-            Monitoruj daty ważności leków, otrzymuj przypomnienia i miej pełną kontrolę nad swoją domową apteczką.
+            {t('authLayout.subtitle')}
           </p>
         </div>
 
         <div className="flex items-center gap-4 text-white/60 text-sm">
-          <span>Bezpieczeństwo</span>
+          <span>{t('authLayout.features.security')}</span>
           <span>•</span>
-          <span>Przypomnienia</span>
+          <span>{t('authLayout.features.reminders')}</span>
           <span>•</span>
-          <span>Statystyki</span>
+          <span>{t('authLayout.features.statistics')}</span>
         </div>
+      </div>
+
+      {/* Language switcher - absolute positioned */}
+      <div className="absolute top-4 right-4 z-10">
+        <LanguageSwitcher />
       </div>
 
       {/* Right side - form */}
