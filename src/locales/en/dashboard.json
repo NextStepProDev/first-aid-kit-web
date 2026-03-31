@@ -1,4 +1,25 @@
 {
   "title": "Dashboard",
-  "subtitle": "Overview of your first aid kit"
+  "subtitle": "Overview of your home first aid kit",
+  "addDrug": "Add Medication",
+  "stats": {
+    "allDrugs": "All Medications",
+    "active": "Active",
+    "expired": "Expired",
+    "alertsSent": "Alerts Sent"
+  },
+  "recentDrugs": {
+    "title": "Recently Added",
+    "viewAll": "View All",
+    "empty": "No medications in your kit"
+  },
+  "drugsByForm": {
+    "title": "Medications by Form",
+    "empty": "No data to display"
+  },
+  "status": {
+    "expired": "Expired",
+    "expiring": "Expiring",
+    "active": "Active"
+  }
 }

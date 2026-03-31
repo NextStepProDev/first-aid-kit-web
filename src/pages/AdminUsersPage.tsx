@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -24,26 +25,29 @@ import {
   Clock,
   AlertTriangle,
   Send,
-  Download,
   Upload,
 } from 'lucide-react';
 import { formatDate } from '../utils/formatDate';
 import toast from 'react-hot-toast';
 
-const broadcastSchema = z.object({
+const broadcastSchema = (t: (key: string) => string) => z.object({
   subject: z
     .string()
-    .min(1, 'Temat jest wymagany')
-    .max(200, 'Temat może mieć max. 200 znaków'),
+    .min(1, t('admin:validation.subjectRequired'))
+    .max(200, t('admin:validation.subjectMaxLength')),
   message: z
     .string()
-    .min(1, 'Wiadomość jest wymagana')
-    .max(10000, 'Wiadomość może mieć max. 10000 znaków'),
+    .min(1, t('admin:validation.messageRequired'))
+    .max(10000, t('admin:validation.messageMaxLength')),
 });
 
-type BroadcastFormData = z.infer<typeof broadcastSchema>;
+type BroadcastFormData = {
+  subject: string;
+  message: string;
+};
 
 export function AdminUsersPage() {
+  const { t } = useTranslation(['admin', 'common']);
   const { user: currentUser } = useAuth();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(0);
@@ -58,7 +62,7 @@ export function AdminUsersPage() {
     reset: resetBroadcast,
     formState: { errors: broadcastErrors, isSubmitting: isSendingBroadcast },
   } = useForm<BroadcastFormData>({
-    resolver: zodResolver(broadcastSchema),
+    resolver: zodResolver(broadcastSchema(t)),
   });
 
   const { data, isLoading } = useQuery({
@@ -71,37 +75,37 @@ export function AdminUsersPage() {
       adminApi.deleteUser(userId, password),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['admin', 'users'] });
-      toast.success('Użytkownik został usunięty');
+      toast.success(t('admin:messages.userDeleted'));
       setDeleteModal(null);
       setDeletePassword('');
     },
     onError: () => {
-      toast.error('Nie udało się usunąć użytkownika. Sprawdź hasło.');
+      toast.error(t('admin:messages.userDeleteFailed'));
     },
   });
 
   const broadcastMutation = useMutation({
     mutationFn: (data: BroadcastFormData) => adminApi.broadcastEmail(data),
     onSuccess: (response) => {
-      toast.success(response.message);
+      toast.success(response.message || t('admin:messages.broadcastSent'));
       setShowBroadcastModal(false);
       resetBroadcast();
     },
     onError: () => {
-      toast.error('Nie udało się wysłać wiadomości');
+      toast.error(t('admin:messages.broadcastFailed'));
     },
   });
 
   const singleEmailMutation = useMutation({
-    mutationFn: ({ userId, data }: { userId: number; data: BroadcastFormData }) => 
+    mutationFn: ({ userId, data }: { userId: number; data: BroadcastFormData }) =>
       adminApi.sendSingleEmail(userId, data),
     onSuccess: () => {
-      toast.success('Wiadomość została wysłana');
+      toast.success(t('admin:messages.messageSent'));
       setSingleEmailUser(null);
       resetBroadcast();
     },
     onError: () => {
-      toast.error('Nie udało się wysłać wiadomości');
+      toast.error(t('admin:messages.messageFailed'));
     },
   });
 
@@ -126,9 +130,9 @@ export function AdminUsersPage() {
       a.click();
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
-      toast.success('Plik CSV został pobrany');
+      toast.success(t('admin:messages.csvDownloaded'));
     } catch (error) {
-      toast.error('Nie udało się pobrać pliku CSV');
+      toast.error(t('admin:messages.csvDownloadFailed'));
     }
   };
 
@@ -139,21 +143,21 @@ export function AdminUsersPage() {
         <div>
           <div className="flex items-center gap-2 text-warning-400 mb-2">
             <Shield className="w-5 h-5" />
-            <span className="text-sm font-medium">Panel Administratora</span>
+            <span className="text-sm font-medium">{t('admin:header.badge')}</span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-100">Użytkownicy</h1>
+          <h1 className="text-2xl font-bold text-gray-100">{t('admin:header.title')}</h1>
           <p className="text-gray-400 mt-1">
-            Zarządzaj kontami użytkowników w systemie
+            {t('admin:header.subtitle')}
           </p>
         </div>
         <div className="flex gap-3">
           <Button variant="secondary" onClick={handleExportCsv}>
             <Upload className="w-4 h-4" />
-            Eksport CSV
+            {t('admin:buttons.exportCsv')}
           </Button>
           <Button onClick={() => setShowBroadcastModal(true)}>
             <Send className="w-4 h-4" />
-            Wyślij do wszystkich
+            {t('admin:buttons.sendToAll')}
           </Button>
         </div>
       </div>
@@ -165,7 +169,7 @@ export function AdminUsersPage() {
             <Users className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-sm text-gray-400">Łączna liczba użytkowników</p>
+            <p className="text-sm text-gray-400">{t('admin:userCount.label')}</p>
             <p className="text-2xl font-bold text-gray-100">{data.totalElements}</p>
           </div>
         </Card>
@@ -183,11 +187,11 @@ export function AdminUsersPage() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-dark-600">
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Użytkownik</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Role</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Data rejestracji</th>
-                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">Ostatnie logowanie</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-400">Akcje</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">{t('admin:table.headers.user')}</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">{t('admin:table.headers.role')}</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">{t('admin:table.headers.registrationDate')}</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">{t('admin:table.headers.lastLogin')}</th>
+                    <th className="text-right py-3 px-4 text-sm font-medium text-gray-400">{t('admin:table.headers.actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -205,7 +209,7 @@ export function AdminUsersPage() {
                             <div>
                               <div className="flex items-center gap-2">
                                 <p className="font-medium text-gray-200">{user.name}</p>
-                                {isCurrentUser && <Badge variant="info">Ty</Badge>}
+                                {isCurrentUser && <Badge variant="info">{t('admin:table.badges.you')}</Badge>}
                               </div>
                               <p className="text-sm text-gray-400">@{user.username}</p>
                               <p className="text-xs text-gray-500 flex items-center gap-1">
@@ -232,7 +236,7 @@ export function AdminUsersPage() {
                         <td className="py-4 px-4 text-gray-300 text-sm">
                           <div className="flex items-center gap-1.5">
                             <Clock className="w-4 h-4 text-gray-500" />
-                            {user.lastLogin ? formatDate(user.lastLogin) : 'Nigdy'}
+                            {user.lastLogin ? formatDate(user.lastLogin) : t('admin:table.lastLogin.never')}
                           </div>
                         </td>
                         <td className="py-4 px-4">
@@ -244,7 +248,7 @@ export function AdminUsersPage() {
                                   size="sm"
                                   onClick={() => setSingleEmailUser(user)}
                                   className="text-primary-400 hover:text-primary-300"
-                                  title="Wyślij wiadomość"
+                                  title={t('admin:buttons.sendMessage')}
                                 >
                                   <Mail className="w-4 h-4" />
                                 </Button>
@@ -254,14 +258,14 @@ export function AdminUsersPage() {
                                     size="sm"
                                     onClick={() => setDeleteModal(user)}
                                     className="text-danger-400 hover:text-danger-300"
-                                    title="Usuń użytkownika"
+                                    title={t('admin:buttons.deleteUser')}
                                   >
                                     <Trash2 className="w-4 h-4" />
                                   </Button>
                                 )}
                               </>
                             )}
-                            {isAdmin && !isCurrentUser && <span className="text-xs text-gray-500">Chroniony</span>}
+                            {isAdmin && !isCurrentUser && <span className="text-xs text-gray-500">{t('admin:table.badges.protected')}</span>}
                             {isCurrentUser && <span className="text-xs text-gray-500">-</span>}
                           </div>
                         </td>
@@ -292,40 +296,40 @@ export function AdminUsersPage() {
           setDeleteModal(null);
           setDeletePassword('');
         }}
-        title="Usuń użytkownika"
+        title={t('admin:deleteModal.title')}
         size="sm"
       >
-        <form 
+        <form
           onSubmit={(e) => {
             e.preventDefault();
             handleDelete();
-          }} 
+          }}
           className="space-y-4"
         >
           <div className="flex items-center gap-3 p-3 bg-danger-500/10 border border-danger-500/30 rounded-lg">
             <AlertTriangle className="w-5 h-5 text-danger-400 flex-shrink-0" />
             <p className="text-sm text-danger-400">
-              Ta operacja jest nieodwracalna. Dane zostaną usunięte.
+              {t('admin:deleteModal.warning')}
             </p>
           </div>
           <div className="p-3 bg-dark-700 rounded-lg">
-            <p className="text-sm text-gray-400">Użytkownik:</p>
+            <p className="text-sm text-gray-400">{t('admin:deleteModal.userLabel')}</p>
             <p className="font-medium text-gray-200">{deleteModal?.name}</p>
           </div>
           <Input
-            label="Hasło administratora"
+            label={t('admin:deleteModal.passwordLabel')}
             type="password"
-            placeholder="Wprowadź swoje hasło"
+            placeholder={t('admin:deleteModal.passwordPlaceholder')}
             value={deletePassword}
             onChange={(e) => setDeletePassword(e.target.value)}
             autoFocus
           />
           <div className="flex gap-3">
             <Button type="button" variant="secondary" className="flex-1" onClick={() => setDeleteModal(null)}>
-              Anuluj
+              {t('admin:buttons.cancel')}
             </Button>
             <Button type="submit" variant="danger" className="flex-1" isLoading={deleteMutation.isPending} disabled={!deletePassword}>
-              Usuń
+              {t('admin:buttons.delete')}
             </Button>
           </div>
         </form>
@@ -338,15 +342,15 @@ export function AdminUsersPage() {
           setShowBroadcastModal(false);
           resetBroadcast();
         }}
-        title="Wyślij do wszystkich"
+        title={t('admin:broadcastModal.title')}
         size="md"
       >
         <form onSubmit={handleSubmitBroadcast(onSendBroadcast)} className="space-y-4">
-          <Input label="Temat" placeholder="Temat..." error={broadcastErrors.subject?.message} {...registerBroadcast('subject')} />
-          <Textarea label="Wiadomość" placeholder="Treść..." rows={6} error={broadcastErrors.message?.message} {...registerBroadcast('message')} />
+          <Input label={t('admin:broadcastModal.subjectLabel')} placeholder={t('admin:broadcastModal.subjectPlaceholder')} error={broadcastErrors.subject?.message} {...registerBroadcast('subject')} />
+          <Textarea label={t('admin:broadcastModal.messageLabel')} placeholder={t('admin:broadcastModal.messagePlaceholder')} rows={6} error={broadcastErrors.message?.message} {...registerBroadcast('message')} />
           <div className="flex gap-3">
-            <Button type="button" variant="secondary" className="flex-1" onClick={() => setShowBroadcastModal(false)}>Anuluj</Button>
-            <Button type="submit" className="flex-1" isLoading={isSendingBroadcast}><Send className="w-4 h-4" /> Wyślij</Button>
+            <Button type="button" variant="secondary" className="flex-1" onClick={() => setShowBroadcastModal(false)}>{t('admin:buttons.cancel')}</Button>
+            <Button type="submit" className="flex-1" isLoading={isSendingBroadcast}><Send className="w-4 h-4" /> {t('admin:buttons.send')}</Button>
           </div>
         </form>
       </Modal>
@@ -358,25 +362,25 @@ export function AdminUsersPage() {
           setSingleEmailUser(null);
           resetBroadcast();
         }}
-        title={`Wiadomość do: ${singleEmailUser?.name}`}
+        title={`${t('admin:singleEmailModal.title')} ${singleEmailUser?.name}`}
         size="md"
       >
-        <form 
+        <form
           onSubmit={handleSubmitBroadcast((data) => {
             if (singleEmailUser) {
               singleEmailMutation.mutate({ userId: singleEmailUser.userId, data });
             }
-          })} 
+          })}
           className="space-y-4"
         >
           <div className="p-3 bg-primary-500/10 border border-primary-500/30 rounded-lg text-sm text-primary-400">
-            Adresat: <strong>{singleEmailUser?.email}</strong>
+            {t('admin:singleEmailModal.recipientLabel')} <strong>{singleEmailUser?.email}</strong>
           </div>
-          <Input label="Temat" placeholder="Temat wiadomości..." error={broadcastErrors.subject?.message} {...registerBroadcast('subject')} />
-          <Textarea label="Wiadomość" placeholder="Treść wiadomości..." rows={6} error={broadcastErrors.message?.message} {...registerBroadcast('message')} />
+          <Input label={t('admin:singleEmailModal.subjectLabel')} placeholder={t('admin:singleEmailModal.subjectPlaceholder')} error={broadcastErrors.subject?.message} {...registerBroadcast('subject')} />
+          <Textarea label={t('admin:singleEmailModal.messageLabel')} placeholder={t('admin:singleEmailModal.messagePlaceholder')} rows={6} error={broadcastErrors.message?.message} {...registerBroadcast('message')} />
           <div className="flex gap-3">
-            <Button type="button" variant="secondary" className="flex-1" onClick={() => setSingleEmailUser(null)}>Anuluj</Button>
-            <Button type="submit" className="flex-1" isLoading={singleEmailMutation.isPending}><Send className="w-4 h-4" /> Wyślij</Button>
+            <Button type="button" variant="secondary" className="flex-1" onClick={() => setSingleEmailUser(null)}>{t('admin:buttons.cancel')}</Button>
+            <Button type="submit" className="flex-1" isLoading={singleEmailMutation.isPending}><Send className="w-4 h-4" /> {t('admin:buttons.send')}</Button>
           </div>
         </form>
       </Modal>

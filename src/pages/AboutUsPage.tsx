@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card } from '../components/ui';
 import { Star } from 'lucide-react';
 
@@ -172,28 +173,27 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 }
 
 export function AboutUsPage() {
+  const { t } = useTranslation('about');
+
   return (
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-100">O nas</h1>
+        <h1 className="text-2xl font-bold text-gray-100">{t('title')}</h1>
         <p className="text-gray-400 mt-1">
-          Poznaj zespół stojący za najlepszą aplikacją do zarządzania apteczką na świecie.
+          {t('subtitle')}
         </p>
       </div>
 
       {/* Intro Card */}
-      <Card title="Kim jesteśmy?">
+      <Card title={t('intro.title')}>
         <div className="space-y-4">
           <p className="text-gray-300 leading-relaxed">
-            Jesteśmy startupem, który wierzy, że Twoja domowa apteczka zasługuje
-            na system zarządzania klasy enterprise. Pomagamy kontrolować zapasy
-            leków, pilnować terminów ważności i podejmować lepsze decyzje
-            zdrowotne — prosto, wygodnie i bez marnowania pieniędzy.
+            {t('intro.paragraph1')}
           </p>
 
           <p className="text-gray-300 leading-relaxed">
-            Nie musisz wierzyć nam na słowo. Zobacz, co mówią o nas inni:
+            {t('intro.paragraph2')}
           </p>
         </div>
       </Card>
@@ -201,7 +201,7 @@ export function AboutUsPage() {
       {/* Testimonials */}
       <div>
         <h2 className="text-xl font-semibold text-gray-100 mb-4">
-          Co mówią o nas na mieście...
+          {t('testimonials.title')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {TESTIMONIALS.map((t) => (

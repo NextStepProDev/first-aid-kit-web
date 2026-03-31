@@ -1,3 +1,74 @@
 {
-  "title": "Administracja"
+  "title": "Administracja",
+  "header": {
+    "badge": "Panel Administratora",
+    "title": "Użytkownicy",
+    "subtitle": "Zarządzaj kontami użytkowników w systemie"
+  },
+  "buttons": {
+    "exportCsv": "Eksport CSV",
+    "sendToAll": "Wyślij do wszystkich",
+    "sendMessage": "Wyślij wiadomość",
+    "deleteUser": "Usuń użytkownika",
+    "cancel": "Anuluj",
+    "delete": "Usuń",
+    "send": "Wyślij"
+  },
+  "userCount": {
+    "label": "Łączna liczba użytkowników"
+  },
+  "table": {
+    "headers": {
+      "user": "Użytkownik",
+      "role": "Role",
+      "registrationDate": "Data rejestracji",
+      "lastLogin": "Ostatnie logowanie",
+      "actions": "Akcje"
+    },
+    "badges": {
+      "you": "Ty",
+      "protected": "Chroniony"
+    },
+    "lastLogin": {
+      "never": "Nigdy"
+    }
+  },
+  "deleteModal": {
+    "title": "Usuń użytkownika",
+    "warning": "Ta operacja jest nieodwracalna. Dane zostaną usunięte.",
+    "userLabel": "Użytkownik:",
+    "passwordLabel": "Hasło administratora",
+    "passwordPlaceholder": "Wprowadź swoje hasło"
+  },
+  "broadcastModal": {
+    "title": "Wyślij do wszystkich",
+    "subjectLabel": "Temat",
+    "subjectPlaceholder": "Temat...",
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Treść..."
+  },
+  "singleEmailModal": {
+    "title": "Wiadomość do:",
+    "recipientLabel": "Adresat:",
+    "subjectLabel": "Temat",
+    "subjectPlaceholder": "Temat wiadomości...",
+    "messageLabel": "Wiadomość",
+    "messagePlaceholder": "Treść wiadomości..."
+  },
+  "validation": {
+    "subjectRequired": "Temat jest wymagany",
+    "subjectMaxLength": "Temat może mieć max. 200 znaków",
+    "messageRequired": "Wiadomość jest wymagana",
+    "messageMaxLength": "Wiadomość może mieć max. 10000 znaków"
+  },
+  "messages": {
+    "userDeleted": "Użytkownik został usunięty",
+    "userDeleteFailed": "Nie udało się usunąć użytkownika. Sprawdź hasło.",
+    "broadcastSent": "Wiadomość została wysłana",
+    "broadcastFailed": "Nie udało się wysłać wiadomości",
+    "messageSent": "Wiadomość została wysłana",
+    "messageFailed": "Nie udało się wysłać wiadomości",
+    "csvDownloaded": "Plik CSV został pobrany",
+    "csvDownloadFailed": "Nie udało się pobrać pliku CSV"
+  }
 }

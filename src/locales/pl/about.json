@@ -1,3 +1,12 @@
 {
-  "title": "O nas"
+  "title": "O nas",
+  "subtitle": "Poznaj zespół stojący za najlepszą aplikacją do zarządzania apteczką na świecie.",
+  "intro": {
+    "title": "Kim jesteśmy?",
+    "paragraph1": "Jesteśmy startupem, który wierzy, że Twoja domowa apteczka zasługuje na system zarządzania klasy enterprise. Pomagamy kontrolować zapasy leków, pilnować terminów ważności i podejmować lepsze decyzje zdrowotne — prosto, wygodnie i bez marnowania pieniędzy.",
+    "paragraph2": "Nie musisz wierzyć nam na słowo. Zobacz, co mówią o nas inni:"
+  },
+  "testimonials": {
+    "title": "Co mówią o nas na mieście..."
+  }
 }

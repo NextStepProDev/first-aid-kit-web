@@ -1,6 +1,7 @@
 {
   "notFound": {
     "title": "Nie znaleziono strony",
-    "message": "Strona, której szukasz, nie istnieje."
+    "message": "Strona, której szukasz, nie istnieje.",
+    "button": "Wróć do strony głównej"
   }
 }

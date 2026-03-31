@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { drugsApi } from '../api/drugs';
 import { Card, Button, Badge, Spinner } from '../components/ui';
 import {
@@ -15,6 +16,7 @@ import {
 import { formatDate, getExpirationStatus } from '../utils/formatDate';
 
 export function DashboardPage() {
+  const { t, i18n } = useTranslation(['dashboard', 'common']);
   const navigate = useNavigate();
 
   const { data: stats, isLoading: isLoadingStats } = useQuery({
@@ -53,15 +55,15 @@ export function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-100">Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-100">{t('dashboard:title')}</h1>
           <p className="text-gray-400 mt-1">
-            Przegląd Twojej apteczki domowej
+            {t('dashboard:subtitle')}
           </p>
         </div>
         <Link to="/drugs/new">
           <Button>
             <PlusCircle className="w-4 h-4" />
-            Dodaj lek
+            {t('dashboard:addDrug')}
           </Button>
         </Link>
       </div>
@@ -69,28 +71,28 @@ export function DashboardPage() {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          title="Wszystkie leki"
+          title={t('dashboard:stats.allDrugs')}
           value={stats?.totalDrugs || 0}
           icon={<Pill className="w-5 h-5" />}
           color="primary"
           onClick={() => navigate('/drugs')}
         />
         <StatCard
-          title="Aktywne"
+          title={t('dashboard:stats.active')}
           value={stats?.activeDrugs || 0}
           icon={<CheckCircle className="w-5 h-5" />}
           color="success"
           onClick={() => navigate('/drugs', { state: { expired: 'false' } })}
         />
         <StatCard
-          title="Po terminie"
+          title={t('dashboard:stats.expired')}
           value={stats?.expiredDrugs || 0}
           icon={<AlertTriangle className="w-5 h-5" />}
           color="danger"
           onClick={() => navigate('/drugs', { state: { expired: 'true' } })}
         />
         <StatCard
-          title={`Wysłane alerty (${new Date().toLocaleString('pl-PL', { month: 'long' })})`}
+          title={`${t('dashboard:stats.alertsSent')} (${new Date().toLocaleString(i18n.language === 'pl' ? 'pl-PL' : 'en-US', { month: 'long' })})`}
           value={stats?.alertSentCount || 0}
           icon={<Bell className="w-5 h-5" />}
           color="warning"
@@ -102,11 +104,11 @@ export function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent drugs */}
         <Card
-          title="Ostatnio dodane"
+          title={t('dashboard:recentDrugs.title')}
           action={
             <Link to="/drugs">
               <Button variant="ghost" size="sm">
-                Zobacz wszystkie
+                {t('dashboard:recentDrugs.viewAll')}
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
@@ -119,7 +121,7 @@ export function DashboardPage() {
           ) : recentDrugs?.content.length === 0 ? (
             <div className="text-center py-8 text-gray-400">
               <Pill className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p>Brak leków w apteczce</p>
+              <p>{t('dashboard:recentDrugs.empty')}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -154,10 +156,10 @@ export function DashboardPage() {
                       }
                     >
                       {status === 'expired'
-                        ? 'Po terminie'
+                        ? t('dashboard:status.expired')
                         : status === 'expiring-soon'
-                        ? 'Wygasa'
-                        : 'Aktywny'}
+                        ? t('dashboard:status.expiring')
+                        : t('dashboard:status.active')}
                     </Badge>
                   </Link>
                 );
@@ -167,7 +169,7 @@ export function DashboardPage() {
         </Card>
 
         {/* Drugs by form */}
-        <Card title="Leki według formy">
+        <Card title={t('dashboard:drugsByForm.title')}>
           {stats?.drugsByForm && Object.keys(stats.drugsByForm).length > 0 ? (
             <div className="space-y-3">
               {Object.entries(stats.drugsByForm)
@@ -200,7 +202,7 @@ export function DashboardPage() {
           ) : (
             <div className="text-center py-8 text-gray-400">
               <TrendingUp className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p>Brak danych do wyświetlenia</p>
+              <p>{t('dashboard:drugsByForm.empty')}</p>
             </div>
           )}
         </Card>

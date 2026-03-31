@@ -1,3 +1,47 @@
 {
-  "title": "Contact"
+  "title": "Contact",
+  "subtitle": "Have questions or need help? Get in touch with us.",
+  "email": {
+    "title": "Email Us",
+    "description": "Contact us via email for all inquiries. We typically respond within 24 hours.",
+    "button": "firstaidkit.manager@gmail.com"
+  },
+  "topics": {
+    "title": "What can you contact us about?",
+    "support": {
+      "title": "Technical Support",
+      "description": "App issue or problem",
+      "subject": "Technical Support"
+    },
+    "feedback": {
+      "title": "Feedback",
+      "description": "Idea or opinion",
+      "subject": "Opinion / Idea"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "questions": {
+      "addDrug": {
+        "question": "How do I add a new medication to my kit?",
+        "answer": "Click \"Add Medication\" in the sidebar, fill out the form with the name, form, and expiration date, then save."
+      },
+      "export": {
+        "question": "Can I export my medication list?",
+        "answer": "Yes! On the \"Medications\" page, you'll find an \"Export PDF\" button that allows you to download your complete medication list in PDF format."
+      },
+      "notifications": {
+        "question": "How do expiration notifications work?",
+        "answer": "Medications expire on the last day of the month shown on the package. Daily at 9:00 AM, the system checks which medications expire in the current month and sends a consolidated email with their list. Each medication notification is sent only once."
+      },
+      "recommend": {
+        "question": "Can I recommend this app to friends?",
+        "answer": "Absolutely! We'd be grateful for any recommendations. You can also share your feedback on social media or leave a review!"
+      }
+    }
+  },
+  "about": {
+    "title": "About the App",
+    "description": "First Aid Kit is an application for managing your home first aid kit. It allows you to track medications, their expiration dates, and receive notifications about upcoming expiry dates."
+  }
 }

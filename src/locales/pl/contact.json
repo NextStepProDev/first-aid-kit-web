@@ -1,3 +1,47 @@
 {
-  "title": "Kontakt"
+  "title": "Kontakt",
+  "subtitle": "Masz pytania lub potrzebujesz pomocy? Skontaktuj się z nami.",
+  "email": {
+    "title": "Napisz do nas",
+    "description": "We wszystkich sprawach kontaktuj się z nami mailowo. Odpowiadamy zazwyczaj w ciągu 24 godzin.",
+    "button": "firstaidkit.manager@gmail.com"
+  },
+  "topics": {
+    "title": "W jakich sprawach możesz do nas napisać?",
+    "support": {
+      "title": "Pomoc techniczna",
+      "description": "Problem z aplikacją",
+      "subject": "Pomoc techniczna"
+    },
+    "feedback": {
+      "title": "Feedback",
+      "description": "Pomysł lub opinia",
+      "subject": "Opinia / pomysł"
+    }
+  },
+  "faq": {
+    "title": "Najczęściej zadawane pytania",
+    "questions": {
+      "addDrug": {
+        "question": "Jak dodać nowy lek do apteczki?",
+        "answer": "Kliknij \"Dodaj lek\" w menu bocznym, wypełnij formularz podając nazwę, formę i datę ważności leku, a następnie zapisz."
+      },
+      "export": {
+        "question": "Czy mogę eksportować listę leków?",
+        "answer": "Tak! Na stronie \"Leki\" znajdziesz przycisk \"Eksport PDF\", który pozwala pobrać pełną listę Twoich leków w formacie PDF."
+      },
+      "notifications": {
+        "question": "Jak działają powiadomienia o wygasających lekach?",
+        "answer": "Termin ważności leków kończy się z ostatnim dniem miesiąca podanego na opakowaniu. Codziennie o 9:00 system sprawdza, które leki wygasają w bieżącym miesiącu i wysyła zbiorczego emaila z ich listą. Powiadomienie o danym leku wysyłane jest tylko raz."
+      },
+      "recommend": {
+        "question": "Czy mogę polecić tę aplikację znajomym?",
+        "answer": "Oczywiście! Będziemy wdzięczni za każdą rekomendację. Możesz również podzielić się swoimi opiniami na mediach społecznościowych lub zostawić recenzję!"
+      }
+    }
+  },
+  "about": {
+    "title": "O aplikacji",
+    "description": "First Aid Kit to aplikacja do zarządzania domową apteczką. Pozwala śledzić leki, ich daty ważności oraz otrzymywać powiadomienia o zbliżających się terminach przydatności."
+  }
 }

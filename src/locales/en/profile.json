@@ -1,3 +1,73 @@
 {
-  "title": "Profile"
+  "title": "Settings",
+  "subtitle": "Manage your account and preferences",
+  "profile": {
+    "title": "User Profile",
+    "name": "Full Name",
+    "username": "Username",
+    "email": "Email",
+    "editButton": "Edit Profile",
+    "saveButton": "Save Changes",
+    "cancelButton": "Cancel",
+    "validation": {
+      "nameMinLength": "Name must be at least 2 characters",
+      "nameMaxLength": "Name can be at most 100 characters",
+      "usernameMinLength": "Username must be at least 5 characters",
+      "usernameMaxLength": "Username can be at most 36 characters"
+    }
+  },
+  "notifications": {
+    "title": "Email Notifications",
+    "description": "Receive reminders about expiring medications",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "submitButton": "Change Password",
+    "requirements": {
+      "minLength": "Min. 8 characters",
+      "uppercase": "Uppercase letter",
+      "lowercase": "Lowercase letter",
+      "digit": "Digit",
+      "special": "Special character"
+    },
+    "validation": {
+      "currentPasswordRequired": "Current password is required",
+      "newPasswordMinLength": "Password must be at least 8 characters",
+      "newPasswordUppercase": "Password must contain an uppercase letter",
+      "newPasswordLowercase": "Password must contain a lowercase letter",
+      "newPasswordDigit": "Password must contain a digit",
+      "newPasswordSpecial": "Password must contain a special character",
+      "passwordsDoNotMatch": "Passwords do not match"
+    }
+  },
+  "dangerZone": {
+    "title": "Danger Zone",
+    "logoutButton": "Log Out",
+    "deleteButton": "Delete Account"
+  },
+  "deleteAccount": {
+    "title": "Delete Account",
+    "warning": "This operation is irreversible. All your data will be permanently deleted.",
+    "confirmation": "To confirm, enter your password:",
+    "passwordPlaceholder": "Enter password...",
+    "passwordRequired": "Password is required",
+    "cancelButton": "Cancel",
+    "confirmButton": "Delete Account Forever"
+  },
+  "messages": {
+    "profileUpdateSuccess": "Profile updated successfully",
+    "profileUpdateError": "Failed to update profile",
+    "passwordChangeSuccess": "Password changed successfully",
+    "passwordChangeError": "Failed to change password",
+    "alertsEnabled": "Notifications enabled",
+    "alertsDisabled": "Notifications disabled",
+    "alertsToggleError": "Failed to change notification settings",
+    "accountDeleted": "Account deleted successfully",
+    "accountDeleteError": "Failed to delete account"
+  }
 }

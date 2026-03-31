@@ -1,4 +1,25 @@
 {
-  "title": "Panel",
-  "subtitle": "Przegląd Twojej apteczki"
+  "title": "Dashboard",
+  "subtitle": "Przegląd Twojej apteczki domowej",
+  "addDrug": "Dodaj lek",
+  "stats": {
+    "allDrugs": "Wszystkie leki",
+    "active": "Aktywne",
+    "expired": "Po terminie",
+    "alertsSent": "Wysłane alerty"
+  },
+  "recentDrugs": {
+    "title": "Ostatnio dodane",
+    "viewAll": "Zobacz wszystkie",
+    "empty": "Brak leków w apteczce"
+  },
+  "drugsByForm": {
+    "title": "Leki według formy",
+    "empty": "Brak danych do wyświetlenia"
+  },
+  "status": {
+    "expired": "Po terminie",
+    "expiring": "Wygasa",
+    "active": "Aktywny"
+  }
 }

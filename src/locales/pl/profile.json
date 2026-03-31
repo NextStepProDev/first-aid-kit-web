@@ -1,3 +1,73 @@
 {
-  "title": "Profil"
+  "title": "Ustawienia",
+  "subtitle": "Zarządzaj swoim kontem i preferencjami",
+  "profile": {
+    "title": "Profil użytkownika",
+    "name": "Imię i nazwisko",
+    "username": "Nazwa użytkownika",
+    "email": "Email",
+    "editButton": "Edytuj profil",
+    "saveButton": "Zapisz zmiany",
+    "cancelButton": "Anuluj",
+    "validation": {
+      "nameMinLength": "Imię musi mieć min. 2 znaki",
+      "nameMaxLength": "Imię może mieć max. 100 znaków",
+      "usernameMinLength": "Nazwa użytkownika musi mieć min. 5 znaków",
+      "usernameMaxLength": "Nazwa użytkownika może mieć max. 36 znaków"
+    }
+  },
+  "notifications": {
+    "title": "Powiadomienia email",
+    "description": "Otrzymuj przypomnienia o wygasających lekach",
+    "enabled": "Włączone",
+    "disabled": "Wyłączone"
+  },
+  "changePassword": {
+    "title": "Zmień hasło",
+    "currentPassword": "Aktualne hasło",
+    "newPassword": "Nowe hasło",
+    "confirmPassword": "Potwierdź nowe hasło",
+    "submitButton": "Zmień hasło",
+    "requirements": {
+      "minLength": "Min. 8 znaków",
+      "uppercase": "Wielka litera",
+      "lowercase": "Mała litera",
+      "digit": "Cyfra",
+      "special": "Znak specjalny"
+    },
+    "validation": {
+      "currentPasswordRequired": "Aktualne hasło jest wymagane",
+      "newPasswordMinLength": "Hasło musi mieć min. 8 znaków",
+      "newPasswordUppercase": "Hasło musi zawierać wielką literę",
+      "newPasswordLowercase": "Hasło musi zawierać małą literę",
+      "newPasswordDigit": "Hasło musi zawierać cyfrę",
+      "newPasswordSpecial": "Hasło musi zawierać znak specjalny",
+      "passwordsDoNotMatch": "Hasła nie są identyczne"
+    }
+  },
+  "dangerZone": {
+    "title": "Strefa niebezpieczna",
+    "logoutButton": "Wyloguj się",
+    "deleteButton": "Usuń konto"
+  },
+  "deleteAccount": {
+    "title": "Usuń konto",
+    "warning": "Ta operacja jest nieodwracalna. Wszystkie Twoje dane zostaną trwale usunięte.",
+    "confirmation": "Aby potwierdzić, wprowadź swoje hasło:",
+    "passwordPlaceholder": "Wprowadź hasło...",
+    "passwordRequired": "Hasło jest wymagane",
+    "cancelButton": "Anuluj",
+    "confirmButton": "Usuń konto na zawsze"
+  },
+  "messages": {
+    "profileUpdateSuccess": "Profil został zaktualizowany",
+    "profileUpdateError": "Nie udało się zaktualizować profilu",
+    "passwordChangeSuccess": "Hasło zostało zmienione",
+    "passwordChangeError": "Nie udało się zmienić hasła",
+    "alertsEnabled": "Powiadomienia włączone",
+    "alertsDisabled": "Powiadomienia wyłączone",
+    "alertsToggleError": "Nie udało się zmienić ustawień powiadomień",
+    "accountDeleted": "Konto zostało usunięte",
+    "accountDeleteError": "Nie udało się usunąć konta"
+  }
 }

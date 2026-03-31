@@ -1,3 +1,74 @@
 {
-  "title": "Administration"
+  "title": "Administration",
+  "header": {
+    "badge": "Admin Panel",
+    "title": "Users",
+    "subtitle": "Manage user accounts in the system"
+  },
+  "buttons": {
+    "exportCsv": "Export CSV",
+    "sendToAll": "Send to all",
+    "sendMessage": "Send message",
+    "deleteUser": "Delete user",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "send": "Send"
+  },
+  "userCount": {
+    "label": "Total number of users"
+  },
+  "table": {
+    "headers": {
+      "user": "User",
+      "role": "Roles",
+      "registrationDate": "Registration date",
+      "lastLogin": "Last login",
+      "actions": "Actions"
+    },
+    "badges": {
+      "you": "You",
+      "protected": "Protected"
+    },
+    "lastLogin": {
+      "never": "Never"
+    }
+  },
+  "deleteModal": {
+    "title": "Delete user",
+    "warning": "This operation is irreversible. Data will be deleted.",
+    "userLabel": "User:",
+    "passwordLabel": "Administrator password",
+    "passwordPlaceholder": "Enter your password"
+  },
+  "broadcastModal": {
+    "title": "Send to all",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Subject...",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Content..."
+  },
+  "singleEmailModal": {
+    "title": "Message to:",
+    "recipientLabel": "Recipient:",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Message subject...",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Message content..."
+  },
+  "validation": {
+    "subjectRequired": "Subject is required",
+    "subjectMaxLength": "Subject can be max. 200 characters",
+    "messageRequired": "Message is required",
+    "messageMaxLength": "Message can be max. 10000 characters"
+  },
+  "messages": {
+    "userDeleted": "User has been deleted",
+    "userDeleteFailed": "Failed to delete user. Check password.",
+    "broadcastSent": "Message has been sent",
+    "broadcastFailed": "Failed to send message",
+    "messageSent": "Message has been sent",
+    "messageFailed": "Failed to send message",
+    "csvDownloaded": "CSV file has been downloaded",
+    "csvDownloadFailed": "Failed to download CSV file"
+  }
 }
