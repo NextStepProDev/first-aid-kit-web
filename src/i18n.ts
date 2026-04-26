@@ -50,7 +50,7 @@ i18n
         errors: errorsEn,
       },
     },
-    fallbackLng: 'pl',
+    fallbackLng: 'en',
     defaultNS: 'common',
     ns: ['common', 'auth', 'drugs', 'dashboard', 'profile', 'admin', 'about', 'contact', 'errors'],
     interpolation: {

@@ -5,7 +5,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
-import { Layout, AuthLayout } from './components/layout';
+import { Layout, AuthLayout, PublicPageLayout } from './components/layout';
+import { useAuth } from './contexts/AuthContext';
+import { FullPageSpinner } from './components/ui/Spinner';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import {
   ResetPasswordPage,
@@ -22,6 +24,16 @@ import {
   ContactPage,
   AboutUsPage,
 } from './pages';
+
+function AboutUsLayout() {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return <FullPageSpinner />;
+
+  if (isAuthenticated) return <Layout />;
+
+  return <PublicPageLayout />;
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -69,9 +81,13 @@ function App() {
               <Route path="/drugs/:id/edit" element={<DrugFormPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="/o-nas" element={<AboutUsPage />} />
               {/* Admin routes */}
               <Route path="/admin/users" element={<AdminUsersPage />} />
+            </Route>
+
+            {/* About Us - accessible with and without auth */}
+            <Route element={<AboutUsLayout />}>
+              <Route path="/o-nas" element={<AboutUsPage />} />
             </Route>
 
             {/* 404 */}
