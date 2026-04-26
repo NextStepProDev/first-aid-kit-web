@@ -8,6 +8,7 @@ export interface User {
   createdAt?: string;
   lastLogin?: string;
   alertsEnabled?: boolean;
+  language?: string;
 }
 
 // Auth types
@@ -21,6 +22,7 @@ export interface RegisterRequest {
   username: string;
   email: string;
   password: string;
+  language?: string;
 }
 
 export interface JwtResponse {

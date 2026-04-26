@@ -46,7 +46,7 @@ type RegisterFormData = {
 };
 
 export function RegisterPage() {
-  const { t } = useTranslation(['auth', 'common']);
+  const { t, i18n } = useTranslation(['auth', 'common']);
   const { register: registerUser } = useAuth();
   const [isSuccess, setIsSuccess] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState('');
@@ -79,6 +79,7 @@ export function RegisterPage() {
         username: data.username,
         email: data.email,
         password: data.password,
+        language: i18n.language,
       });
       setRegisteredEmail(data.email);
       setIsSuccess(true);

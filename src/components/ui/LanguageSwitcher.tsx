@@ -1,13 +1,24 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Globe } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { authApi } from '../../api/auth';
 
 export function LanguageSwitcher() {
   const { i18n } = useTranslation();
+  const { isAuthenticated, refreshUser } = useAuth();
 
-  const toggleLanguage = () => {
+  const toggleLanguage = async () => {
     const newLang = i18n.language === 'pl' ? 'en' : 'pl';
     i18n.changeLanguage(newLang);
+    if (isAuthenticated) {
+      try {
+        await authApi.updateLanguage({ language: newLang });
+        refreshUser();
+      } catch {
+        // Language changed locally even if backend save fails
+      }
+    }
   };
 
   return (

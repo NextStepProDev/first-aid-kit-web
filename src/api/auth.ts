@@ -78,4 +78,9 @@ export const authApi = {
     const response = await apiClient.put<User>('/auth/alerts', data);
     return response.data;
   },
+
+  updateLanguage: async (data: { language: string }): Promise<User> => {
+    const response = await apiClient.put<User>('/auth/language', data);
+    return response.data;
+  },
 };

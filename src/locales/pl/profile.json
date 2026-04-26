@@ -1,32 +1,45 @@
 {
   "title": "Ustawienia",
   "subtitle": "Zarządzaj swoim kontem i preferencjami",
+  "validation": {
+    "currentPasswordRequired": "Aktualne hasło jest wymagane",
+    "passwordMinLength": "Hasło musi mieć min. 8 znaków",
+    "passwordUppercase": "Hasło musi zawierać wielką literę",
+    "passwordLowercase": "Hasło musi zawierać małą literę",
+    "passwordDigit": "Hasło musi zawierać cyfrę",
+    "passwordSpecial": "Hasło musi zawierać znak specjalny",
+    "passwordMismatch": "Hasła nie są identyczne",
+    "passwordRequired": "Hasło jest wymagane",
+    "nameMinLength": "Imię musi mieć min. 2 znaki",
+    "nameMaxLength": "Imię może mieć max. 100 znaków",
+    "usernameMinLength": "Nazwa użytkownika musi mieć min. 5 znaków",
+    "usernameMaxLength": "Nazwa użytkownika może mieć max. 36 znaków"
+  },
   "profile": {
     "title": "Profil użytkownika",
-    "name": "Imię i nazwisko",
-    "username": "Nazwa użytkownika",
-    "email": "Email",
     "editButton": "Edytuj profil",
     "saveButton": "Zapisz zmiany",
-    "cancelButton": "Anuluj",
-    "validation": {
-      "nameMinLength": "Imię musi mieć min. 2 znaki",
-      "nameMaxLength": "Imię może mieć max. 100 znaków",
-      "usernameMinLength": "Nazwa użytkownika musi mieć min. 5 znaków",
-      "usernameMaxLength": "Nazwa użytkownika może mieć max. 36 znaków"
-    }
+    "nameLabel": "Imię i nazwisko",
+    "namePlaceholder": "Wpisz imię i nazwisko",
+    "usernameLabel": "Nazwa użytkownika",
+    "usernamePlaceholder": "Wpisz nazwę użytkownika",
+    "emailLabelFixed": "Email (nie można zmienić)",
+    "emailNote": "Adres email jest przypisany do konta i nie może być zmieniony."
+  },
+  "language": {
+    "title": "Język aplikacji",
+    "description": "Wybierz język interfejsu. Ustawienie jest przypisane do konta i ma pierwszeństwo nad językiem przeglądarki."
   },
   "notifications": {
     "title": "Powiadomienia email",
-    "description": "Otrzymuj przypomnienia o wygasających lekach",
-    "enabled": "Włączone",
-    "disabled": "Wyłączone"
+    "emailAlerts": "Alerty email",
+    "description": "Otrzymuj przypomnienia o wygasających lekach"
   },
   "changePassword": {
     "title": "Zmień hasło",
-    "currentPassword": "Aktualne hasło",
-    "newPassword": "Nowe hasło",
-    "confirmPassword": "Potwierdź nowe hasło",
+    "currentPasswordLabel": "Aktualne hasło",
+    "newPasswordLabel": "Nowe hasło",
+    "confirmPasswordLabel": "Potwierdź nowe hasło",
     "submitButton": "Zmień hasło",
     "requirements": {
       "minLength": "Min. 8 znaków",
@@ -34,40 +47,31 @@
       "lowercase": "Mała litera",
       "digit": "Cyfra",
       "special": "Znak specjalny"
-    },
-    "validation": {
-      "currentPasswordRequired": "Aktualne hasło jest wymagane",
-      "newPasswordMinLength": "Hasło musi mieć min. 8 znaków",
-      "newPasswordUppercase": "Hasło musi zawierać wielką literę",
-      "newPasswordLowercase": "Hasło musi zawierać małą literę",
-      "newPasswordDigit": "Hasło musi zawierać cyfrę",
-      "newPasswordSpecial": "Hasło musi zawierać znak specjalny",
-      "passwordsDoNotMatch": "Hasła nie są identyczne"
     }
   },
   "dangerZone": {
     "title": "Strefa niebezpieczna",
-    "logoutButton": "Wyloguj się",
+    "sessionTitle": "Sesja",
+    "warning": "Ta operacja jest nieodwracalna. Wszystkie Twoje dane zostaną trwale usunięte.",
     "deleteButton": "Usuń konto"
   },
   "deleteAccount": {
     "title": "Usuń konto",
-    "warning": "Ta operacja jest nieodwracalna. Wszystkie Twoje dane zostaną trwale usunięte.",
     "confirmation": "Aby potwierdzić, wprowadź swoje hasło:",
     "passwordPlaceholder": "Wprowadź hasło...",
-    "passwordRequired": "Hasło jest wymagane",
-    "cancelButton": "Anuluj",
     "confirmButton": "Usuń konto na zawsze"
   },
   "messages": {
-    "profileUpdateSuccess": "Profil został zaktualizowany",
-    "profileUpdateError": "Nie udało się zaktualizować profilu",
-    "passwordChangeSuccess": "Hasło zostało zmienione",
-    "passwordChangeError": "Nie udało się zmienić hasła",
-    "alertsEnabled": "Powiadomienia włączone",
-    "alertsDisabled": "Powiadomienia wyłączone",
-    "alertsToggleError": "Nie udało się zmienić ustawień powiadomień",
+    "profileUpdated": "Profil został zaktualizowany",
+    "profileUpdateFailed": "Nie udało się zaktualizować profilu",
+    "passwordChanged": "Hasło zostało zmienione",
+    "passwordChangeFailed": "Nie udało się zmienić hasła",
+    "notificationsEnabled": "Powiadomienia włączone",
+    "notificationsDisabled": "Powiadomienia wyłączone",
+    "notificationsUpdateFailed": "Nie udało się zmienić ustawień powiadomień",
+    "languageChanged": "Język został zmieniony",
+    "languageChangeFailed": "Nie udało się zmienić języka",
     "accountDeleted": "Konto zostało usunięte",
-    "accountDeleteError": "Nie udało się usunąć konta"
+    "accountDeleteFailed": "Nie udało się usunąć konta"
   }
 }

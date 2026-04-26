@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { authApi } from '../api/auth';
 import { Card, Button, Input } from '../components/ui';
-import { User, Lock, Trash2, LogOut, Check, X, Pencil, Bell, BellOff } from 'lucide-react';
+import { User, Lock, Trash2, LogOut, Check, X, Pencil, Bell, BellOff, Globe } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
@@ -63,7 +63,7 @@ type EditProfileFormData = {
 };
 
 export function ProfilePage() {
-  const { t } = useTranslation(['profile', 'common']);
+  const { t, i18n } = useTranslation(['profile', 'common']);
   const { user, logout, refreshUser } = useAuth();
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -71,6 +71,7 @@ export function ProfilePage() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [alertsEnabled, setAlertsEnabled] = useState(user?.alertsEnabled ?? true);
   const [isTogglingAlerts, setIsTogglingAlerts] = useState(false);
+  const [isChangingLanguage, setIsChangingLanguage] = useState(false);
 
   const {
     register: registerPassword,
@@ -177,6 +178,24 @@ export function ProfilePage() {
       username: user?.username || '',
     });
     setIsEditingProfile(false);
+  };
+
+  const handleLanguageChange = async (newLang: string) => {
+    if (newLang === i18n.language) return;
+    setIsChangingLanguage(true);
+    try {
+      i18n.changeLanguage(newLang);
+      await authApi.updateLanguage({ language: newLang });
+      refreshUser();
+      toast.success(t('profile:messages.languageChanged'));
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiError>;
+      const message =
+        axiosError.response?.data?.message || t('profile:messages.languageChangeFailed');
+      toast.error(message);
+    } finally {
+      setIsChangingLanguage(false);
+    }
   };
 
   const handleToggleAlerts = async () => {
@@ -304,6 +323,40 @@ export function ProfilePage() {
               }`}
             />
           </button>
+        </div>
+      </Card>
+
+      {/* Language Preference */}
+      <Card title={t('profile:language.title')}>
+        <div className="space-y-3">
+          <p className="text-sm text-gray-400">{t('profile:language.description')}</p>
+          <div className="flex gap-3">
+            {[
+              { code: 'pl', label: 'Polski', flag: '🇵🇱' },
+              { code: 'en', label: 'English', flag: '🇬🇧' },
+            ].map((lang) => (
+              <button
+                key={lang.code}
+                type="button"
+                disabled={isChangingLanguage}
+                onClick={() => handleLanguageChange(lang.code)}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg border-2 transition-colors disabled:opacity-50 ${
+                  i18n.language === lang.code
+                    ? 'border-primary-500 bg-primary-500/10 text-gray-100'
+                    : 'border-dark-600 bg-dark-700 text-gray-400 hover:border-dark-500 hover:text-gray-300'
+                }`}
+              >
+                <span className="text-xl">{lang.flag}</span>
+                <div className="text-left">
+                  <p className="font-medium">{lang.label}</p>
+                  <p className="text-xs opacity-70">{lang.code.toUpperCase()}</p>
+                </div>
+                {i18n.language === lang.code && (
+                  <Globe className="w-4 h-4 text-primary-400 ml-2" />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </Card>
 

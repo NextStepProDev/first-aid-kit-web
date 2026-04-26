@@ -1,32 +1,45 @@
 {
   "title": "Settings",
   "subtitle": "Manage your account and preferences",
+  "validation": {
+    "currentPasswordRequired": "Current password is required",
+    "passwordMinLength": "Password must be at least 8 characters",
+    "passwordUppercase": "Password must contain an uppercase letter",
+    "passwordLowercase": "Password must contain a lowercase letter",
+    "passwordDigit": "Password must contain a digit",
+    "passwordSpecial": "Password must contain a special character",
+    "passwordMismatch": "Passwords do not match",
+    "passwordRequired": "Password is required",
+    "nameMinLength": "Name must be at least 2 characters",
+    "nameMaxLength": "Name can be at most 100 characters",
+    "usernameMinLength": "Username must be at least 5 characters",
+    "usernameMaxLength": "Username can be at most 36 characters"
+  },
   "profile": {
     "title": "User Profile",
-    "name": "Full Name",
-    "username": "Username",
-    "email": "Email",
     "editButton": "Edit Profile",
     "saveButton": "Save Changes",
-    "cancelButton": "Cancel",
-    "validation": {
-      "nameMinLength": "Name must be at least 2 characters",
-      "nameMaxLength": "Name can be at most 100 characters",
-      "usernameMinLength": "Username must be at least 5 characters",
-      "usernameMaxLength": "Username can be at most 36 characters"
-    }
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "emailLabelFixed": "Email (cannot be changed)",
+    "emailNote": "Email address is tied to your account and cannot be changed."
+  },
+  "language": {
+    "title": "App Language",
+    "description": "Choose the interface language. This setting is tied to your account and takes priority over the browser language."
   },
   "notifications": {
     "title": "Email Notifications",
-    "description": "Receive reminders about expiring medications",
-    "enabled": "Enabled",
-    "disabled": "Disabled"
+    "emailAlerts": "Email alerts",
+    "description": "Receive reminders about expiring medications"
   },
   "changePassword": {
     "title": "Change Password",
-    "currentPassword": "Current Password",
-    "newPassword": "New Password",
-    "confirmPassword": "Confirm New Password",
+    "currentPasswordLabel": "Current Password",
+    "newPasswordLabel": "New Password",
+    "confirmPasswordLabel": "Confirm New Password",
     "submitButton": "Change Password",
     "requirements": {
       "minLength": "Min. 8 characters",
@@ -34,40 +47,31 @@
       "lowercase": "Lowercase letter",
       "digit": "Digit",
       "special": "Special character"
-    },
-    "validation": {
-      "currentPasswordRequired": "Current password is required",
-      "newPasswordMinLength": "Password must be at least 8 characters",
-      "newPasswordUppercase": "Password must contain an uppercase letter",
-      "newPasswordLowercase": "Password must contain a lowercase letter",
-      "newPasswordDigit": "Password must contain a digit",
-      "newPasswordSpecial": "Password must contain a special character",
-      "passwordsDoNotMatch": "Passwords do not match"
     }
   },
   "dangerZone": {
     "title": "Danger Zone",
-    "logoutButton": "Log Out",
+    "sessionTitle": "Session",
+    "warning": "This operation is irreversible. All your data will be permanently deleted.",
     "deleteButton": "Delete Account"
   },
   "deleteAccount": {
     "title": "Delete Account",
-    "warning": "This operation is irreversible. All your data will be permanently deleted.",
     "confirmation": "To confirm, enter your password:",
     "passwordPlaceholder": "Enter password...",
-    "passwordRequired": "Password is required",
-    "cancelButton": "Cancel",
     "confirmButton": "Delete Account Forever"
   },
   "messages": {
-    "profileUpdateSuccess": "Profile updated successfully",
-    "profileUpdateError": "Failed to update profile",
-    "passwordChangeSuccess": "Password changed successfully",
-    "passwordChangeError": "Failed to change password",
-    "alertsEnabled": "Notifications enabled",
-    "alertsDisabled": "Notifications disabled",
-    "alertsToggleError": "Failed to change notification settings",
+    "profileUpdated": "Profile updated successfully",
+    "profileUpdateFailed": "Failed to update profile",
+    "passwordChanged": "Password changed successfully",
+    "passwordChangeFailed": "Failed to change password",
+    "notificationsEnabled": "Notifications enabled",
+    "notificationsDisabled": "Notifications disabled",
+    "notificationsUpdateFailed": "Failed to change notification settings",
+    "languageChanged": "Language changed successfully",
+    "languageChangeFailed": "Failed to change language",
     "accountDeleted": "Account deleted successfully",
-    "accountDeleteError": "Failed to delete account"
+    "accountDeleteFailed": "Failed to delete account"
   }
 }

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { authApi } from '../api/auth';
 import { tokenStorage } from '../api/client';
 import type { User, LoginRequest, RegisterRequest, JwtResponse, MessageResponse } from '../types';
@@ -18,16 +19,20 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { i18n } = useTranslation();
 
   const refreshUser = useCallback(async () => {
     try {
       const profile = await authApi.getProfile();
       setUser(profile);
+      if (profile.language && profile.language !== i18n.language) {
+        i18n.changeLanguage(profile.language);
+      }
     } catch {
       setUser(null);
       tokenStorage.clearTokens();
     }
-  }, []);
+  }, [i18n]);
 
   useEffect(() => {
     const initAuth = async () => {
