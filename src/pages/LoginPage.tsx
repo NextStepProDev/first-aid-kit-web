@@ -41,7 +41,7 @@ export function LoginPage() {
     try {
       setInactiveEmail(null);
       await login(data);
-      toast.success(t('common:messages.saveSuccess'));
+      toast.success(t('common:messages.loginSuccess'));
       navigate('/');
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;

@@ -61,6 +61,7 @@
   },
   "messages": {
     "saveSuccess": "Zapisano pomyślnie",
+    "loginSuccess": "Zalogowano pomyślnie",
     "saveError": "Błąd podczas zapisywania",
     "deleteSuccess": "Usunięto pomyślnie",
     "deleteError": "Błąd podczas usuwania",

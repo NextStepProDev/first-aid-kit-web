@@ -61,6 +61,7 @@
   },
   "messages": {
     "saveSuccess": "Saved successfully",
+    "loginSuccess": "Logged in successfully",
     "saveError": "Error while saving",
     "deleteSuccess": "Deleted successfully",
     "deleteError": "Error while deleting",
