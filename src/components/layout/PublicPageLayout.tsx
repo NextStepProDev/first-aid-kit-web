@@ -2,10 +2,11 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { LanguageSwitcher } from '../ui';
+import { Footer } from './Footer';
 
 export function PublicPageLayout() {
   return (
-    <div className="min-h-screen bg-dark-900">
+    <div className="min-h-screen bg-dark-900 flex flex-col">
       <header className="h-16 bg-dark-800 border-b border-dark-600 flex items-center justify-between px-4 lg:px-8">
         <Link
           to="/login"
@@ -17,9 +18,10 @@ export function PublicPageLayout() {
         </Link>
         <LanguageSwitcher />
       </header>
-      <main className="w-full p-4 lg:p-8 max-w-7xl mx-auto">
+      <main className="flex-1 w-full p-4 lg:p-8 max-w-7xl mx-auto">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }

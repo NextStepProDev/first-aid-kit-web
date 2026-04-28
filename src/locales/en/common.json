@@ -74,6 +74,9 @@
     "passwordTooShort": "Password is too short",
     "passwordsDoNotMatch": "Passwords do not match"
   },
+  "footer": {
+    "privacyPolicy": "Privacy Policy"
+  },
   "pagination": {
     "previous": "Previous",
     "next": "Next",

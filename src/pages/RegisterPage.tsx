@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
 import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
@@ -224,6 +224,19 @@ export function RegisterPage() {
         >
           {t('auth:register.registerButton')}
         </Button>
+
+        <p className="text-center text-xs text-gray-500 mt-4">
+          <Trans
+            i18nKey="register.privacyNotice"
+            ns="auth"
+            components={{
+              1: <Link
+                to="/polityka-prywatnosci"
+                className="text-gray-400 hover:text-primary-400 underline transition-colors"
+              />,
+            }}
+          />
+        </p>
       </form>
 
       <p className="mt-6 text-center text-gray-400">

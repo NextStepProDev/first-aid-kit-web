@@ -23,6 +23,7 @@ import {
   AdminUsersPage,
   ContactPage,
   AboutUsPage,
+  PrivacyPolicyPage,
 } from './pages';
 
 function AboutUsLayout() {
@@ -88,6 +89,7 @@ function App() {
             {/* About Us - accessible with and without auth */}
             <Route element={<AboutUsLayout />}>
               <Route path="/o-nas" element={<AboutUsPage />} />
+              <Route path="/polityka-prywatnosci" element={<PrivacyPolicyPage />} />
             </Route>
 
             {/* 404 */}

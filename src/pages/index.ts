@@ -11,3 +11,4 @@ export { ContactPage } from './ContactPage';
 export { AboutUsPage } from './AboutUsPage';
 export { ResetPasswordPage } from './ResetPasswordPage';
 export { VerifyEmailPage } from './VerifyEmailPage';
+export { PrivacyPolicyPage } from './PrivacyPolicyPage';
