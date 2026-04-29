@@ -46,13 +46,20 @@ export function LoginPage() {
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
       const status = axiosError.response?.status;
-      const message = axiosError.response?.data?.message || t('auth:errors.invalidCredentials');
 
-      if (status === 403 && message.includes('nieaktywne')) {
-        setInactiveEmail(data.email);
+      if (status === 423) {
+        const minutesLeft = axiosError.response?.data?.minutesLeft;
+        toast.error(t('auth:errors.accountLocked', { minutes: minutesLeft || '15' }));
+        return;
       }
 
-      toast.error(message);
+      if (status === 403) {
+        setInactiveEmail(data.email);
+        toast.error(t('auth:errors.accountInactive'));
+        return;
+      }
+
+      toast.error(t('auth:errors.invalidCredentials'));
     }
   };
 
@@ -62,11 +69,8 @@ export function LoginPage() {
     try {
       await authApi.resendVerification(inactiveEmail);
       toast.success(t('auth:login.verificationSent'));
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('auth:errors.networkError');
-      toast.error(message);
+    } catch {
+      toast.error(t('auth:errors.networkError'));
     } finally {
       setIsResending(false);
     }
