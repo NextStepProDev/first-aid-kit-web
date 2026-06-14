@@ -11,6 +11,7 @@ import { User, Mail, Lock, Check, X, ArrowLeft, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const registerSchema = (t: (key: string) => string) => z
   .object({
@@ -46,6 +47,7 @@ type RegisterFormData = {
 };
 
 export function RegisterPage() {
+  usePageMeta('Rejestracja', 'Załóż darmowe konto w First Aid Kit i zacznij zarządzać domową apteczką — śledź leki i terminy ważności.');
   const { t, i18n } = useTranslation(['auth', 'common']);
   const { register: registerUser } = useAuth();
   const [isSuccess, setIsSuccess] = useState(false);

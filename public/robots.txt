@@ -1,3 +1,14 @@
 # https://www.robotstxt.org/robotstxt.html
+# First Aid Kit is a private app. Allow the few genuinely public pages
+# (home/login, register, o-nas, polityka-prywatnosci); block everything
+# that lives behind auth or is a single-use token page.
 User-agent: *
-Disallow:
+Disallow: /drugs
+Disallow: /profile
+Disallow: /contact
+Disallow: /admin
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /verify-email
+
+Sitemap: https://firstaidkit.pl/sitemap.xml

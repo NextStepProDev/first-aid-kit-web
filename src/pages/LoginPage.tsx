@@ -11,6 +11,7 @@ import { Mail, Lock, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 import type { ApiError } from '../types';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const loginSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t('common:validation.invalidEmail')),
@@ -23,6 +24,7 @@ type LoginFormData = {
 };
 
 export function LoginPage() {
+  usePageMeta('Logowanie', 'Zaloguj się do First Aid Kit, aby zarządzać domową apteczką — lekami, terminami ważności i przypomnieniami.');
   const { t } = useTranslation(['auth', 'common']);
   const { login } = useAuth();
   const navigate = useNavigate();

@@ -1,10 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const LAST_UPDATED_PL = '28 kwietnia 2026';
 const LAST_UPDATED_EN = '28 April 2026';
 
 export function PrivacyPolicyPage() {
+  usePageMeta('Polityka prywatności', 'Polityka prywatności aplikacji First Aid Kit — jak przetwarzamy i chronimy Twoje dane.');
   const { i18n } = useTranslation();
   const isPl = i18n.language.startsWith('pl');
 

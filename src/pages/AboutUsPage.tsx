@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../components/ui';
 import { Star } from 'lucide-react';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 interface Testimonial {
   name: string;
@@ -173,6 +174,7 @@ function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
 }
 
 export function AboutUsPage() {
+  usePageMeta('O nas', 'Poznaj First Aid Kit — aplikację do zarządzania domową apteczką. Zobacz, jak pomagamy śledzić leki i terminy ważności.');
   const { t } = useTranslation('about');
 
   return (
