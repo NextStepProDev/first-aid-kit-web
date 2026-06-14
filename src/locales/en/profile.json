@@ -72,6 +72,11 @@
     "languageChanged": "Language changed successfully",
     "languageChangeFailed": "Failed to change language",
     "accountDeleted": "Account deleted successfully",
-    "accountDeleteFailed": "Failed to delete account"
+    "accountDeleteFailed": "Failed to delete account",
+    "currentPasswordIncorrect": "Current password is incorrect",
+    "passwordsMustDiffer": "New password must be different from current password",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "invalidPassword": "Invalid password",
+    "usernameExists": "Username already exists"
   }
 }

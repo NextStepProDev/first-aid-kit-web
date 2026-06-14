@@ -102,9 +102,8 @@ export function DrugFormPage() {
       toast.success(t('drugs:messages.addSuccess'));
       navigate('/drugs');
     },
-    onError: (error: AxiosError<ApiError>) => {
-      const message = error.response?.data?.message || t('drugs:messages.addError');
-      toast.error(message);
+    onError: () => {
+      toast.error(t('drugs:messages.addError'));
     },
   });
 
@@ -118,10 +117,8 @@ export function DrugFormPage() {
       toast.success(t('drugs:messages.updateSuccess'));
       navigate('/drugs');
     },
-    onError: (error: AxiosError<ApiError>) => {
-      const message =
-        error.response?.data?.message || t('drugs:messages.updateError');
-      toast.error(message);
+    onError: () => {
+      toast.error(t('drugs:messages.updateError'));
     },
   });
 

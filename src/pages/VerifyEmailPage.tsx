@@ -32,9 +32,7 @@ export function VerifyEmailPage() {
       } catch (error) {
         const axiosError = error as AxiosError<ApiError>;
         setStatus('error');
-        setErrorMessage(
-          axiosError.response?.data?.message || t('auth:verifyEmail.error')
-        );
+        setErrorMessage(t('auth:verifyEmail.error'));
       }
     };
 
@@ -52,9 +50,7 @@ export function VerifyEmailPage() {
       toast.success(t('auth:login.verificationSent'));
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('auth:errors.networkError');
-      toast.error(message);
+      toast.error(t('auth:errors.networkError'));
     } finally {
       setIsResending(false);
     }

@@ -87,9 +87,12 @@ export function RegisterPage() {
       setIsSuccess(true);
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('auth:register.validation.registerError');
-      toast.error(message);
+      const serverMsg = axiosError.response?.data?.message;
+      const errorMap: Record<string, string> = {
+        'Username already exists': t('auth:errors.usernameExists'),
+        'Email already exists': t('auth:errors.emailAlreadyExists'),
+      };
+      toast.error((serverMsg && errorMap[serverMsg]) || t('auth:register.validation.registerError'));
     }
   };
 
@@ -98,11 +101,8 @@ export function RegisterPage() {
     try {
       await authApi.resendVerification(registeredEmail);
       toast.success(t('auth:login.verificationSent'));
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('auth:errors.networkError');
-      toast.error(message);
+    } catch {
+      toast.error(t('auth:errors.networkError'));
     } finally {
       setIsResending(false);
     }

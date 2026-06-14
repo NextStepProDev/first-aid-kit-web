@@ -122,9 +122,13 @@ export function ProfilePage() {
       resetPassword();
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('profile:messages.passwordChangeFailed');
-      toast.error(message);
+      const serverMsg = axiosError.response?.data?.message;
+      const errorMap: Record<string, string> = {
+        'Current password is incorrect': t('profile:messages.currentPasswordIncorrect'),
+        'New password must be different from current password': t('profile:messages.passwordsMustDiffer'),
+        'Passwords do not match': t('profile:messages.passwordsDoNotMatch'),
+      };
+      toast.error((serverMsg && errorMap[serverMsg]) || t('profile:messages.passwordChangeFailed'));
     }
   };
 
@@ -136,9 +140,11 @@ export function ProfilePage() {
       refreshUser();
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('profile:messages.profileUpdateFailed');
-      toast.error(message);
+      const serverMsg = axiosError.response?.data?.message;
+      const errorMap: Record<string, string> = {
+        'Username already exists': t('profile:messages.usernameExists'),
+      };
+      toast.error((serverMsg && errorMap[serverMsg]) || t('profile:messages.profileUpdateFailed'));
     }
   };
 
@@ -151,9 +157,11 @@ export function ProfilePage() {
       navigate('/login');
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('profile:messages.accountDeleteFailed');
-      toast.error(message);
+      const serverMsg = axiosError.response?.data?.message;
+      const errorMap: Record<string, string> = {
+        'Invalid password': t('profile:messages.invalidPassword'),
+      };
+      toast.error((serverMsg && errorMap[serverMsg]) || t('profile:messages.accountDeleteFailed'));
     } finally {
       setIsDeleting(false);
     }
@@ -188,11 +196,8 @@ export function ProfilePage() {
       await authApi.updateLanguage({ language: newLang });
       refreshUser();
       toast.success(t('profile:messages.languageChanged'));
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('profile:messages.languageChangeFailed');
-      toast.error(message);
+    } catch {
+      toast.error(t('profile:messages.languageChangeFailed'));
     } finally {
       setIsChangingLanguage(false);
     }
@@ -211,10 +216,7 @@ export function ProfilePage() {
           : t('profile:messages.notificationsDisabled')
       );
     } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('profile:messages.notificationsUpdateFailed');
-      toast.error(message);
+      toast.error(t('profile:messages.notificationsUpdateFailed'));
     } finally {
       setIsTogglingAlerts(false);
     }

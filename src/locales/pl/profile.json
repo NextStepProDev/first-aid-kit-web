@@ -72,6 +72,11 @@
     "languageChanged": "Język został zmieniony",
     "languageChangeFailed": "Nie udało się zmienić języka",
     "accountDeleted": "Konto zostało usunięte",
-    "accountDeleteFailed": "Nie udało się usunąć konta"
+    "accountDeleteFailed": "Nie udało się usunąć konta",
+    "currentPasswordIncorrect": "Aktualne hasło jest nieprawidłowe",
+    "passwordsMustDiffer": "Nowe hasło musi się różnić od obecnego",
+    "passwordsDoNotMatch": "Hasła nie są identyczne",
+    "invalidPassword": "Nieprawidłowe hasło",
+    "usernameExists": "Nazwa użytkownika już istnieje"
   }
 }

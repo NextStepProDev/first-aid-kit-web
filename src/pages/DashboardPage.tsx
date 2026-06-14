@@ -207,6 +207,7 @@ export function DashboardPage() {
           )}
         </Card>
       </div>
+
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Info, Shield } from 'lucide-react';
-import { LanguageSwitcher } from '../ui';
+import { LanguageSwitcher, ShareButtons } from '../ui';
 
 export function AuthLayout() {
   const { t } = useTranslation('common');
@@ -41,6 +41,9 @@ export function AuthLayout() {
               <Shield className="w-4 h-4" />
               {t('footer.privacyPolicy')}
             </Link>
+            <div className="inline-flex items-center px-4 py-2 rounded-lg bg-white/10 [&_a]:text-white/70 [&_a:hover]:text-white [&_a:hover]:bg-white/10 [&_button]:text-white/70 [&_button:hover]:text-white [&_button:hover]:bg-white/10 [&_.text-gray-500]:text-white/60 [&_a]:p-0.5 [&_button]:p-0.5">
+              <ShareButtons title="First Aid Kit Manager" url={window.location.origin} compact />
+            </div>
           </div>
           <div className="flex items-center gap-4 text-white/60 text-sm">
             <span>{t('authLayout.features.security')}</span>
@@ -81,6 +84,9 @@ export function AuthLayout() {
                 <Shield className="w-4 h-4" />
                 {t('footer.privacyPolicy')}
               </Link>
+              <div className="self-stretch inline-flex items-center px-3 py-2 rounded-lg bg-primary-600/20 [&_a]:p-0.5 [&_button]:p-0.5">
+                <ShareButtons title="First Aid Kit Manager" url={window.location.origin} compact />
+              </div>
             </div>
           </div>
 

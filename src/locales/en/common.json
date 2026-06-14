@@ -77,6 +77,11 @@
   "footer": {
     "privacyPolicy": "Privacy Policy"
   },
+  "share": {
+    "label": "Share:",
+    "copy": "Copy link",
+    "copied": "Copied!"
+  },
   "pagination": {
     "previous": "Previous",
     "next": "Next",

@@ -77,6 +77,11 @@
   "footer": {
     "privacyPolicy": "Polityka prywatności"
   },
+  "share": {
+    "label": "Udostępnij:",
+    "copy": "Kopiuj link",
+    "copied": "Skopiowano!"
+  },
   "pagination": {
     "previous": "Poprzednia",
     "next": "Następna",

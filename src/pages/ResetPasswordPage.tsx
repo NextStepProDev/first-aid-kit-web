@@ -73,9 +73,12 @@ export const ResetPasswordPage = () => {
       navigate('/login');
     } catch (error) {
       const axiosError = error as AxiosError<ApiError>;
-      const message =
-        axiosError.response?.data?.message || t('auth:errors.networkError');
-      toast.error(message);
+      const serverMsg = axiosError.response?.data?.message;
+      const errorMap: Record<string, string> = {
+        'Passwords do not match': t('common:validation.passwordsDoNotMatch'),
+        'New password must be different from current password': t('auth:errors.passwordsMustDiffer'),
+      };
+      toast.error((serverMsg && errorMap[serverMsg]) || t('auth:errors.networkError'));
     }
   };
 
