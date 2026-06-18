@@ -1,8 +1,9 @@
 # First Aid Kit - Web Application
 
 ![React](https://img.shields.io/badge/React-19-61dafb)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-38bdf8)
+![TypeScript](https://img.shields.io/badge/TypeScript-6-blue)
+![Vite](https://img.shields.io/badge/Vite-8-646cff)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-38bdf8)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 Modern React application for managing your home first aid kit. Track medications, get expiration alerts, and never run out of essential medicines.
@@ -19,17 +20,19 @@ Modern React application for managing your home first aid kit. Track medications
 
 ## Tech Stack
 
-- **React 19** with TypeScript
-- **Tailwind CSS 4.0** for styling
+- **React 19** with TypeScript 6
+- **Vite 8** for build tooling and dev server
+- **Tailwind CSS 4** for styling
 - **TanStack React Query** for server state management
 - **React Hook Form + Zod** for form validation
 - **Axios** with JWT interceptors
 - **React Router DOM v7** for routing
 - **lucide-react** for icons
+- **Vitest** for unit tests, **ESLint 10** for linting
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 24+
 - npm or yarn
 - Backend API running (see [first-aid-kit-api](https://github.com/NextStepProDev/first-aid-kit-api))
 
@@ -66,33 +69,34 @@ npm install
 
 3. Start the development server:
 ```bash
-npm start
+npm run dev
 ```
 
-The app will be available at http://localhost:3000
+The app will be available at http://localhost:5173
 
-> **Note:** You need the backend API running at `http://localhost:8082` (or configure `REACT_APP_API_URL`).
+> **Note:** You need the backend API running at `http://localhost:8082` (or configure `VITE_API_URL`).
 
 ## Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `REACT_APP_API_URL` | `http://localhost:8082` | Backend API URL |
+| `VITE_API_URL` | `http://localhost:8082` | Backend API URL |
 
 Create a `.env.local` file for local overrides:
 
 ```bash
-REACT_APP_API_URL=http://localhost:8080
+VITE_API_URL=http://localhost:8080
 ```
 
 ## Available Scripts
 
 | Command | Description |
 |---------|-------------|
-| `npm start` | Start development server |
-| `npm test` | Run tests |
-| `npm run build` | Create production build |
-| `npm run eject` | Eject from CRA (irreversible) |
+| `npm run dev` | Start development server (Vite) |
+| `npm run build` | Type-check and create production build |
+| `npm run preview` | Preview the production build locally |
+| `npm test` | Run unit tests (Vitest) |
+| `npm run lint` | Lint with ESLint |
 
 ## Project Structure
 
@@ -129,7 +133,7 @@ The app communicates with the backend via REST API. Key features:
 npm run build
 ```
 
-Creates an optimized build in the `build/` folder, ready for deployment.
+Creates an optimized build in the `dist/` folder, ready for deployment.
 
 ## Related Repositories
 
