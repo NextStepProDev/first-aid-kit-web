@@ -42,7 +42,7 @@ export const drugsApi = {
   //   const response = await apiClient.get<Page<Drug>>(`/drugs/search?${searchParams.toString()}`);
   //   return response.data;
   // },
-  search: async (params: any = {}): Promise<Page<Drug>> => {
+  search: async (params: DrugSearchParams = {}): Promise<Page<Drug>> => {
   // Axios automatycznie zamieni ten obiekt na ?name=...&expired=... itd.
   const response = await apiClient.get<Page<Drug>>('/drugs/search', { params });
   return response.data;

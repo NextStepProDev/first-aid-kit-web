@@ -32,7 +32,7 @@ export function ForgotPasswordPage() {
     try {
       await authApi.forgotPassword(data);
       setIsSuccess(true);
-    } catch (error) {
+    } catch {
       // Backend always returns success for security reasons
       setIsSuccess(true);
     }

@@ -131,7 +131,7 @@ export function AdminUsersPage() {
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
       toast.success(t('admin:messages.csvDownloaded'));
-    } catch (error) {
+    } catch {
       toast.error(t('admin:messages.csvDownloadFailed'));
     }
   };
