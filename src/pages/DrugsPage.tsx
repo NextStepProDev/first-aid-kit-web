@@ -32,6 +32,7 @@ import { formatDate, getExpirationStatus } from '../utils/formatDate';
 import { ImportCsvModal } from '../components/ImportCsvModal';
 import { DeleteAllDrugsModal } from '../components/DeleteAllDrugsModal';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 import type { Drug, FormOption } from '../types';
 
 export function DrugsPage() {
@@ -71,6 +72,9 @@ export function DrugsPage() {
   useEffect(() => {
     const state = location.state as { form?: string; expired?: string; alertSentThisMonth?: string } | null;
     if (state && (state.form || state.expired || state.alertSentThisMonth)) {
+      // Celowa synchronizacja stanu nawigacji do stanu lokalnego — zabezpieczona
+      // warunkiem i czyszczona przez replaceState, więc nie powoduje pętli renderów.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchParams({
         page: 0,
         size: 15,
@@ -160,7 +164,7 @@ export function DrugsPage() {
       toast.success(t('drugs:messages.deleteAllSuccess', { count: data.deletedCount }));
       setShowDeleteAllModal(false);
     },
-    onError: (error: any) => {
+    onError: (error: AxiosError<{ message?: string }>) => {
       const message = error?.response?.data?.message || t('drugs:messages.deleteAllError');
       toast.error(message === 'Invalid password' ? t('drugs:messages.invalidPassword') : message);
     },
@@ -248,8 +252,9 @@ export function DrugsPage() {
     ...(forms || []),
   ];
 
-  // Helper do renderowania ikonki sortowania
-  const SortIcon = ({ field }: { field: string }) => {
+  // Helper do renderowania ikonki sortowania (zwykła funkcja, nie komponent —
+  // unikamy tworzenia komponentu w trakcie renderu / remountu ikony)
+  const renderSortIcon = (field: string) => {
     if (searchParams.sortBy !== field) return null;
     return searchParams.sortDir === 'asc' ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />;
   };
@@ -326,19 +331,19 @@ export function DrugsPage() {
                       className="text-left py-3 px-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-primary-400 transition-colors"
                       onClick={() => handleSort('drugName')}
                     >
-                      <div className="flex items-center gap-1">{t('drugs:table.headers.name')} <SortIcon field="drugName" /></div>
+                      <div className="flex items-center gap-1">{t('drugs:table.headers.name')} {renderSortIcon('drugName')}</div>
                     </th>
                     <th
                       className="text-left py-3 px-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-primary-400 transition-colors"
                       onClick={() => handleSort('drugForm.name')}
                     >
-                      <div className="flex items-center gap-1">{t('drugs:table.headers.form')} <SortIcon field="drugForm.name" /></div>
+                      <div className="flex items-center gap-1">{t('drugs:table.headers.form')} {renderSortIcon('drugForm.name')}</div>
                     </th>
                     <th
                       className="text-left py-3 px-4 text-sm font-medium text-gray-400 cursor-pointer hover:text-primary-400 transition-colors"
                       onClick={() => handleSort('expirationDate')}
                     >
-                      <div className="flex items-center gap-1">{t('drugs:table.headers.expirationDate')} <SortIcon field="expirationDate" /></div>
+                      <div className="flex items-center gap-1">{t('drugs:table.headers.expirationDate')} {renderSortIcon('expirationDate')}</div>
                     </th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-gray-400">{t('drugs:table.headers.status')}</th>
                     <th className="text-right py-3 px-4 text-sm font-medium text-gray-400">{t('drugs:table.headers.actions')}</th>

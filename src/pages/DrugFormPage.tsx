@@ -9,8 +9,6 @@ import { drugsApi } from '../api/drugs';
 import { Card, Button, Input, Select, Textarea, Spinner } from '../components/ui';
 import { ArrowLeft, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import type { ApiError } from '../types';
 
 const currentYear = new Date().getFullYear();
 

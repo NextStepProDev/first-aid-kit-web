@@ -1,10 +1,10 @@
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import type { JwtResponse, ApiError } from '../types';
 
-const API_URL = process.env.REACT_APP_API_URL || '';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
-if (!API_URL && process.env.NODE_ENV === 'production') {
-  console.warn('REACT_APP_API_URL not set - using same-origin for API calls');
+if (!API_URL && import.meta.env.PROD) {
+  console.warn('VITE_API_URL not set - using same-origin for API calls');
 }
 
 export const apiClient = axios.create({

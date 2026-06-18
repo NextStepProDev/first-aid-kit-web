@@ -5,8 +5,6 @@ import { authApi } from '../api/auth';
 import { Button, Input } from '../components/ui';
 import { CheckCircle, XCircle, ArrowLeft, RefreshCw, Mail, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { AxiosError } from 'axios';
-import type { ApiError } from '../types';
 
 export function VerifyEmailPage() {
   const { t } = useTranslation(['auth', 'common']);
@@ -29,8 +27,7 @@ export function VerifyEmailPage() {
       try {
         await authApi.verifyEmail(token);
         setStatus('success');
-      } catch (error) {
-        const axiosError = error as AxiosError<ApiError>;
+      } catch {
         setStatus('error');
         setErrorMessage(t('auth:verifyEmail.error'));
       }
@@ -48,8 +45,7 @@ export function VerifyEmailPage() {
     try {
       await authApi.resendVerification(resendEmail);
       toast.success(t('auth:login.verificationSent'));
-    } catch (error) {
-      const axiosError = error as AxiosError<ApiError>;
+    } catch {
       toast.error(t('auth:errors.networkError'));
     } finally {
       setIsResending(false);

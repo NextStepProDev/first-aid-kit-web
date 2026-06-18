@@ -5,6 +5,7 @@ import { Upload, AlertCircle, CheckCircle, AlertTriangle } from 'lucide-react';
 import { parseCsvFile, type CsvParseResult } from '../utils/csvUtils';
 import { drugsApi } from '../api/drugs';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 interface ImportCsvModalProps {
   isOpen: boolean;
@@ -98,16 +99,18 @@ export function ImportCsvModal({ isOpen, onClose }: ImportCsvModalProps) {
       try {
         await drugsApi.create(drug);
         success++;
-      } catch (error: any) {
+      } catch (error) {
         failed++;
         // Próbujemy wyciągnąć szczegóły błędu z odpowiedzi API
         let errorMessage = 'Nieznany błąd';
-        if (error?.response?.data?.message) {
-          errorMessage = error.response.data.message;
-        } else if (error?.response?.data?.errors?.length > 0) {
-          errorMessage = error.response.data.errors.map((e: any) => e.message).join(', ');
-        } else if (error?.message) {
-          errorMessage = error.message;
+        const axiosError = error as AxiosError<{ message?: string; errors?: { message: string }[] }>;
+        const data = axiosError?.response?.data;
+        if (data?.message) {
+          errorMessage = data.message;
+        } else if (data?.errors?.length) {
+          errorMessage = data.errors.map((e) => e.message).join(', ');
+        } else if (axiosError?.message) {
+          errorMessage = axiosError.message;
         }
         errors.push({ name: drug.name, message: errorMessage });
       }

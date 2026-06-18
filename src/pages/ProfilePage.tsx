@@ -215,7 +215,7 @@ export function ProfilePage() {
           ? t('profile:messages.notificationsEnabled')
           : t('profile:messages.notificationsDisabled')
       );
-    } catch (error) {
+    } catch {
       toast.error(t('profile:messages.notificationsUpdateFailed'));
     } finally {
       setIsTogglingAlerts(false);
